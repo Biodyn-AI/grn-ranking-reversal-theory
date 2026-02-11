@@ -1,0 +1,28 @@
+{
+  "candidate_shift_pairs": 135,
+  "candidate_shift_reversals": 22,
+  "candidate_shift_rate": 0.16296296296296298,
+  "tissue_shift_pairs": 135,
+  "tissue_shift_reversals": 26,
+  "tissue_shift_rate": 0.1925925925925926,
+  "overall_method_tissue_shift_pairs": 45,
+  "overall_method_tissue_shift_reversals": 4,
+  "overall_method_tissue_shift_rate": 0.08888888888888889,
+  "reference_shift_pairs": 106,
+  "reference_shift_reversals": 34,
+  "reference_shift_rate": 0.32075471698113206,
+  "mapping_policy_pairs": 165,
+  "mapping_policy_reversals": 0,
+  "mapping_policy_rate": 0.0,
+  "permutation_null": {
+    "observed_rate": 0.16296296296296298,
+    "null_mean": 0.5001688888888889,
+    "null_std": 0.059525142077253304,
+    "null_q025": 0.3851851851851852,
+    "null_q975": 0.6148148148148148,
+    "p_left": 0.0,
+    "p_right": 1.0,
+    "n_perm": 5000.0
+  },
+  "n_perm": 5000
+}

@@ -1,0 +1,16 @@
+scope,n,k,rate,ci95_low,ci95_high,reference,policy_from,policy_to
+mapping_policy_shift,15,0,0.0,-1.3877787807814457e-17,0.20388926630434784,dorothea_human,crosswalk,full_genes
+mapping_policy_shift,15,0,0.0,-1.3877787807814457e-17,0.20388926630434784,dorothea_human,crosswalk,legacy_symbols
+mapping_policy_shift,15,0,0.0,-1.3877787807814457e-17,0.20388926630434784,dorothea_human,crosswalk,omnipath_ref
+mapping_policy_shift,15,0,0.0,-1.3877787807814457e-17,0.20388926630434784,dorothea_human,full_genes,legacy_symbols
+mapping_policy_shift,15,0,0.0,-1.3877787807814457e-17,0.20388926630434784,dorothea_human,full_genes,omnipath_ref
+mapping_policy_shift,15,0,0.0,-1.3877787807814457e-17,0.20388926630434784,dorothea_human,legacy_symbols,omnipath_ref
+mapping_policy_shift,15,0,0.0,-1.3877787807814457e-17,0.20388926630434784,dorothea_trrust_union_immune,crosswalk,full_genes
+mapping_policy_shift,15,0,0.0,-1.3877787807814457e-17,0.20388926630434784,dorothea_trrust_union_immune,crosswalk,omnipath_ref
+mapping_policy_shift,15,0,0.0,-1.3877787807814457e-17,0.20388926630434784,dorothea_trrust_union_immune,full_genes,omnipath_ref
+mapping_policy_shift,5,0,0.0,0.0,0.43449149475208104,trrust_human,crosswalk,full_genes
+mapping_policy_shift,5,0,0.0,0.0,0.43449149475208104,trrust_human,crosswalk,legacy_symbols
+mapping_policy_shift,5,0,0.0,0.0,0.43449149475208104,trrust_human,crosswalk,omnipath_ref
+mapping_policy_shift,5,0,0.0,0.0,0.43449149475208104,trrust_human,full_genes,legacy_symbols
+mapping_policy_shift,5,0,0.0,0.0,0.43449149475208104,trrust_human,full_genes,omnipath_ref
+mapping_policy_shift,5,0,0.0,0.0,0.43449149475208104,trrust_human,legacy_symbols,omnipath_ref
