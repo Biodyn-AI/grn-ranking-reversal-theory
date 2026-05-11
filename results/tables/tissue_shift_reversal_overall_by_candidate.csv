@@ -1,4 +1,0 @@
-scope,n,k,rate,ci95_low,ci95_high,candidate_set
-tissue_shift_overall_by_candidate,45,2,0.044444444444444446,0.012273869040444335,0.14827779183880616,all_pairs
-tissue_shift_overall_by_candidate,45,10,0.2222222222222222,0.12544551866005632,0.3626957379736329,tf_sources
-tissue_shift_overall_by_candidate,45,14,0.3111111111111111,0.19528525463541907,0.4566507998754897,tf_sources_targets

@@ -1,8 +1,0 @@
-method_pair,reversal_count
-genie3__pearson,4
-genie3__spearman,4
-grnboost2__pearson,4
-grnboost2__spearman,4
-genie3__grnboost2,2
-genie3__random,2
-pearson__spearman,2

@@ -1,4 +1,0 @@
-scope,n,k,rate,ci95_low,ci95_high,reference_from,reference_to
-reference_shift,35,15,0.42857142857142855,0.27984333081678914,0.5914287074102662,beeline_gsd,dorothea_trrust_union_immune
-reference_shift,35,12,0.34285714285714286,0.20831495282688922,0.5084835312726328,beeline_gsd,hpn_dream
-reference_shift,36,7,0.19444444444444445,0.09752972019453349,0.350283620635152,dorothea_trrust_union_immune,hpn_dream

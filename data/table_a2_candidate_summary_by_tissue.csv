@@ -1,0 +1,10 @@
+gene_set,candidate_set,aupr_median,base_rate_median,candidate_size_median
+immune,all_pairs,9.102e-05,3.23e-05,3593000000.0
+immune,tf_sources,0.002933,0.002006,43460000.0
+immune,tf_sources_targets,0.01024,0.009975,1940000.0
+kidney,all_pairs,0.0006238,3.23e-05,3593000000.0
+kidney,tf_sources,0.008588,0.002006,43460000.0
+kidney,tf_sources_targets,0.02024,0.009975,1940000.0
+lung,all_pairs,0.0004189,3.23e-05,3593000000.0
+lung,tf_sources,0.00909,0.002006,43460000.0
+lung,tf_sources_targets,0.01946,0.009975,1940000.0
