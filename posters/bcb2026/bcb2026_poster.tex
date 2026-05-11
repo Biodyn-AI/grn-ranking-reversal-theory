@@ -1,0 +1,317 @@
+\PassOptionsToPackage{expansion=false,protrusion=false}{microtype}
+\documentclass[sigconf,anonymous]{acmart}
+
+%% Rights / metadata
+\setcopyright{none}
+\acmConference[ACM-BCB 2026]{The 17th ACM Conference on Bioinformatics,
+  Computational Biology, and Health Informatics}{August 30 -- September 2, 2026}{Calabria, Italy}
+\acmDOI{}
+\acmISBN{}
+
+%% Suppress ACM reference format block on the title page (poster, anonymous)
+\settopmatter{printacmref=false, printccs=true, printfolios=false}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+\pagestyle{plain}
+
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+
+\begin{document}
+
+\title{Ranking Reversal Theory Under Candidate-Set Shift\\in GRN Benchmarking}
+
+\author{Anonymous Authors}
+\affiliation{%
+  \institution{Withheld for double-blind review}
+  \country{}
+}
+
+\begin{abstract}
+Gene regulatory network (GRN) benchmarks are routinely used to justify
+scientific claims about method quality, yet the stability of method
+\emph{ranking} under plausible evaluation-protocol choices is rarely audited.
+We supply a finite-margin theory of pairwise ranking reversal, a
+minimum-shift necessary condition, and a magnitude-based reading of the
+$\Delta = b\!\cdot\!g$ decomposition that distinguishes structurally
+pinned sign-attribution claims from genuinely empirical content. Empirically,
+across four protocol axes (candidate set, tissue, reference, gene-symbol
+mapping) on existing single-cell GRN outputs, cluster-bootstrap CIs over
+method pairs yield reversal rates 16\% (candidate, CI 7--27\%), 19\%
+(tissue, CI 9--31\%), 32\% (reference, CI 20--43\%); mapping-policy is
+0/165. A cluster-restricted permutation MWU shows the calibration-vs-base-rate
+magnitude ratio is significantly larger in reversal than non-reversal rows
+($r = 0.67$, $p < 2\!\times\!10^{-4}$). AUROC produces 0/40 tissue-shift
+reversals where AUPR produces 4/45. The practical recommendation: benchmark
+rank should not be interpreted as method-intrinsic evidence until protocol
+stability, margin-magnitude regime, \emph{and} metric choice are reported.
+\end{abstract}
+
+\begin{CCSXML}
+<ccs2012>
+<concept>
+<concept_id>10010405.10010455</concept_id>
+<concept_desc>Applied computing~Computational genomics</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10003752.10003809.10010172</concept_id>
+<concept_desc>Theory of computation~Mathematical optimization</concept_desc>
+<concept_significance>300</concept_significance>
+</concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Applied computing~Computational genomics}
+\ccsdesc[300]{Theory of computation~Mathematical optimization}
+
+\keywords{gene regulatory networks, evaluation bias, ranking stability,
+benchmark lottery, cluster bootstrap, double-blind}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+
+Leaderboard rank in GRN inference is routinely used to justify claims about
+biological plausibility~\cite{cui2024scgpt,theodoris2023}, yet the evaluation
+pipeline involves several protocol choices --- candidate-set restriction,
+reference network, gene-symbol mapping, tissue context --- that are rarely
+reported or controlled~\cite{pratapa2020,anon2025evalbias}. If ranking is
+unstable under plausible variation, downstream biological decisions flip:
+which regulators are prioritized, which model is treated as scientifically
+credible. The field needs ranking-stability theory and diagnostics, not
+larger metric tables.
+
+Our three contributions: \emph{(1)}~a minimum-shift necessary condition
+yielding a closed-form ``safety margin'' per pair (\S\ref{sec:theory});
+\emph{(2)}~a strict separation between the algebraic content of the
+$\Delta = b\!\cdot\!g$ decomposition (sign-attribution claims that are
+\emph{structurally pinned} when base rates are positive) and its empirical
+magnitude content (\S\ref{sec:magnitude}); \emph{(3)}~a multi-axis empirical
+audit with cluster-bootstrap CIs, three null models, margin-magnitude sweep,
+BH-FDR cell rates, a learned classifier (honest negative result), and a
+metric-robustness check (\S\ref{sec:results}).
+
+\section{Theory}
+\label{sec:theory}
+
+Let $\mathcal{M}_m(S,\pi,R)$ be a scalar evaluation metric for method $m$
+under candidate set $S$, mapping $\pi$, reference $R$. For methods $A,B$
+the \emph{margin} is $\Delta = \mathcal{M}_A - \mathcal{M}_B$, and for
+settings $1,2$ a \emph{pairwise ranking reversal} is the event $\Delta_1
+\Delta_2 < 0$. Writing $\Delta = b\cdot g$ with $g := \Delta/b$ and $b > 0$,
+the finite product rule gives the exact decomposition
+\begin{equation}
+\label{eq:decomp}
+\Delta_2 - \Delta_1 = (b_2 - b_1)\,g_1 + b_2\,(g_2 - g_1).
+\end{equation}
+
+\begin{proposition}[Minimum-shift bound]
+\label{prop:minshift}
+For a shift family with $|\delta\Delta| \le B$, no pair with safety margin
+$|\Delta_1| > B$ can reverse. Furthermore, a necessary condition for
+reversal of a pair with margin $|\Delta_1|$ is
+\(
+|b_2-b_1|\,|g_1| + b_2\,|g_2-g_1| \ge |\Delta_1|.
+\)
+Hence, if $g$ is shift-stable ($|g_2-g_1| \le \varepsilon_g$), any reversing
+base-rate change satisfies $|b_2-b_1| \ge (|\Delta_1| - b_2\varepsilon_g)/|g_1|$
+(informative when $b_2\varepsilon_g < |\Delta_1|$).
+\end{proposition}
+
+\paragraph{Structurally pinned sign tallies (\emph{not} findings).}
+Under $b_1,b_2 > 0$, the ``only-$b$-changes'' counterfactual $\Delta_1
+(b_2 g_1) < 0$ reduces to $(b_2/b_1)\Delta_1^2 < 0$ --- \emph{always false};
+the ``only-$g$-changes'' counterfactual $\Delta_1(b_1 g_2) < 0$ reduces to
+$(b_1/b_2)\Delta_1\Delta_2 < 0$ --- \emph{always true} on reversal rows.
+Earlier versions of this analysis (\cite{anon2025evalbias} and references
+therein) reported these as findings; they re-state the reversal definition.
+The genuinely empirical decomposition content is the
+\emph{magnitude} relationship between the two terms (\S\ref{sec:magnitude}).
+
+\section{Methods}
+\label{sec:methods}
+
+\paragraph{Data.} Benchmark medians of AUPR/AUROC/F1 across three
+Tabula~Sapiens tissues (kidney, lung, immune) $\times$ three candidate-set
+definitions on six methods (\textsc{genie3}, \textsc{grnboost2},
+\textsc{pearson}, \textsc{spearman}, \textsc{scgpt\_attention},
+\textsc{random}); reference shifts on the immune slice (9 methods,
+3 references); mapping shifts on four policies of a probe-prior subset.
+
+\paragraph{Analyses.}
+(i)~pairwise reversal indicator $\mathbf{1}\{\Delta_1\Delta_2 < 0\}$ per
+(method-pair, shift-cell) per axis;
+(ii)~\textbf{cluster-bootstrap 95\% CIs} (2,000 resamples; cluster: method
+pair), replacing Wilson intervals that assume row independence;
+(iii)~magnitude decomposition with \textbf{cluster-restricted permutation
+MWU} (5,000 within-cluster label permutations);
+(iv)~per-cell BH-FDR;
+(v)~per-axis margin-magnitude threshold sweep with cluster-bootstrap bands;
+(vi)~three nulls: joint method relabel, score-noise bootstrap ($\sigma{=}10\%
+\times$ within-cell median margin), within-cell rank permutation;
+(vii)~LOO-by-tissue instability screening: quantile heuristic vs learned LR
+on $(|\Delta_1|, b_1, b_2{-}b_1, |g_1|)$;
+(viii)~metric robustness over AUPR/AUROC/F1. Seeds fixed (project, perm,
+bootstrap = 42); decomposition closure verified to $10^{-9}$.
+
+\section{Results}
+\label{sec:results}
+
+\begin{table}[t]
+\centering
+\caption{Headline reversal rates by protocol axis with cluster-bootstrap 95\% CIs.
+Tissue is reported three ways because they answer different questions
+(see~\S\ref{sec:tissue}).}
+\label{tab:headline}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrl}
+\toprule
+Axis & $n$ & $k$ & Rate & 95\% CI \\
+\midrule
+Candidate-set shift            & 135 & 22 & 0.16 & [0.07, 0.27] \\
+Tissue shift (cand-cond.)      & 135 & 26 & 0.19 & [0.09, 0.31] \\
+Tissue shift (dedup, any cand.)&  45 & 17 & 0.38 & [0.18, 0.58] \\
+Tissue shift (dedup, all cand.)&  45 &  1 & 0.02 & [0.00, 0.07] \\
+Reference shift (immune)       & 106 & 34 & 0.32 & [0.20, 0.43] \\
+Mapping-policy shift           & 165 &  0 & 0.00 & [0.00, 0.00] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Candidate-set and tissue axes}
+\label{sec:tissue}
+
+The marginal 16\% candidate-shift rate is driven by the immune tissue and
+small-margin pairs (\S\ref{sec:margin}). Under per-cell BH-FDR, \emph{none}
+of the high-reversal cells highlighted in the workshop precursor
+(e.g.\ immune \texttt{all\_pairs}$\to$\texttt{tf\_sources\_targets} at
+6/15) survive $q < 0.05$; what survives is the opposite --- cells
+significantly \emph{more stable} than chance (kidney
+\texttt{tf\_sources}$\to$\texttt{tf\_sources\_targets} at 0/15,
+$q = 5\!\times\!10^{-4}$).
+
+Tissue shifts: deduplicating each (method-pair $\times$ tissue-pair)
+observation yields rate 0.38 (any-candidate; 17/45) and 0.02
+(all-candidates; 1/45). The 0.19 candidate-conditional rate inflates the
+signal by counting each pair three times; we report all three for
+transparency. The dedup-any 0.38 is the honest single-number summary.
+
+\subsection{Magnitude decomposition (the only non-pinned empirical content)}
+\label{sec:magnitude}
+
+In all 22 candidate-shift reversal rows the calibration-term magnitude
+\emph{exceeds} the base-rate-term magnitude (22/22, rate 1.00), versus
+56/113 in non-reversal rows (rate 0.50). Mean magnitude ratio
+$|\text{cal}|/|\text{base-rate}|$: 1.54 (reversal); 0.83 (non-reversal).
+
+A standard iid Mann--Whitney $U$ test gives $p = 3.6 \times 10^{-7}$, but
+the 135 rows share method pairs across only 15 unique clusters (7 with any
+reversal), so the iid assumption is invalid. A cluster-restricted
+permutation MWU (5,000 within-cluster label permutations) gives observed
+$U = 2075$, rank-biserial effect size $r = 0.67$ (large), and permutation
+$p < 2 \times 10^{-4}$ (0/5000 null draws exceeded the observed $U$; null
+$U$ 95\% interval $[1426, 1907]$, observed $U$ above the 97.5\% quantile).
+The cluster-permutation $p$ is the load-bearing significance statement; the
+iid $p$ is too liberal.
+
+\subsection{Margin regime, nulls, screening, and metric choice}
+\label{sec:margin}
+
+\paragraph{Margin sweep.} Candidate-shift reversals \emph{vanish} above the
+75th-percentile margin (0/34); reference-shift reversals \emph{persist}
+across margin thresholds (rate in $[0.22, 0.38]$). Candidate-shift
+instability is therefore a near-tie phenomenon; reference-shift is not.
+
+\paragraph{Three nulls (candidate axis).} Joint method-relabel: null mean
+$0.50$~[$0.37, 0.61$]; rank-permutation within cell: $0.50$~[$0.37, 0.61$];
+score-noise ($\sigma = 10\%$ of median margin): noise-inflated rate
+$0.29$~[$0.21, 0.37$]. Observed $0.16$ sits far below all three, indicating
+the rank signal is real and robust to $\sim10\%$-of-margin perturbation.
+
+\paragraph{Instability screening (negative).} LOO-by-tissue quantile
+heuristic peaks at F1 $= 0.35$ (precision $0.24$, recall $0.64$) with PR-AUC
+$0.18$; a learned logistic regression on
+$(|\Delta_1|, b_1, b_2{-}b_1, |g_1|)$ gives PR-AUC $0.13$, \emph{below}
+baseline prevalence $0.16$. Per-pair instability is not predictable from
+these features at this data size; population-level reporting is the
+defensible mode.
+
+\paragraph{Metric robustness.} Tissue-shift reversal rates by metric:
+AUPR $4/45 = 0.09$, F1 $4/45 = 0.09$, AUROC $0/40 = 0.00$ (Wilson upper
+$0.09$). AUROC's rank-monotone invariance accounts for its full stability;
+AUPR's sensitivity to where the operating-rank density lies relative to
+the positive base rate accounts for its instability. The rank-stability
+conclusion is metric-conditional.
+
+\paragraph{Worked example (Prop.~\ref{prop:minshift}).}
+\emph{(a)}~kidney \texttt{tf\_sources}$\to$\texttt{tf\_sources\_targets},
+\textsc{scgpt\_attention} vs \textsc{spearman}: $|\Delta_1| = 2.85\!\times\!10^{-2}$
+--- no shift family with $|\delta\Delta| < 2.85\!\times\!10^{-2}$ can reverse
+this pair. \emph{(b)}~immune \texttt{all\_pairs}$\to$\texttt{tf\_sources\_targets},
+\textsc{pearson} vs \textsc{spearman}: $|\Delta_1| = 8.24\!\times\!10^{-7}$ ---
+safety margin essentially zero. This is one of the 22 observed reversals,
+but the 75th-percentile margin cutoff (\S\ref{sec:margin}) excises pairs
+like (b); the substantive candidate-shift rate is the post-cutoff $0/34$.
+
+\paragraph{Limitations.} Inputs are summary medians (no replicate-level
+noise propagation; cluster bootstrap addresses only pair-level dependence).
+Reference-shift uses one tissue (immune); mapping-policy results are
+slice-limited. Proposition~\ref{prop:minshift} is necessary, not sufficient.
+Biological hypotheses are conjectures, not tested findings.
+
+\section{Discussion and Recommendations}
+\label{sec:discussion}
+
+Three patterns persist: \emph{(i)}~calibration-magnitude dominance
+accompanies reversals on the candidate axis (cluster-perm
+$p < 2\!\times\!10^{-4}$, $r = 0.67$); \emph{(ii)}~candidate-shift
+instability is a near-tie phenomenon, reference-shift is not;
+\emph{(iii)}~metric choice changes the conclusion (AUROC fully stable,
+AUPR not). Sign-attribution counts from the $b\!\cdot\!g$ decomposition are
+algebraic consequences of positive base rates and a fixed shift direction,
+not findings.
+
+Recommendations: \emph{(a)}~cluster-bootstrap CIs over method pairs (not
+Wilson); \emph{(b)}~report the margin-magnitude regime in which any rate
+applies; \emph{(c)}~report at least two metrics (AUPR + AUROC) for any rank
+claim; \emph{(d)}~retain the calibration-vs-base-rate magnitude ratio
+alongside the rate.
+
+\paragraph{Outlook.} The framework extends to any benchmark whose metric
+admits a $\Delta = b\!\cdot\!g$ factorization. The substantive bottleneck
+for stronger conclusions is access to replicate-level predictions ---
+unlocking a nested bootstrap and direct estimation of measurement-noise
+contributions to each rate.
+
+\paragraph{Reproducibility.}
+\url{https://anonymous.4open.science/r/grn-ranking-reversal-theory-DB8E/}
+
+\bibliographystyle{ACM-Reference-Format}
+\begin{thebibliography}{6}
+
+\bibitem{cui2024scgpt}
+H.~Cui, C.~Wang, H.~Maan, et~al.
+\newblock sc{GPT}: toward building a foundation model for single-cell multi-omics using generative {AI}.
+\newblock \emph{Nature Methods}, 21(8):1470--1480, 2024.
+
+\bibitem{theodoris2023}
+C.~V.~Theodoris et~al.
+\newblock Transfer learning enables predictions in network biology from large-scale single-cell atlases.
+\newblock \emph{Nature}, 618(7965):616--624, 2023.
+
+\bibitem{pratapa2020}
+A.~Pratapa, A.~P.~Jalihal, J.~N.~Law, A.~Bharadwaj, and T.~M.~Murali.
+\newblock Benchmarking algorithms for gene regulatory network inference from single-cell transcriptomic data.
+\newblock \emph{Nature Methods}, 17(2):147--154, 2020.
+
+\bibitem{anon2025evalbias}
+Anonymous authors.
+\newblock Evaluation bias and symbol mapping in {GRN} benchmarks.
+\newblock Workshop manuscript, 2025. Author identity withheld for double-blind review.
+
+\end{thebibliography}
+
+\end{document}
