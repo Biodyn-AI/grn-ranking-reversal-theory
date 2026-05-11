@@ -46,7 +46,13 @@ within 1e-9.
 Magnitude decomposition on the candidate axis:
 
 - `|calibration term| > |base-rate term|` in 22/22 reversal rows vs 56/113 in non-reversal rows.
-- Mann–Whitney U one-sided: U = 2075, p = 3.6 × 10⁻⁷.
+- **Cluster-permutation Mann–Whitney U** (5,000 permutations within method-pair
+  clusters): observed U = 2075, rank-biserial r = 0.67 (large effect),
+  permutation p < 2 × 10⁻⁴ (0/5000 null draws exceeded the observed U).
+- For comparison, an iid MWU yields p = 3.6 × 10⁻⁷, but the iid assumption is
+  invalid because the 135 rows share method pairs across only 15 unique
+  clusters (7 with any reversals). The cluster-permutation p is the load-
+  bearing significance statement.
 - Mean magnitude ratio in reversal rows: 1.54; median: 1.02.
 - Sign-tally counterfactuals (e.g. "0/22 reversals persist if only base rate
   changes") are **algebraically pinned under positive base rates** and are

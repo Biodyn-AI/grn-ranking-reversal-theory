@@ -429,22 +429,80 @@ def per_cell_summary_with_fdr(rows: pd.DataFrame, group_cols: list[str], scope: 
     return df
 
 
-# ---------- Counterfactual analysis ----------
+# ---------- Magnitude decomposition + cluster-permutation MWU ----------
+
+
+def _cluster_permutation_mwu(values, labels, clusters, n_perm=5000, seed=42, alternative="greater"):
+    """Cluster-restricted permutation Mann-Whitney U test.
+
+    Permutes binary labels *within* each cluster (the right null under cluster
+    dependence: rows within a method-pair cluster are not independent of each
+    other). Reports observed U, rank-biserial effect size, and the Monte Carlo
+    permutation p-value. Clusters with all-one or all-zero labels contribute
+    zero null variability (correct behavior).
+    """
+    from scipy.stats import mannwhitneyu
+    rng = np.random.default_rng(seed)
+    values = np.asarray(values, dtype=float)
+    labels = np.asarray(labels, dtype=bool)
+    clusters = np.asarray(clusters)
+
+    def _u(vals, labs):
+        a = vals[labs]; b = vals[~labs]
+        if len(a) == 0 or len(b) == 0:
+            return math.nan
+        return float(mannwhitneyu(a, b, alternative=alternative).statistic)
+
+    observed = _u(values, labels)
+    n1 = int(labels.sum()); n2 = int((~labels).sum())
+    rb_obs = (2.0 * observed) / (n1 * n2) - 1.0 if (n1 > 0 and n2 > 0) else math.nan
+
+    unique_clusters = np.unique(clusters)
+    cluster_indices = {c: np.where(clusters == c)[0] for c in unique_clusters}
+
+    null_stats = []
+    for _ in range(n_perm):
+        perm_labels = labels.copy()
+        for c in unique_clusters:
+            idx = cluster_indices[c]
+            shuf = perm_labels[idx].copy()
+            rng.shuffle(shuf)
+            perm_labels[idx] = shuf
+        u = _u(values, perm_labels)
+        if not math.isnan(u):
+            null_stats.append(u)
+    null_stats = np.array(null_stats, dtype=float)
+
+    if alternative == "greater":
+        p = float((null_stats >= observed).mean()) if null_stats.size else math.nan
+    else:
+        p = float((null_stats <= observed).mean()) if null_stats.size else math.nan
+
+    return {
+        "u_observed": float(observed), "rank_biserial_observed": float(rb_obs),
+        "p_cluster_permutation": p,
+        "null_mean": float(np.mean(null_stats)) if null_stats.size else math.nan,
+        "null_q025": float(np.quantile(null_stats, 0.025)) if null_stats.size else math.nan,
+        "null_q975": float(np.quantile(null_stats, 0.975)) if null_stats.size else math.nan,
+        "n_perm_valid": int(null_stats.size),
+    }
 
 
 def magnitude_decomposition_summary(candidate_rows: pd.DataFrame) -> dict:
     """Empirical magnitude statistics on decomposition terms in reversal vs non-reversal rows.
 
-    The 'sign' counterfactuals (reversal_if_only_b_changes / reversal_if_only_g_changes)
-    are algebraically pinned whenever both base rates are positive (as in our data):
-      - reversal_if_only_b_changes := d1*(b2*g1)<0 = (b2/b1)*d1^2 < 0, ALWAYS FALSE.
-      - reversal_if_only_g_changes := d1*(b1*g2)<0 = (b1/b2)*d1*d2 < 0, ALWAYS TRUE for reversal rows.
-    So 0/22 and 22/22 carry no empirical information beyond "base rates are positive in our data."
+    The sign-attribution counterfactuals (reversal_if_only_b_changes /
+    reversal_if_only_g_changes) are algebraically pinned whenever both base
+    rates are positive: 0/22 and 22/22 carry no empirical information beyond
+    "base rates are positive."
 
-    The genuinely empirical content is the magnitude relationship between the two
-    decomposition terms in reversal rows. Necessary condition for reversal (from Prop 1):
-      |T_cal| - |T_br| > |Delta_1|   when sign(T_br) == sign(Delta_1) (i.e. b2 > b1).
-    We test this empirically AND we compare the magnitude ratio against non-reversal rows.
+    The genuinely empirical content is the magnitude relationship between the
+    two decomposition terms. We compare the |cal|/|base-rate| ratio in
+    reversal vs non-reversal rows using:
+      (a) standard Mann-Whitney U (iid assumption; too liberal because rows
+          share method pairs across only 15 unique clusters);
+      (b) cluster-restricted permutation MWU on the method-pair cluster (the
+          load-bearing significance statement).
     """
     rev = candidate_rows[candidate_rows["reversal"]]
     nonrev = candidate_rows[~candidate_rows["reversal"]]
@@ -454,33 +512,46 @@ def magnitude_decomposition_summary(candidate_rows: pd.DataFrame) -> dict:
     rev_ratio = (rev["calibration_term"].abs() / (rev["base_rate_term"].abs() + 1e-30)).to_numpy()
     nonrev_ratio = (nonrev["calibration_term"].abs() / (nonrev["base_rate_term"].abs() + 1e-30)).to_numpy()
 
-    # Mann-Whitney U: are reversal-row ratios stochastically larger than non-reversal?
     try:
         from scipy.stats import mannwhitneyu
         u_stat, u_p = mannwhitneyu(rev_ratio, nonrev_ratio, alternative="greater")
     except Exception:
         u_stat, u_p = math.nan, math.nan
 
-    # Necessary-condition check from Prop 1: in reversal rows (where T_br supports d_1
-    # because b_2 > b_1 in our candidate ordering), we need |T_cal| - |T_br| > |Delta_1|.
-    necc_holds = (rev["calibration_term"].abs() - rev["base_rate_term"].abs() > rev["delta_from"].abs()).sum()
+    all_ratio = (candidate_rows["calibration_term"].abs()
+                 / (candidate_rows["base_rate_term"].abs() + 1e-30)).to_numpy()
+    cluster_perm = _cluster_permutation_mwu(
+        values=all_ratio,
+        labels=candidate_rows["reversal"].to_numpy(),
+        clusters=candidate_rows["method_pair"].to_numpy(),
+        n_perm=5000, seed=42, alternative="greater",
+    )
+
+    necc_holds = (rev["calibration_term"].abs() - rev["base_rate_term"].abs()
+                  > rev["delta_from"].abs()).sum()
 
     return {
         "n_reversals": int(len(rev)),
         "n_non_reversals": int(len(nonrev)),
-        # Algebraic (pinned) sign-attribution counterfactuals, kept for transparency:
+        "n_method_pair_clusters": int(candidate_rows["method_pair"].nunique()),
+        "n_clusters_with_reversals": int((candidate_rows.groupby("method_pair")["reversal"].sum() > 0).sum()),
         "structurally_pinned_frac_b_only_reverses": float(rev["reversal_if_only_b_changes"].mean()),
         "structurally_pinned_frac_g_only_reverses": float(rev["reversal_if_only_g_changes"].mean()),
-        # Genuinely empirical magnitude statistics:
         "rev_ratio_mean": float(rev_ratio.mean()),
         "rev_ratio_median": float(np.median(rev_ratio)),
         "rev_frac_calibration_dominates": float((rev_ratio > 1).mean()),
         "nonrev_ratio_mean": float(nonrev_ratio.mean()),
         "nonrev_ratio_median": float(np.median(nonrev_ratio)),
         "nonrev_frac_calibration_dominates": float((nonrev_ratio > 1).mean()),
-        "mannwhitney_u": float(u_stat),
-        "mannwhitney_p_one_sided_greater": float(u_p),
-        # Necessary-condition check (Prop 1 specialization for b_2 > b_1):
+        "mannwhitney_u_iid": float(u_stat),
+        "mannwhitney_p_iid_one_sided_greater": float(u_p),
+        "mannwhitney_u_observed_cluster": cluster_perm["u_observed"],
+        "rank_biserial_cluster": cluster_perm["rank_biserial_observed"],
+        "p_cluster_permutation_one_sided_greater": cluster_perm["p_cluster_permutation"],
+        "cluster_null_mean": cluster_perm["null_mean"],
+        "cluster_null_q025": cluster_perm["null_q025"],
+        "cluster_null_q975": cluster_perm["null_q975"],
+        "cluster_n_perm": cluster_perm["n_perm_valid"],
         "necc_cond_holds_count": int(necc_holds),
     }
 

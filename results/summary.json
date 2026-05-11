@@ -80,6 +80,8 @@
   "magnitude_decomposition": {
     "n_reversals": 22,
     "n_non_reversals": 113,
+    "n_method_pair_clusters": 15,
+    "n_clusters_with_reversals": 7,
     "structurally_pinned_frac_b_only_reverses": 0.0,
     "structurally_pinned_frac_g_only_reverses": 1.0,
     "rev_ratio_mean": 1.5397138963590917,
@@ -88,8 +90,15 @@
     "nonrev_ratio_mean": 0.8290228352746808,
     "nonrev_ratio_median": 0.9999917863992108,
     "nonrev_frac_calibration_dominates": 0.49557522123893805,
-    "mannwhitney_u": 2075.0,
-    "mannwhitney_p_one_sided_greater": 3.64009774636735e-07,
+    "mannwhitney_u_iid": 2075.0,
+    "mannwhitney_p_iid_one_sided_greater": 3.64009774636735e-07,
+    "mannwhitney_u_observed_cluster": 2075.0,
+    "rank_biserial_cluster": 0.6693483507642799,
+    "p_cluster_permutation_one_sided_greater": 0.0,
+    "cluster_null_mean": 1667.381,
+    "cluster_null_q025": 1426.0,
+    "cluster_null_q975": 1907.0,
+    "cluster_n_perm": 5000,
     "necc_cond_holds_count": 22
   },
   "nulls": [
