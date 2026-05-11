@@ -14,8 +14,18 @@
 \pagestyle{plain}
 
 \usepackage{booktabs}
-\usepackage{amsmath,amssymb}
+\usepackage{amsmath}
 \usepackage{xcolor}
+
+\newtheorem{proposition}{Proposition}
+
+%% Universal overflow safety net.
+%% \emergencystretch lets LaTeX add up to 3em of inter-word space ONLY when
+%% a line would otherwise overflow the column. It does not loosen typical
+%% lines (so body length is preserved) but it prevents visible overflow.
+\setlength{\emergencystretch}{3em}
+\tolerance=1500
+\hbadness=10000  % silence underfull-box warnings only
 
 \begin{document}
 
@@ -139,14 +149,14 @@ The genuinely empirical decomposition content is the
 
 \paragraph{Data.} Benchmark medians of AUPR/AUROC/F1 across three
 Tabula~Sapiens tissues~\cite{tabulasapiens2022} (kidney, lung, immune)
-$\times$ three candidate-set definitions on six methods
+$\times$ three candidate-set definitions, on six methods
 (\textsc{genie3}~\cite{huynhthu2010}, \textsc{grnboost2}, \textsc{pearson},
 \textsc{spearman}, \textsc{scgpt\_attention}~\cite{cui2024scgpt},
-\textsc{random}); reference shifts on the immune slice with three reference
-networks (\textsc{hpn\_dream}, \textsc{beeline\_gsd}~\cite{pratapa2020},
-and a \textsc{dorothea}~\cite{holland2020}\,/\,\textsc{trrust}~\cite{han2018}
-union); mapping shifts on four policies of a probe-prior subset (also
-spanning the \textsc{omnipath}~\cite{turei2021} reference).
+\textsc{random}); immune-slice reference shifts use \textsc{hpn\_dream},
+\textsc{beeline\_gsd}~\cite{pratapa2020}, and a
+\textsc{dorothea}~\cite{holland2020}/\textsc{trrust}~\cite{han2018} union;
+mapping shifts use four policies of a probe-prior subset (also covering
+\textsc{omnipath}~\cite{turei2021}).
 
 \paragraph{Analyses.}
 (i)~pairwise reversal indicator $\mathbf{1}\{\Delta_1\Delta_2 < 0\}$ per
@@ -282,17 +292,16 @@ counts from the $b\!\cdot\!g$ decomposition are algebraic consequences of
 positive base rates and a fixed shift direction~\cite{demsar2006}, not
 findings.
 
-Recommendations: \emph{(a)}~cluster-bootstrap CIs over method pairs (not
-Wilson); \emph{(b)}~report the margin-magnitude regime in which any rate
-applies; \emph{(c)}~at least two metrics per rank claim (AUPR + AUROC);
-\emph{(d)}~retain the calibration-vs-base-rate magnitude ratio.
+Recommendations: cluster-bootstrap CIs over method pairs (not Wilson); the
+margin-magnitude regime alongside any rate; at least two metrics per rank
+claim (AUPR + AUROC); the calibration-vs-base-rate magnitude ratio.
 
 \paragraph{Reproducibility.}
 \url{https://anonymous.4open.science/r/grn-ranking-reversal-theory-DB8E/}
 
-\renewcommand{\bibfont}{\fontsize{5.8}{6.6}\selectfont}
+\renewcommand{\bibfont}{\fontsize{5.2}{6.0}\selectfont}
 \setlength{\bibsep}{0pt plus 0.2pt}
-{\fontsize{5.8}{6.6}\selectfont
+{\fontsize{5.2}{6.0}\selectfont
 \bibliographystyle{ACM-Reference-Format}
 \begin{thebibliography}{15}
 \setlength{\itemsep}{0pt}
@@ -356,8 +365,7 @@ Statistical comparisons of classifiers over multiple data sets.
 \emph{Metric Methods for Analyzing Partially Ranked Data}. LNS~34, Springer, 1985.
 
 \bibitem{cameron2015} A.~C.~Cameron, D.~L.~Miller.
-A practitioner's guide to cluster-robust inference.
-\emph{J.~Human Resources} 50:317--372, 2015.
+A practitioner's guide to cluster-robust inference. \emph{JHR} 50:317--372, 2015.
 
 \end{thebibliography}
 }
