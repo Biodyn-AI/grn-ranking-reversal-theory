@@ -77,11 +77,15 @@ Leaderboard rank in GRN inference is routinely used to justify claims about
 biological plausibility~\cite{cui2024scgpt,theodoris2023}, yet the evaluation
 pipeline involves several protocol choices --- candidate-set restriction,
 reference network, gene-symbol mapping, tissue context --- that are rarely
-reported or controlled~\cite{pratapa2020,anon2025evalbias}. If ranking is
-unstable under plausible variation, downstream biological decisions flip:
-which regulators are prioritized, which model is treated as scientifically
-credible. The field needs ranking-stability theory and diagnostics, not
-larger metric tables.
+reported or controlled~\cite{pratapa2020,aibar2017,huynhthu2010,anon2025evalbias}.
+The sensitivity of benchmark conclusions to evaluation choices is widely
+documented in machine learning more broadly: BLEU rank instability under
+tokenization~\cite{post2018}, ``benchmark lottery'' effects~\cite{dehghani2021},
+and the need for cross-dataset rank stability~\cite{demsar2006,critchlow1985}.
+If ranking is unstable under plausible variation, downstream biological
+decisions flip: which regulators are prioritized, which model is treated as
+scientifically credible. The field needs ranking-stability theory and
+diagnostics, not larger metric tables.
 
 Our three contributions: \emph{(1)}~a minimum-shift necessary condition
 yielding a closed-form ``safety margin'' per pair (\S\ref{sec:theory});
@@ -134,25 +138,30 @@ The genuinely empirical decomposition content is the
 \label{sec:methods}
 
 \paragraph{Data.} Benchmark medians of AUPR/AUROC/F1 across three
-Tabula~Sapiens tissues (kidney, lung, immune) $\times$ three candidate-set
-definitions on six methods (\textsc{genie3}, \textsc{grnboost2},
-\textsc{pearson}, \textsc{spearman}, \textsc{scgpt\_attention},
-\textsc{random}); reference shifts on the immune slice (9 methods,
-3 references); mapping shifts on four policies of a probe-prior subset.
+Tabula~Sapiens tissues~\cite{tabulasapiens2022} (kidney, lung, immune)
+$\times$ three candidate-set definitions on six methods
+(\textsc{genie3}~\cite{huynhthu2010}, \textsc{grnboost2}, \textsc{pearson},
+\textsc{spearman}, \textsc{scgpt\_attention}~\cite{cui2024scgpt},
+\textsc{random}); reference shifts on the immune slice with three reference
+networks (\textsc{hpn\_dream}, \textsc{beeline\_gsd}~\cite{pratapa2020},
+and a \textsc{dorothea}~\cite{holland2020}\,/\,\textsc{trrust}~\cite{han2018}
+union); mapping shifts on four policies of a probe-prior subset (also
+spanning the \textsc{omnipath}~\cite{turei2021} reference).
 
 \paragraph{Analyses.}
 (i)~pairwise reversal indicator $\mathbf{1}\{\Delta_1\Delta_2 < 0\}$ per
 (method-pair, shift-cell) per axis;
 (ii)~\textbf{cluster-bootstrap 95\% CIs} (2,000 resamples; cluster: method
-pair), replacing Wilson intervals that assume row independence;
+pair)~\cite{cameron2015}, replacing Wilson intervals that assume row
+independence;
 (iii)~magnitude decomposition with \textbf{cluster-restricted permutation
 MWU} (5,000 within-cluster label permutations);
 (iv)~per-cell BH-FDR;
 (v)~per-axis margin-magnitude threshold sweep with cluster-bootstrap bands;
 (vi)~three nulls: joint method relabel, score-noise bootstrap ($\sigma{=}10\%
 \times$ within-cell median margin), within-cell rank permutation;
-(vii)~LOO-by-tissue instability screening: quantile heuristic vs learned LR
-on $(|\Delta_1|, b_1, b_2{-}b_1, |g_1|)$;
+(vii)~LOO-by-tissue instability screening: quantile heuristic vs learned
+logistic regression on features $|\Delta_1|$, $b_1$, $b_2{-}b_1$, $|g_1|$;
 (viii)~metric robustness over AUPR/AUROC/F1. Seeds fixed (project, perm,
 bootstrap = 42); decomposition closure verified to $10^{-9}$.
 
@@ -187,11 +196,10 @@ Mapping-policy shift           & 165 &  0 & 0.00 & [0.00, 0.00] \\
 The marginal 16\% candidate-shift rate is driven by the immune tissue and
 small-margin pairs (\S\ref{sec:margin}). Under per-cell BH-FDR, \emph{none}
 of the high-reversal cells highlighted in the workshop precursor
-(e.g.\ immune \texttt{all\_pairs}$\to$\texttt{tf\_sources\_targets} at
-6/15) survive $q < 0.05$; what survives is the opposite --- cells
-significantly \emph{more stable} than chance (kidney
-\texttt{tf\_sources}$\to$\texttt{tf\_sources\_targets} at 0/15,
-$q = 5\!\times\!10^{-4}$).
+(e.g.\ the immune all-pairs to TF-source-target shift at 6/15) survive
+$q < 0.05$; what survives is the opposite --- cells significantly
+\emph{more stable} than chance (the kidney TF-source to TF-source-target
+shift at 0/15, $q = 5 \times 10^{-4}$).
 
 Tissue shifts: deduplicating each (method-pair $\times$ tissue-pair)
 observation yields rate 0.38 (any-candidate; 17/45) and 0.02
@@ -226,10 +234,11 @@ across margin thresholds (rate in $[0.22, 0.38]$). Candidate-shift
 instability is therefore a near-tie phenomenon; reference-shift is not.
 
 \paragraph{Three nulls (candidate axis).} Joint method-relabel: null mean
-$0.50$~[$0.37, 0.61$]; rank-permutation within cell: $0.50$~[$0.37, 0.61$];
-score-noise ($\sigma = 10\%$ of median margin): noise-inflated rate
-$0.29$~[$0.21, 0.37$]. Observed $0.16$ sits far below all three, indicating
-the rank signal is real and robust to $\sim10\%$-of-margin perturbation.
+$0.50$, 95\% interval $[0.37, 0.61]$; within-cell rank permutation:
+$0.50$, $[0.37, 0.61]$; score-noise ($\sigma = 10\%$ of median margin):
+noise-inflated rate $0.29$, $[0.21, 0.37]$. Observed $0.16$ sits far below
+all three, indicating the rank signal is real and robust to
+$\sim10\%$-of-margin perturbation.
 
 \paragraph{Instability screening (negative).} LOO-by-tissue quantile
 heuristic peaks at F1 $= 0.35$ (precision $0.24$, recall $0.64$) with PR-AUC
@@ -246,72 +255,111 @@ AUPR's sensitivity to where the operating-rank density lies relative to
 the positive base rate accounts for its instability. The rank-stability
 conclusion is metric-conditional.
 
+{\sloppy
 \paragraph{Worked example (Prop.~\ref{prop:minshift}).}
-\emph{(a)}~kidney \texttt{tf\_sources}$\to$\texttt{tf\_sources\_targets},
-\textsc{scgpt\_attention} vs \textsc{spearman}: $|\Delta_1| = 2.85\!\times\!10^{-2}$
---- no shift family with $|\delta\Delta| < 2.85\!\times\!10^{-2}$ can reverse
-this pair. \emph{(b)}~immune \texttt{all\_pairs}$\to$\texttt{tf\_sources\_targets},
-\textsc{pearson} vs \textsc{spearman}: $|\Delta_1| = 8.24\!\times\!10^{-7}$ ---
+\emph{(a)}~Kidney; shift from TF-source to TF-source-target candidates;
+\textsc{scgpt\_attention} vs \textsc{spearman}: $|\Delta_1| = 2.85 \times 10^{-2}$
+--- no shift family with $|\delta\Delta| < 2.85 \times 10^{-2}$ can reverse
+this pair. \emph{(b)}~Immune; shift from all-pairs to TF-source-target;
+\textsc{pearson} vs \textsc{spearman}: $|\Delta_1| = 8.24 \times 10^{-7}$ ---
 safety margin essentially zero. This is one of the 22 observed reversals,
 but the 75th-percentile margin cutoff (\S\ref{sec:margin}) excises pairs
 like (b); the substantive candidate-shift rate is the post-cutoff $0/34$.
+\par}
 
-\paragraph{Limitations.} Inputs are summary medians (no replicate-level
-noise propagation; cluster bootstrap addresses only pair-level dependence).
-Reference-shift uses one tissue (immune); mapping-policy results are
-slice-limited. Proposition~\ref{prop:minshift} is necessary, not sufficient.
-Biological hypotheses are conjectures, not tested findings.
+\paragraph{Limitations.} Medians only (no replicate noise); reference axis
+uses one tissue; mapping-policy results are slice-limited;
+Prop.~\ref{prop:minshift} is necessary, not sufficient.
 
 \section{Discussion and Recommendations}
 \label{sec:discussion}
 
-Three patterns persist: \emph{(i)}~calibration-magnitude dominance
-accompanies reversals on the candidate axis (cluster-perm
-$p < 2\!\times\!10^{-4}$, $r = 0.67$); \emph{(ii)}~candidate-shift
-instability is a near-tie phenomenon, reference-shift is not;
-\emph{(iii)}~metric choice changes the conclusion (AUROC fully stable,
-AUPR not). Sign-attribution counts from the $b\!\cdot\!g$ decomposition are
-algebraic consequences of positive base rates and a fixed shift direction,
-not findings.
+Three patterns: \emph{(i)}~calibration-magnitude dominance accompanies
+candidate-axis reversals; \emph{(ii)}~candidate-shift instability is a
+near-tie phenomenon, reference-shift is not; \emph{(iii)}~metric choice
+changes the conclusion (AUROC fully stable, AUPR not). Sign-attribution
+counts from the $b\!\cdot\!g$ decomposition are algebraic consequences of
+positive base rates and a fixed shift direction~\cite{demsar2006}, not
+findings.
 
 Recommendations: \emph{(a)}~cluster-bootstrap CIs over method pairs (not
 Wilson); \emph{(b)}~report the margin-magnitude regime in which any rate
-applies; \emph{(c)}~report at least two metrics (AUPR + AUROC) for any rank
-claim; \emph{(d)}~retain the calibration-vs-base-rate magnitude ratio
-alongside the rate.
-
-\paragraph{Outlook.} The framework extends to any benchmark whose metric
-admits a $\Delta = b\!\cdot\!g$ factorization. The substantive bottleneck
-for stronger conclusions is access to replicate-level predictions ---
-unlocking a nested bootstrap and direct estimation of measurement-noise
-contributions to each rate.
+applies; \emph{(c)}~at least two metrics per rank claim (AUPR + AUROC);
+\emph{(d)}~retain the calibration-vs-base-rate magnitude ratio.
 
 \paragraph{Reproducibility.}
 \url{https://anonymous.4open.science/r/grn-ranking-reversal-theory-DB8E/}
 
+\renewcommand{\bibfont}{\fontsize{5.8}{6.6}\selectfont}
+\setlength{\bibsep}{0pt plus 0.2pt}
+{\fontsize{5.8}{6.6}\selectfont
 \bibliographystyle{ACM-Reference-Format}
-\begin{thebibliography}{6}
+\begin{thebibliography}{15}
+\setlength{\itemsep}{0pt}
+\setlength{\parsep}{0pt}
+\setlength{\parskip}{0pt}
+\renewcommand{\newblock}{}
 
-\bibitem{cui2024scgpt}
-H.~Cui, C.~Wang, H.~Maan, et~al.
-\newblock sc{GPT}: toward building a foundation model for single-cell multi-omics using generative {AI}.
-\newblock \emph{Nature Methods}, 21(8):1470--1480, 2024.
+\bibitem{cui2024scgpt} H.~Cui, C.~Wang, H.~Maan, et~al.
+sc{GPT}: toward building a foundation model for single-cell multi-omics using generative {AI}.
+\emph{Nat. Methods} 21(8):1470--1480, 2024.
 
-\bibitem{theodoris2023}
-C.~V.~Theodoris et~al.
-\newblock Transfer learning enables predictions in network biology from large-scale single-cell atlases.
-\newblock \emph{Nature}, 618(7965):616--624, 2023.
+\bibitem{theodoris2023} C.~V.~Theodoris et~al.
+Transfer learning enables predictions in network biology from large-scale single-cell atlases.
+\emph{Nature} 618:616--624, 2023.
 
-\bibitem{pratapa2020}
-A.~Pratapa, A.~P.~Jalihal, J.~N.~Law, A.~Bharadwaj, and T.~M.~Murali.
-\newblock Benchmarking algorithms for gene regulatory network inference from single-cell transcriptomic data.
-\newblock \emph{Nature Methods}, 17(2):147--154, 2020.
+\bibitem{pratapa2020} A.~Pratapa, A.~P.~Jalihal, J.~N.~Law, A.~Bharadwaj, T.~M.~Murali.
+Benchmarking algorithms for gene regulatory network inference from single-cell transcriptomic data.
+\emph{Nat. Methods} 17:147--154, 2020.
 
-\bibitem{anon2025evalbias}
-Anonymous authors.
-\newblock Evaluation bias and symbol mapping in {GRN} benchmarks.
-\newblock Workshop manuscript, 2025. Author identity withheld for double-blind review.
+\bibitem{aibar2017} S.~Aibar, C.~B.~Gonz\'alez-Blas, T.~Moerman, et~al.
+{SCENIC}: single-cell regulatory network inference and clustering.
+\emph{Nat. Methods} 14:1083--1086, 2017.
+
+\bibitem{huynhthu2010} V.~A.~Huynh-Thu, A.~Irrthum, L.~Wehenkel, P.~Geurts.
+Inferring regulatory networks from expression data using tree-based methods.
+\emph{PLoS ONE} 5(9):e12776, 2010.
+
+\bibitem{anon2025evalbias} Anonymous authors.
+Evaluation bias and symbol mapping in {GRN} benchmarks.
+Workshop manuscript, 2025. (Author identity withheld for double-blind review.)
+
+\bibitem{tabulasapiens2022} Tabula Sapiens Consortium.
+The {T}abula {S}apiens: a multiple-organ single-cell transcriptomic atlas of humans.
+\emph{Science} 376:eabl4896, 2022.
+
+\bibitem{holland2020} C.~H.~Holland, J.~Tanevski, J.~Perales-Pat\'on, et~al.
+{D}o{R}oth{EA} as a resource of transcription factor activities from gene expression data.
+\emph{Nat. Commun.} 11:589, 2020.
+
+\bibitem{han2018} H.~Han, J.-W.~Cho, S.~Lee, et~al.
+{TRRUST} v2: an expanded reference database of human and mouse transcriptional regulatory interactions.
+\emph{Nucleic Acids Res.} 46(D1):D380--D386, 2018.
+
+\bibitem{turei2021} D.~T\"urei, A.~Valdeolivas, L.~Gul, et~al.
+Integrated intra- and intercellular signaling knowledge with {O}mni{P}ath.
+\emph{Nat. Methods} 18:1303--1316, 2021.
+
+\bibitem{post2018} M.~Post.
+A call for clarity in reporting {BLEU} scores.
+\emph{WMT}, 2018.
+
+\bibitem{dehghani2021} M.~Dehghani, Y.~Tay, A.~A.~Gritsenko, et~al.
+The benchmark lottery.
+\emph{arXiv:2107.07002}, 2021.
+
+\bibitem{demsar2006} J.~Dem\v{s}ar.
+Statistical comparisons of classifiers over multiple data sets.
+\emph{JMLR} 7:1--30, 2006.
+
+\bibitem{critchlow1985} D.~E.~Critchlow.
+\emph{Metric Methods for Analyzing Partially Ranked Data}. LNS~34, Springer, 1985.
+
+\bibitem{cameron2015} A.~C.~Cameron, D.~L.~Miller.
+A practitioner's guide to cluster-robust inference.
+\emph{J.~Human Resources} 50:317--372, 2015.
 
 \end{thebibliography}
+}
 
 \end{document}
