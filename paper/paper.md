@@ -14,9 +14,9 @@ We make three contributions. (1) We define the pairwise reversal indicator under
 
 **GRN benchmarking and evaluation bias.** Systematic GRN benchmarking has been addressed by [3, 4, 5], typically on fixed protocols. [6] showed that protocol choices such as symbol mapping and candidate-set restriction can shift AUPR by orders of magnitude, but focused on bias quantification rather than ranking stability. Our analysis is downstream: given those documented shifts, when does the leaderboard reorder?
 
-**Benchmark sensitivity in machine learning.** The sensitivity of benchmark conclusions to evaluation choices is widely studied: BLEU rank instability under tokenization [Post 2018], benchmark-lottery effects [Dehghani et al. 2021], and rank stability under bootstrap [Demsar 2006]. We treat ranking reversal as a finite-margin event and supply an explicit minimum-shift bound, which the ML literature on rank stability has largely framed as average-case rather than worst-case.
+**Benchmark sensitivity in machine learning.** The sensitivity of benchmark conclusions to evaluation choices is widely studied: BLEU rank instability under tokenization [11], benchmark-lottery effects [12], and rank stability under bootstrap [13]. We treat ranking reversal as a finite-margin event and supply an explicit minimum-shift bound, which the ML literature on rank stability has largely framed as average-case rather than worst-case.
 
-**Rank stability in statistics.** Rank stability under sample perturbation has been studied via Kendall's τ, top-k stability bounds, and Critchlow's rank metrics. Our cluster-bootstrap CI over method pairs is the rank-stability analogue of cluster-robust inference on pairwise comparisons.
+**Rank stability in statistics.** Rank stability under sample perturbation has been studied via Kendall's τ, top-k stability bounds, and Critchlow's rank metrics [14]. Our cluster-bootstrap CI over method pairs is the rank-stability analogue of cluster-robust inference on pairwise comparisons.
 
 ## 3. Problem Setup and Theory
 
@@ -68,7 +68,7 @@ All inputs are summary medians; replicate-level raw predictions are not availabl
 For each of the four protocol axes we compute:
 
 1. **Pairwise reversal indicator** `1{Δ_1 · Δ_2 < 0}` per (method-pair, shift-cell).
-2. **Cluster-bootstrap 95% CIs** with the method pair as the cluster, using 2,000 resamples of clusters; this addresses dependence Wilson intervals miss [reviewer concern C5].
+2. **Cluster-bootstrap 95% CIs** with the method pair as the cluster, using 2,000 resamples of clusters; this addresses pair-level dependence that Wilson intervals assume away.
 3. **Magnitude decomposition** (candidate shifts only): per reversal row, compute the calibration-vs-base-rate magnitude ratio and the Mann–Whitney comparison against non-reversal rows. We do not report sign-attribution counts because they are algebraically pinned under positive base rates (§3.2).
 4. **Per-cell BH-FDR adjustment** on highlighted shift cells (two-sided test against rate = 0.5).
 5. **Margin-magnitude threshold sweep**: reversal rate as a function of `τ`, the minimum of `|Δ_1|, |Δ_2|`, with cluster-bootstrap bands.
@@ -135,7 +135,7 @@ Numerical precision is rounded to two decimals consistent with cluster-CI half-w
 **Scientific implication.** Cross-tissue mechanistic claims should report rank transportability under each candidate-set definition separately.
 
 ### 5.4 Reference shifts produce robust reversals across margin thresholds
-**Evidence.** Reference-network shifts in the immune slice produce 34/106 reversals (rate 0.32, cluster CI [0.20, 0.43]). Per-cell BH-FDR: `dorothea_trrust_union_immune → hpn_dream` at rate 0.19 is significantly *below* 0.5 (`q = 7e−4`); the previously-highlighted `beeline_gsd → dorothea_trrust_union_immune` cell at 0.43 does **not** survive BH-FDR (`q = 0.40`) — its rate is not statistically distinguishable from 0.5 at this sample size. Importantly, the margin-magnitude sweep (Figure 2) shows reference-shift reversals **persist** across all margin thresholds (rate stays in [0.22, 0.38] up to the 75th percentile of margins), while candidate-shift reversals vanish at high margins (0/34 at the 75th-percentile candidate threshold).
+**Evidence.** Reference-network shifts in the immune slice produce 34/106 reversals (rate 0.32, cluster CI [0.20, 0.43]). Per-cell BH-FDR: `dorothea_trrust_union_immune → hpn_dream` at rate 0.19 is significantly *below* 0.5 (`q = 7e−4`); the previously-highlighted `beeline_gsd → dorothea_trrust_union_immune` cell at 0.43 does **not** survive BH-FDR (`q = 0.40`) — its rate is not statistically distinguishable from 0.5 at this sample size. Importantly, the margin-magnitude sweep (§5.6) shows reference-shift reversals **persist** across all margin thresholds (rate stays in [0.22, 0.38] up to the 75th percentile of margins), while candidate-shift reversals vanish at high margins (0/34 at the 75th-percentile candidate threshold).
 
 ![Reference-shift reversal rate (kept from prior pipeline)](figures/fig4_reference_shift_reversal_bar.png)
 
@@ -153,7 +153,7 @@ Numerical precision is rounded to two decimals consistent with cluster-CI half-w
 **Scientific implication.** Coverage changes still require reporting because they alter interpretability and comparability even when ordering is unchanged.
 
 ### 5.6 Margin magnitude controls reversal risk on the candidate axis but not the reference axis
-**Evidence.** Figure 2 reports reversal rate as a function of the margin-magnitude floor `τ = min(|Δ_1|, |Δ_2|)`. For candidate shifts, rate drops from 0.16 (τ = 0, all 135 pairs) to 0.00 (τ = 75th-percentile margin, 34 pairs kept). For reference shifts, rate remains in [0.22, 0.38] up to the 75th-percentile margin. For tissue shifts, rate decays gradually from 0.19 to 0.09. For mapping shifts the rate is 0 throughout.
+**Evidence.** Figure `fig_margin_sweep` reports reversal rate as a function of the margin-magnitude floor `τ = min(|Δ_1|, |Δ_2|)`. For candidate shifts, rate drops from 0.16 (τ = 0, all 135 pairs) to 0.00 (τ = 75th-percentile margin, 34 pairs kept). For reference shifts, rate remains in [0.22, 0.38] up to the 75th-percentile margin. For tissue shifts, rate decays gradually from 0.19 to 0.09. For mapping shifts the rate is 0 throughout.
 
 ![Reversal rate vs margin threshold](figures/fig_margin_sweep.png)
 
@@ -162,7 +162,7 @@ Numerical precision is rounded to two decimals consistent with cluster-CI half-w
 **Scientific implication.** Reporting reversal rates without a margin-magnitude regime is ambiguous; future stability reports should always include a margin sweep.
 
 ### 5.7 Reversal behavior is structured across three null models, but instability screening fails to beat baseline prevalence
-**Evidence.** Three null models for the candidate-shift reversal rate are compared in Figure 3:
+**Evidence.** Three null models for the candidate-shift reversal rate are compared in figure `fig_nulls`:
 
 | Null | Null mean (95% interval) | Observed |
 |---|---|---:|
@@ -226,7 +226,7 @@ pip install -r requirements.txt
 python scripts/analysis.py
 ```
 
-All random seeds are fixed (project seed 42; permutation seed 42; bootstrap seed 42). Numerical decomposition closure is verified at runtime to within 1e-9.
+All random seeds are fixed (project seed 42; permutation seed 42; bootstrap seed 42). Numerical decomposition closure is verified at runtime to within 1e-9. The repository's git history additionally preserves the pre-revision pipeline whose sign-attribution claims were retracted, for transparency.
 
 ## 10. Conclusion
 Ranking reversal is a first-order reliability issue for GRN benchmarking. Cluster-bootstrap CIs that respect pair-level dependence, margin-magnitude sweeps, per-axis BH-FDR-adjusted cell rates, and a magnitude-based reading of the `b · g` decomposition (rather than the structurally pinned sign tallies) together replace the standard "rate ± Wilson interval" report with a more honest characterization of what is robust and what is not. The practical recommendation is direct: treat method rank as biologically interpretable evidence only after cross-axis stability is demonstrated, the reversal-prone margin regime is characterized, and the choice of metric is reported.
@@ -242,7 +242,7 @@ Ranking reversal is a first-order reliability issue for GRN benchmarking. Cluste
 
 [5] Huynh-Thu VA, Irrthum A, Wehenkel L, Geurts P. Inferring regulatory networks from expression data using tree-based methods. PLoS ONE. 2010.
 
-[6] Authors of this submission. Evaluation Bias and Symbol Mapping in GRN Benchmarks. Workshop manuscript. 2025. *(Citation withheld for double-blind review; the workshop manuscript is in our prior anonymous-author release and is included in our supplementary submission.)*
+[6] Anonymous authors. Evaluation Bias and Symbol Mapping in GRN Benchmarks. Workshop manuscript. 2025. *(Author identity withheld for double-blind review.)*
 
 [7] Tabula Sapiens Consortium. The Tabula Sapiens: a multiple-organ single-cell transcriptomic atlas of humans. Science. 2022.
 
