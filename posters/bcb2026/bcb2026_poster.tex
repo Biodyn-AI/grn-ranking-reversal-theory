@@ -75,7 +75,7 @@ regime, and metric.
 \ccsdesc[300]{Theory of computation~Mathematical optimization}
 
 \keywords{gene regulatory networks, evaluation bias, ranking stability,
-benchmark lottery, cluster bootstrap, double-blind}
+benchmark lottery, cluster bootstrap}
 
 \maketitle
 
@@ -212,8 +212,8 @@ Mapping-policy shift           & 165 &  0 & 0.00 & [0.00, 0.00] \\
 The marginal $16\%$ candidate-shift rate is driven by the immune tissue
 and by pairs of methods that were already close (\S\ref{sec:margin}). After
 per-cell Benjamini--Hochberg correction, \emph{none} of the high-rate
-cells highlighted in the workshop precursor (e.g.\ the immune all-pairs to
-TF-source-target shift at 6/15) survive $q < 0.05$. What does survive is
+cells highlighted in the workshop precursor~\cite{anon2025evalbias} (e.g.\
+the immune all-pairs to TF-source-target shift at 6/15) survive $q < 0.05$. What does survive is
 the opposite: cells that are significantly \emph{more stable} than chance
 (e.g.\ the kidney TF-source to TF-source-target shift at 0/15,
 $q = 5 \times 10^{-4}$).
@@ -271,9 +271,9 @@ here, not per-pair predictable from these features.
 
 \paragraph{Metric choice changes the answer.} AUPR flips $4/45$ tissue
 pairs ($0.09$), F1 the same $4/45$, AUROC $0/40$ (Wilson upper $0.09$).
-AUROC's scale-invariance preserves cross-tissue rank similarity; AUPR's
-base-rate sensitivity does not. \emph{Which metric you pick can swing the
-conclusion entirely.}
+AUROC's invariance to any monotone re-scoring preserves cross-tissue
+rank similarity; AUPR's base-rate sensitivity does not. \emph{Which
+metric you pick can swing the conclusion entirely.}
 
 {\sloppy
 \paragraph{Worked example.} A kidney pair (\textsc{scgpt\_attention} vs.\
@@ -287,15 +287,15 @@ second, dropping the rate to $0/34$.
 \par}
 
 \paragraph{Limitations.} Summary medians only (no replicate noise); one
-tissue for the reference axis; one slice for mapping; Prop.~1 is necessary,
-not sufficient.
+tissue for the reference axis; one slice for mapping;
+Prop.~\ref{prop:minshift} is necessary, not sufficient.
 
 \section{Discussion and Recommendations}
 \label{sec:discussion}
 
 Three patterns: \emph{(i)}~when candidate-axis reversals happen, the
-discrimination term is consistently larger than the base-rate term in
-magnitude --- a real data finding, not a tautology;
+calibration (discrimination) term is consistently larger than the
+base-rate term in magnitude --- a real data finding, not a tautology;
 \emph{(ii)}~candidate-shift reversals disappear once methods are clearly
 separated, reference-shift ones do not; \emph{(iii)}~metric choice
 alone can swing the conclusion~\cite{demsar2006}. Four practical
@@ -375,7 +375,7 @@ Statistical comparisons of classifiers over multiple data sets.
 \emph{Metric Methods for Analyzing Partially Ranked Data}. LNS~34, Springer, 1985.
 
 \bibitem{cameron2015} A.~C.~Cameron, D.~L.~Miller.
-A practitioner's guide to cluster-robust inference. \emph{JHR} 50:317--372, 2015.
+A practitioner's guide to cluster-robust inference. \emph{J. Hum. Res.} 50:317--372, 2015.
 
 \end{thebibliography}
 \endgroup
