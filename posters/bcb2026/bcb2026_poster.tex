@@ -43,10 +43,12 @@ network (GRN) benchmark, does the rank still hold if we change the
 evaluation protocol --- candidate edges or reference network? The answer
 hinges on the \emph{margin} between the methods' scores, and we give a
 closed-form rule for when the rank is safe. Across four protocol axes
-on six methods and three single-cell tissues we find: candidate-set
-changes flip $16\%$ of method pairs (cluster-bootstrap 95\%~CI
-$7$--$27\%$); cross-tissue, $19\%$ ($9$--$31\%$); reference-network,
-$32\%$ ($20$--$43\%$); gene-symbol mapping, none of $165$. The popular
+on six methods and three single-cell tissues, we find that pairwise
+reversals occur in $16\%$ of candidate-set shift comparisons (cluster-bootstrap
+95\%~CI $7$--$27\%$); $38\%$ of method-pair $\times$ tissue-pair combinations
+flip under at least one candidate set ($18$--$58\%$); $32\%$ of
+reference-network shift comparisons flip ($20$--$43\%$); and gene-symbol
+mapping flips none of $165$. The popular
 ``base-rate~$\times$~discrimination'' decomposition has two pieces the
 algebra forces (no data information); the data-carrying piece is the
 relative \emph{magnitude} of the two terms, which we find large and
@@ -97,8 +99,8 @@ to say when a rank is robust.
 
 \emph{Contributions.} \emph{(1)}~A closed-form ``safety margin'' per
 method pair (\S\ref{sec:theory}). \emph{(2)}~A reading of the
-base-rate-vs.-discrimination decomposition separating sign claims (forced
-by algebra) from magnitude claims (an actual data fact)
+``base-rate~$\times$~discrimination'' decomposition separating sign
+claims (forced by algebra) from magnitude claims (an actual data fact)
 (\S\ref{sec:magnitude}). \emph{(3)}~An audit across four protocol axes
 with cluster-bootstrap intervals, three nulls, a margin sweep, a learned
 classifier (honest negative), and a metric-robustness
@@ -123,8 +125,9 @@ discrimination'' decomposition follows directly from the product rule:
 \end{equation}
 
 The current margin $|\Delta_1|$ is the ``cushion'': for the rank to flip,
-the shift must first eat through it and overshoot in the opposite
-direction (Prop.~\ref{prop:minshift}).
+the protocol shift (written $\delta\Delta := \Delta_2 - \Delta_1$) must
+first eat through that cushion and overshoot in the opposite direction
+(Prop.~\ref{prop:minshift}).
 
 \begin{proposition}[Minimum-shift bound]
 \label{prop:minshift}
@@ -257,10 +260,10 @@ candidate-shift instability is a \emph{near-tie phenomenon}, while
 reference-shift instability survives clear gaps.
 
 \paragraph{Three nulls.} The observed $0.16$ sits well below all three:
-random method-label permutation gives null mean $0.50$ ($[0.37, 0.61]$);
-within-cell rank permutation, the same; Gaussian noise at $\sigma = 10\%$
-of typical gap lifts the rate to $0.29$ ($[0.21, 0.37]$). Signal is real
-and robust to $\sim10\%$-of-margin noise.
+the joint method-relabel null gives mean $0.50$ ($[0.37, 0.61]$); the
+within-cell rank permutation null gives the same; the score-noise null
+($\sigma = 10\%$ of within-cell median margin) lifts the rate to $0.29$
+($[0.21, 0.37]$). Signal is real and robust to $\sim10\%$-of-margin noise.
 
 \paragraph{Can we predict which pairs flip?} Not at this sample size. The
 quantile heuristic peaks at F1 $= 0.35$ (precision $0.24$, recall $0.64$,
