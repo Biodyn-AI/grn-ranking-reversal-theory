@@ -1,0 +1,121 @@
+{
+  "seed": 42,
+  "n_bootstrap": 10000,
+  "n_rounding_draws": 10000,
+  "n_permutations": 2000,
+  "n_power_draws": 4000,
+  "reference": {
+    "zero_recovery_endpoints": {
+      "beeline_gsd": 9,
+      "dorothea_trrust_union_immune": 1,
+      "hpn_dream": 9
+    },
+    "rows": 106,
+    "reversals": 34,
+    "rows_with_two_informative_endpoints": 0,
+    "rows_tied_under_tie_aware_ap": 106,
+    "max_min_normalized_margin_reversal": 0.0004625189942306339,
+    "tie_aware_ap_synthetic_check": {
+      "ap": 0.00025,
+      "base_rate": 0.00025
+    }
+  },
+  "metric_exact_tests": {
+    "n_matched": 40,
+    "per_metric": {
+      "AUPR": {
+        "k": 2,
+        "clopper_pearson_low": 0.006113646599346682,
+        "clopper_pearson_high": 0.16919686395941763
+      },
+      "AUROC": {
+        "k": 0,
+        "clopper_pearson_low": 0.0,
+        "clopper_pearson_high": 0.08809730287880335
+      },
+      "F1": {
+        "k": 2,
+        "clopper_pearson_low": 0.006113646599346682,
+        "clopper_pearson_high": 0.16919686395941763
+      }
+    },
+    "paired": {
+      "AUPR_vs_AUROC": {
+        "first_only": 2,
+        "second_only": 0,
+        "exact_mcnemar_two_sided_p": 0.5
+      },
+      "AUPR_vs_F1": {
+        "first_only": 0,
+        "second_only": 0,
+        "exact_mcnemar_two_sided_p": 1.0
+      },
+      "AUROC_vs_F1": {
+        "first_only": 0,
+        "second_only": 2,
+        "exact_mcnemar_two_sided_p": 0.5
+      }
+    },
+    "genie3_minus_grnboost2": {
+      "AUPR": {
+        "immune": -0.0028329999999999996,
+        "kidney": -0.0008599999999999997,
+        "lung": 0.00017
+      },
+      "AUROC": {
+        "immune": 0.0004999999999999449,
+        "kidney": 0.00019999999999997797,
+        "lung": 0.000200000000000089
+      },
+      "F1": {
+        "immune": -0.0008710000000000002,
+        "kidney": -0.0003599999999999992,
+        "lung": 0.0006099999999999994
+      }
+    },
+    "lung_genie3_grnboost2_relative_aupr_margin": 0.006657528881926767
+  },
+  "derived": {
+    "longest_list_pairs": 49900,
+    "expected_chance_recovery_longest_list": {
+      "hpn_dream": 0.22896904116346165,
+      "beeline_gsd": 0.09608522263109551
+    },
+    "expected_chance_recovery_random_list_dorothea": 23.61834693922701,
+    "random_score_median_over_median_base_rate": {
+      "min": 0.6278823529411764,
+      "max": 3.178142414860681
+    },
+    "probability_six_method_draw_has_at_most_three_distinct": 0.2515432098765432
+  },
+  "screening": {
+    "n_rows": 135,
+    "n_positive": 22,
+    "prevalence": 0.16296296296296298,
+    "n_permutations": 2000,
+    "seed": 42,
+    "logistic": {
+      "observed_ap": 0.12721152974678374,
+      "ap_over_prevalence": 0.7806162052643547,
+      "observed_auroc": 0.36403861625100564,
+      "null_mean_ap": 0.18992967400001612,
+      "null_q05": 0.11904272434966137,
+      "null_q95": 0.2860781658106009,
+      "plus_one_p_value": 0.8990504747626187
+    },
+    "heuristic": {
+      "observed_ap": 0.17673036448915022,
+      "ap_over_prevalence": 1.0844817820925126,
+      "observed_auroc": 0.49014481094127116,
+      "null_mean_ap": 0.21564324262269532,
+      "null_q05": 0.15844401243477726,
+      "null_q95": 0.30381500503650083,
+      "plus_one_p_value": 0.823088455772114
+    },
+    "random_ranking_ap": {
+      "mean": 0.19103450165078276,
+      "q95": 0.2752589164743969
+    }
+  },
+  "interpretation": "descriptive sensitivity summaries of archived summary scores; intervals are conditional on the observed grid and are not confidence intervals"
+}

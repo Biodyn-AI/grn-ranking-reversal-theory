@@ -1,0 +1,7 @@
+direction,scenario,n_rows,base_rate_increases,base_rate_equal,base_rate_decreases,reversals,reversal_rate,dominant_on_reversal,dominance_fraction_on_reversal,median_ratio_on_reversal,dominant_on_nonreversal,median_ratio_on_nonreversal,max_closure_error
+increasing,fixed_gap,10000,10000,0,0,0,0.0,0,,,0,0.0,1.3877787807814457e-17
+increasing,varying_gap_same_sign,10000,10000,0,0,0,0.0,0,,,5557,1.1496767817645288,1.3877787807814457e-17
+increasing,controlled_sign_switch,10000,10000,0,0,10000,1.0,10000,1.0,2.2088248601728466,0,,1.3877787807814457e-17
+decreasing,fixed_gap,10000,0,0,10000,0,0.0,0,,,0,0.0,1.3877787807814457e-17
+decreasing,varying_gap_same_sign,10000,0,0,10000,0,0.0,0,,,1235,0.04532597184118914,1.22514845490862e-17
+decreasing,controlled_sign_switch,10000,0,0,10000,10000,1.0,1425,0.1425,0.07581100283161077,0,,1.0408340855860843e-17

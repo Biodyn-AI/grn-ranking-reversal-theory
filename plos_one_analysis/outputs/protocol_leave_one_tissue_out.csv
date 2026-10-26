@@ -1,0 +1,7 @@
+axis,omitted_tissue,n,k,rate
+candidate,immune,90,10,0.1111111111111111
+candidate,kidney,90,14,0.15555555555555556
+candidate,lung,90,20,0.2222222222222222
+tissue,immune,45,12,0.26666666666666666
+tissue,kidney,45,9,0.2
+tissue,lung,45,5,0.1111111111111111

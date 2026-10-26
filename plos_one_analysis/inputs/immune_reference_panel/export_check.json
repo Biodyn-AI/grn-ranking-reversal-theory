@@ -1,0 +1,27 @@
+{
+  "n_genes": 4941,
+  "n_candidates": 24408540,
+  "references": {
+    "hpn_dream": {
+      "label_vector_positives": 112,
+      "archived_true_edges": 127,
+      "reference_self_pairs_in_gene_universe": 15,
+      "dummy_flat_index_matches": true,
+      "pipeline_dummy_aupr": 3.014750555681991e-06
+    },
+    "beeline_gsd": {
+      "label_vector_positives": 47,
+      "archived_true_edges": 48,
+      "reference_self_pairs_in_gene_universe": 1,
+      "dummy_flat_index_matches": true,
+      "pipeline_dummy_aupr": 1.2373307337640976e-06
+    },
+    "dorothea_trrust_union_immune": {
+      "label_vector_positives": 11574,
+      "archived_true_edges": 11583,
+      "reference_self_pairs_in_gene_universe": 9,
+      "dummy_flat_index_matches": true,
+      "pipeline_dummy_aupr": 0.0003108578990827452
+    }
+  }
+}

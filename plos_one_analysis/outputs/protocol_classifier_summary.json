@@ -1,0 +1,20 @@
+{
+  "n_rows": 135,
+  "n_positive_rows": 22,
+  "baseline_prevalence": 0.16296296296296298,
+  "n_folds": 3,
+  "average_precision_definition": "sklearn.metrics.average_precision_score; non-interpolated AP, not trapezoidal PR area",
+  "learned_average_precision": 0.12721152974678374,
+  "heuristic_average_precision": 0.17673036448915022,
+  "mean_fold_learned_average_precision": 0.21820152827950356,
+  "mean_fold_heuristic_average_precision": 0.21365202603844402,
+  "q25_n_selected": 59,
+  "q25_true_positive": 14,
+  "q25_precision": 0.23728813559322035,
+  "q25_recall": 0.6363636363636364,
+  "q25_f1": 0.345679012345679,
+  "future_base_rate_feature": "available before score shift only for a pre-specified candidate set and reference labels",
+  "feature_redundancy": "abs_gap_from = abs_delta_from / base_rate_from; base rates identify only 3 transition designs and are tissue-invariant",
+  "leakage_audit": "training-only scaling; no held-tissue destination score feature; historical delta_change trains heuristic radius; same methods and pairs recur across folds",
+  "validation_scope": "three related tissues; descriptive discrimination of these archived summary rows only"
+}

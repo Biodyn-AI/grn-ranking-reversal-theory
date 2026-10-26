@@ -1,0 +1,7 @@
+scope,metric,n,k,rate
+each_metric_eligible,AUPR,45,4,0.08888888888888889
+all_three_metrics_matched,AUPR,40,2,0.05
+each_metric_eligible,AUROC,40,0,0.0
+all_three_metrics_matched,AUROC,40,0,0.0
+each_metric_eligible,F1,45,4,0.08888888888888889
+all_three_metrics_matched,F1,40,2,0.05

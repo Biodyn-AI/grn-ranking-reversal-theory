@@ -1,0 +1,19 @@
+{
+  "seed": 42,
+  "replicates": 10,
+  "n_candidates": 24408540,
+  "pipeline_fidelity_single_edge_list": {
+    "beeline_gsd": {
+      "replay": 1.2373307337640976e-06,
+      "pipeline": 1.2373307337640976e-06
+    },
+    "dorothea_trrust_union_immune": {
+      "replay": 0.0003108578990827452,
+      "pipeline": 0.0003108578990827452
+    },
+    "hpn_dream": {
+      "replay": 3.014750555681991e-06,
+      "pipeline": 3.014750555681991e-06
+    }
+  }
+}

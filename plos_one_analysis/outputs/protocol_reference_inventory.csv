@@ -1,0 +1,7 @@
+artifact,tissues,n_rows,methods,references,alignment
+score_eval_grn_baselines_immune.csv,immune,27,9 baseline methods,beeline_gsd;dorothea_trrust_union_immune;hpn_dream,the sole existing complete 9-method 3-reference grid; primary reference slice
+table_a3.csv,immune;kidney;lung,54,6 methods,references pooled into medians,no reference identifier retained; cannot estimate per-reference shifts
+hESC_metrics_inventory.csv,hESC cell-line setting,144,16 baseline and attention aggregation variants,3 BEELINE gold-standard types,"different cells, methods, reference networks and candidate universes; inventoried, not pooled"
+hHep_metrics_inventory.csv,hHep cell-line setting,135,15 baseline and attention aggregation variants,3 BEELINE gold-standard types,"different cells, methods, reference networks and candidate universes; inventoried, not pooled"
+"repository search for score_eval_grn_baselines_{kidney,lung} and aligned per-reference metrics",kidney;lung,0,not available,not available,no aligned kidney/lung reference-shift CSV found; no original model run undertaken
+score_eval_probe_priors*.csv,immune probe-prior subset,108,6 probe/attention methods,reference grids differ across policy files; 108 source rows,mapping analysis uses available common non-tied rows; incomparable to the baseline grid

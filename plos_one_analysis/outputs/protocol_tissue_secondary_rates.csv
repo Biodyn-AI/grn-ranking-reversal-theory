@@ -1,0 +1,3 @@
+secondary_event,n,k,rate,interval_low,interval_high,n_clusters,equal_cluster_mean
+reversal_any_candidate,45,17,0.37777777777777777,0.17777777777777778,0.6,15,0.3777777777777777
+reversal_all_candidates,45,1,0.022222222222222223,0.0,0.06666666666666667,15,0.02222222222222222

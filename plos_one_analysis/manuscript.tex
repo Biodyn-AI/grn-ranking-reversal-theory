@@ -1,0 +1,499 @@
+% ======================================================================
+% PLOS ONE submission manuscript
+% Built on the official PLOS LaTeX template (plos_latex_template.tex)
+% Title: Ranking Reversal Theory Under Candidate-Set Shift in Gene
+%        Regulatory Network Benchmarking
+%
+% SUBMISSION NOTE: For upload to PLOS Editorial Manager, set
+%   \embedfigsfalse  (below) and upload Fig1.tif ... Fig7.tif separately.
+%   Figures must NOT be embedded in the final manuscript file per PLOS policy.
+% ======================================================================
+\documentclass[10pt,letterpaper]{article}
+\usepackage[top=0.85in,left=2.75in,footskip=0.75in,marginparwidth=2in]{geometry}
+
+% amsmath and amssymb packages, useful for mathematical formulas and symbols
+\usepackage{amsmath,amssymb}
+
+% Use adjustwidth environment to exceed column width
+\usepackage{changepage}
+
+% Use Unicode characters when possible
+\usepackage[utf8]{inputenc}
+
+% textcomp package and marvosym package for additional characters
+\usepackage{textcomp,marvosym}
+
+% cite package, to clean up citations in the main text. Do not remove.
+\usepackage{cite}
+
+% Use nameref to cite supporting information files
+\usepackage{nameref,hyperref}
+
+% line numbers
+\usepackage[right]{lineno}
+
+% ligatures disabled
+\usepackage[nopatch=eqnum]{microtype}
+\usepackage{iftex}
+\ifPDFTeX
+\DisableLigatures[f]{encoding = *, family = * }
+\else
+\usepackage{fontspec}
+\setmainfont{lmroman10-regular.otf}[BoldFont=lmroman10-bold.otf,ItalicFont=lmroman10-italic.otf,BoldItalicFont=lmroman10-bolditalic.otf,Ligatures=NoCommon]
+\fi
+
+% color can be used to apply background shading to table cells only
+\usepackage[table]{xcolor}
+
+% array package and thick rules for tables
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+% create "+" rule type for thick vertical lines
+\newcolumntype{+}{!{\vrule width 2pt}}
+
+% create \thickcline for thick horizontal lines of variable length
+\newlength\savedwidth
+\newcommand\thickcline[1]{%
+  \noalign{\global\savedwidth\arrayrulewidth\global\arrayrulewidth 2pt}%
+  \cline{#1}%
+  \noalign{\vskip\arrayrulewidth}%
+  \noalign{\global\arrayrulewidth\savedwidth}%
+}
+
+% \thickhline command for thick horizontal lines that span the table
+\newcommand\thickhline{%
+  \noalign{\global\savedwidth\arrayrulewidth\global\arrayrulewidth 2pt}%
+  \hline
+  \noalign{\global\arrayrulewidth\savedwidth}%
+}
+
+% Remove comment for double spacing
+\usepackage{setspace}
+\doublespacing
+
+% Text layout
+\raggedright
+\setlength{\parindent}{0.5cm}
+\textwidth 5.25in
+\textheight 8.75in
+
+% Bold the 'Figure #' in the caption and separate it from the title/caption text.
+\usepackage[aboveskip=1pt,labelfont=bf,labelsep=period,justification=raggedright,singlelinecheck=off]{caption}
+\renewcommand{\figurename}{Fig}
+
+% Remove brackets from numbering in List of References
+\makeatletter
+\renewcommand{\@biblabel}[1]{\quad#1.}
+\makeatother
+
+% Header and Footer with logo
+\usepackage{lastpage,fancyhdr,graphicx}
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{27.023pt}
+\rfoot{\thepage/\pageref{LastPage}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrule}{\hrule height 2pt \vspace{2mm}}
+\fancyheadoffset[L]{2.25in}
+\fancyfootoffset[L]{2.25in}
+\lfoot{October 26, 2026}
+
+% --- Toggle: embed figures for local preview, OR omit for Editorial Manager ---
+\newif\ifembedfigs
+\embedfigsfalse % Submission manuscript; figures supplied separately.
+
+
+\begin{document}
+\vspace*{0.2in}
+
+% Title must be 250 characters or less.
+\begin{flushleft}
+{\Large
+\textbf\newline{Ranking reversal theory under candidate-set shift in gene regulatory network benchmarking}
+}
+\newline
+\textbf{Short title:} Protocol-conditional GRN ranking stability
+\newline
+% Author names, affiliations and corresponding author email
+\\
+Ihor Kendiukhov\textsuperscript{1*}
+\\
+\bigskip
+\textbf{1} Department of Computer Science, University of T\"ubingen, T\"ubingen, Germany
+\\
+\bigskip
+
+% Corresponding author
+* kenduhov.ig@gmail.com
+
+\end{flushleft}
+
+\clearpage
+\linenumbers
+\section*{Abstract}
+Gene regulatory network benchmarks compare methods under evaluation choices that may change their ordering. We audit pairwise ranking stability across candidate-set, tissue, reference-network, and identifier-mapping shifts using existing single-cell benchmark summaries. The primary estimand is the fraction of eligible, non-tied method-pair/protocol-transition comparisons that reverse. Under the area under the precision-recall curve (AUPR), candidate-set shifts reverse 22/135 comparisons (16.3\%) and tissue shifts 26/135 (19.3\%); identifier-mapping shifts in a probe-prior panel reverse 0/165 F1 comparisons. Reference shifts in a single immune panel reverse 34/106 (32.1\%), but this does not indicate that reference choice matters more: under two of three references no method recovers a reference edge, every reversal has an endpoint margin below 0.05\% of the positive base rate, and lists that recover nothing reproduce these margins and, between those two references, a similar reversal frequency. Candidate and tissue reversals' median smaller margins are 36\% and 28\% of the base rate, yet 18 of 22 candidate reversals have an endpoint margin below the source study's median 95\% bootstrap interval width. Pair-resampling intervals are conditional sensitivity summaries; resampling whole methods, propagating shared-method dependence, widens the candidate interval from 0.07--0.27 to 0--0.38. A product-rule decomposition is descriptive accounting: increasing base rates force normalized-gap dominance in every reversal. On 40 identical tissue-transition/method-pair keys, AUPR and F1 each reverse twice and the area under the receiver operating characteristic curve (AUROC) never; both reversals reflect one near-tied method pair, the exact paired test cannot reach significance (\textit{P}~=~0.5), and rounded AUROC ties can conceal reversals. A held-out-tissue screen on four accounting features is a feasibility exercise only: its average precision (0.127) is below the reversal prevalence (0.163), and it could detect only strong predictors. The results support reporting protocol-specific ranks, base-rate-scaled margins, and recovered-edge counts; they do not establish biological mechanisms or stability in unobserved settings.
+
+\section*{Introduction}
+Gene regulatory network (GRN) benchmarks are used to compare inference methods and assess biological models, including single-cell foundation models~\cite{cui2024scgpt,theodoris2023geneformer}. Their scores depend on which candidate edges are evaluated, which reference interactions are labeled positive, how gene identifiers are mapped, and which tissue is sampled~\cite{pratapa2020beeline,kendiukhov2026evalrelease}. A change in these choices can reorder methods even when the underlying predictions are unchanged. This matters when a benchmark ranking guides method selection or motivates a subsequent experimental study.
+
+Our central question is empirical: how often do method pairs reverse under the protocol variations represented in an existing GRN benchmark panel? We quantify reversal fractions on four axes, express endpoint margins on absolute and base-rate scales, check whether the compared endpoints contain any recovered reference edges, and compare metric-specific reversals on identical pairs. We distinguish a transition-level rate from secondary aggregation across candidate definitions, and examine sensitivity to resampling method pairs, resampling whole methods, and deleting methods. A simple product-rule identity makes explicit which accounting patterns are imposed by algebra. These tools describe evaluation behavior; they do not identify why a biological regulatory interaction occurs.
+
+\subsection*{GRN benchmarking and evaluation choices}
+Community assessments and GRN inference studies compare methods on specified datasets and reference networks~\cite{pratapa2020beeline,aibar2017scenic,huynhthu2010genie3,marbach2012wisdom,stolovitzky2007dream}. The source evaluation-bias study~\cite{kendiukhov2026evalrelease} documented score changes under candidate restriction and identifier mapping. Here we analyze the ordering of the resulting summary scores. This is a downstream reanalysis of existing evaluations rather than a new benchmark of model predictions or regulatory discovery.
+
+\subsection*{Benchmark sensitivity and rank stability}
+Evaluation sensitivity is documented in machine learning through tokenization choices~\cite{post2018bleu}, benchmark selection~\cite{dehghani2021lottery}, distribution shift~\cite{recht2019imagenet}, uncontrolled experimental variance~\cite{bouthillier2021variance}, and statistical comparisons of systems~\cite{dror2018hitchhiker,demsar2006statistical}. Rank-correlation and ranking-distance measures summarize related behavior~\cite{kendall1938tau,critchlow1985metric}. Our audit uses a local pairwise event: two methods have opposite strict orderings at two protocol endpoints. It complements global ranking summaries by retaining the transition, method pair, and score margin associated with each reversal.
+
+\section*{Materials and methods}
+
+\subsection*{Inputs and evaluation panels}
+We use summary tables from an archived report of the evaluation-bias study, included verbatim in S1 Data, based on Tabula Sapiens kidney, lung, and immune transcriptomes~\cite{tabula2022}. The candidate-stratified area under the precision-recall curve (AUPR) panel contains six methods: GENIE3~\cite{huynhthu2010genie3}, GRNBoost2~\cite{moerman2019grnboost2}, Pearson and Spearman correlation baselines~\cite{langfelder2008wgcna}, scGPT attention~\cite{cui2024scgpt,jain2019attention}, and random scores. Three candidate definitions are compared: \texttt{all\_pairs}, \texttt{tf\_sources}, and \texttt{tf\_sources\_targets}. The source report describes all directed non-self gene pairs, reference-derived regulator sources paired with the gene universe, and regulator sources paired with reference-derived targets, respectively, intersected with mapped genes. The saved configuration instead specifies fixed TRRUST subsets. The original per-run construction is not recoverable from the medians; we audit the archived labeled summaries and do not infer which construction generated each run. A later version of the source study revised parts of its protocol and reports different summary values~\cite{kendiukhov2026evalpreprint}; the present audit uses only the archived tables.
+
+A separate reference-shift panel has nine methods, one immune setting, and three references: \texttt{hpn\_dream}, derived from the phosphoproteomic signaling HPN-DREAM assessment~\cite{hill2016hpndream}; \texttt{beeline\_gsd}, BEELINE's curated gonadal sex determination network~\cite{pratapa2020beeline}; and \texttt{dorothea\_trrust\_union\_immune}, a DoRothEA~\cite{garciaalonso2019dorothea}/TRRUST v2~\cite{han2018trrust} union. Its AUPR values come from a different implementation, which ranks all 24{,}408{,}540 directed non-self pairs of 4{,}941 genes, places candidates absent from a prediction list at a tied score of zero, and integrates precision over recall trapezoidally across every rank~\cite{boyd2013aucpr}. The archived rows also give each list's length, precision, and recall. A mapping panel uses six probe variants and four policies: \texttt{legacy\_symbols}, \texttt{full\_genes}, \texttt{crosswalk}, and \texttt{omnipath\_ref}~\cite{turei2021omnipath}. These panels contain different methods and endpoints. Their reversal fractions are not controlled comparisons of the causal importance of the four axes.
+
+Source Table A3 provides candidate-stratified AUPR medians pooled over references and mapping policies, Table A2 their base rates, and Table A1 tissue/method medians pooled over candidate definitions, references, and mapping policies for the comparison of AUPR, area under the receiver operating characteristic curve (AUROC), and F1. Table A1 is a separate summary panel and is not interchangeable with a specific Table A3 candidate setting. The source AUPR for these tables is trapezoidal area over threshold precision-recall points, with a base-rate completion endpoint for incomplete predicted edge lists. We inherit those scalar values; this convention differs from screening average precision and from the continuous population example below. Tables A1--A3 and the source report text are archived verbatim in S1 Data; the reference- and mapping-panel score files are byte-identical to those in the public source release~\cite{kendiukhov2026evalrelease}. Raw replicate predictions are unavailable for the aligned panels used here; resampling cannot estimate their measurement uncertainty.
+
+\subsection*{Reversal definition and primary estimand}
+For methods $A,B$ let $\Delta_j=M_A(j)-M_B(j)$ be their metric difference at protocol endpoint $j$. A strict reversal is
+\begin{equation}
+Y=\mathbf{1}\{\Delta_1\Delta_2<0\}.
+\end{equation}
+A comparison is eligible when both methods have finite scores at both endpoints and neither endpoint margin is zero. Exact ties in the supplied, possibly rounded summaries are excluded rather than counted as stable comparisons. The primary estimand on each axis is $\widehat p=\sum_iY_i/N$, with one row per unordered method pair, unordered endpoint transition, and remaining fixed context. Candidate comparisons have tissue as context; tissue comparisons have candidate definition; reference comparisons have the immune panel; mapping comparisons retain the source reference context. All available combinations are used once. Results describe this observed grid, not a randomly sampled population of GRN benchmarks.
+
+For tissue shifts we also aggregate over the three candidate definitions, giving one row per method pair and tissue transition. The secondary ``any'' indicator is one if any candidate definition reverses; the ``all'' indicator is one only if all three reverse. These indicators define events and units that differ from the transition-level reversal. Because each method pair appears in several rows, rows are dependent; this dependence enters the sensitivity summaries described below.
+
+Table~\ref{tab:estimands} states the question each summary answers. The transition-level fraction is primary for comparing protocol axes for three reasons. First, it is the only summary defined with the same unit on every axis---one method pair, one endpoint transition, all other factors fixed---so its value answers the same question on each axis. A common unit is necessary but not sufficient for comparing the resulting values: only the candidate and tissue panels share methods, metric, and AUPR implementation, so the reference and mapping fractions are reported on this unit without being directly comparable with them. Second, it matches the decision a benchmark user faces: if one protocol choice changes while everything else stays fixed, how often does a pairwise conclusion change? Third, it does not depend on how many settings of an orthogonal factor happen to be available. The any and all summaries do: adding a fourth candidate definition can only raise the any-candidate fraction and lower the all-candidate fraction, even if every individual transition behaves as before. The secondary summaries are most informative for a different decision, namely whether a tissue-level conclusion holds under every, or at least one, defensible candidate definition. Margin-filtered fractions condition on both endpoint margins and describe where observed reversals lie; they are not rates for prospective comparisons.
+
+\begin{table}[!ht]
+\centering
+\caption{{\bf Reversal summaries, their units, and their purposes.} Counts refer to the candidate and tissue AUPR panels.}
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.21\linewidth}>{\raggedright\arraybackslash}p{0.20\linewidth}>{\raggedright\arraybackslash}p{0.25\linewidth}>{\raggedright\arraybackslash}p{0.20\linewidth}}
+\toprule
+\textbf{Summary} & \textbf{Unit and example} & \textbf{Question answered} & \textbf{Most informative when}\\
+\midrule
+Transition-level fraction (primary) & Method pair $\times$ endpoint transition $\times$ fixed context; 22/135 & How often does changing one protocol choice, all else fixed, reverse a pairwise ordering? & Comparing axes evaluated on the same methods and metric, or reporting sensitivity to one design decision\\
+Any-candidate tissue reversal (secondary) & Method pair $\times$ tissue transition over three candidate definitions; 17/45 & Does the tissue comparison reverse under at least one candidate definition? & Screening tissue conclusions that are fragile to the candidate definition\\
+All-candidate tissue reversal (secondary) & Same unit; 1/45 & Does it reverse under every candidate definition? & Identifying reversals robust to the candidate definition\\
+Margin-filtered fraction (descriptive) & Rows whose smaller endpoint margin reaches a threshold; 0/34 candidate rows at the upper quartile & Where do observed reversals lie relative to margin size? & Describing scale; not prospective, because both endpoints enter selection\\
+\bottomrule
+\end{tabular}
+\label{tab:estimands}
+\end{table}
+
+\subsection*{Descriptive product-rule accounting}
+Let $b_j>0$ be the positive-reference fraction in candidate space $j$, and define the normalized margin gap $g_j=\Delta_j/b_j$. This definition does not provide an independent measure of discrimination. The exact identity
+\begin{equation}
+\Delta_2-\Delta_1=\underbrace{(b_2-b_1)g_1}_{T_b}+\underbrace{b_2(g_2-g_1)}_{T_g}
+\label{eq:accounting}
+\end{equation}
+is a descriptive accounting convention whose terms depend on endpoint direction. It cannot attribute changes to biological or algorithmic mechanisms.
+
+Writing $r=b_2/b_1$, on a reversal $T_g=\Delta_2-r\Delta_1$, so
+\begin{equation}
+|T_g|=|\Delta_2|+r|\Delta_1|,\qquad |T_b|=|r-1|\,|\Delta_1|.
+\end{equation}
+If $r\ge1$, then $|T_g|-|T_b|=|\Delta_2|+|\Delta_1|>0$. Thus normalized-gap magnitude dominance is guaranteed for every reversal with increasing or equal base rate. If $0<r<1$, it holds only when $|\Delta_2|/|\Delta_1|+2r>1$. Holding $g$ fixed gives $\Delta_2=r\Delta_1$ and cannot reverse a nonzero margin. These constraints preclude interpreting a reversal/non-reversal magnitude test as evidence of a mechanism.
+
+\subsection*{Endpoint informativeness and margin scale}
+In the reference panel, the number of reference edges a method recovers at an endpoint is recall times reference size, which is an integer in every archived row and agrees with precision times list length after rounding. An endpoint is informative for a comparison when both methods recover at least one reference edge there. This minimal criterion separates endpoints whose AUPR is set entirely by list length and tie order; it does not imply recovery above chance. When a list recovers no reference edge, every reference edge lies among the unscored candidates tied at zero, so its trapezoidal AUPR depends only on list length and on the order that the sort assigns to tied candidates. A tie-aware average precision~\cite{pedregosa2011sklearn}, which evaluates tied scores as one threshold, assigns every such list exactly the positive base rate (S1 Text). To test this mechanism on the actual labels, we reconstructed the panel's label vectors with the source pipeline, which maps gene symbols through HGNC aliases~\cite{seal2023hgnc}: they contain 112, 47, and 11{,}574 positive candidates for HPN-DREAM, BEELINE, and DoRothEA/TRRUST, whereas the reported reference sizes (127, 48, and 11{,}583) also count self-pairs, which the candidate set excludes. A one-edge list reproduced the pipeline's AUPR exactly. We then scored ten replicates of nine seeded lists (seed 42) with the archived numbers of distinct listed pairs, constructed to recover no HPN-DREAM or BEELINE edge, with the source formula.
+
+To place margins from different panels on one scale, we divide each endpoint margin by that endpoint's positive base rate, which is the precision of a random ranking~\cite{flach2015prg}. The smaller normalized margin, $\min_j|\Delta_j|/b_j=\min_j|g_j|$, is compared across axes at thresholds between $10^{-5}$ and 1. Tissue comparisons use the candidate-set base rate, which is identical across tissues in the source. Because candidate and tissue scores are medians over references and mapping policies, their $b_j$ is the matching median base rate rather than that of a single evaluation, and the source's random-score medians lie between 0.6 and 3.2 times it; on these panels the scale is approximate and serves mainly the orders-of-magnitude contrast with the reference panel, whose base rates belong to single evaluations. As a coarse noise yardstick for candidate and tissue comparisons, we compare margins with the source report's median AUPR bootstrap interval widths for each candidate set ($1.02\times10^{-4}$, $2.16\times10^{-3}$, and $7.86\times10^{-3}$, from 200 resamples of predicted edges). These are full widths of 95\% percentile intervals for a single method's score, pooled over methods, tissues, and references. For a difference of two independently resampled scores, a nominal 95\% threshold is about 0.71 of such a width, whereas the pooled median probably understates the widths of the tree-based and correlation baselines involved in most reversals, which the source reports as wider than those of scGPT attention; the comparison therefore indicates scale only, not a test for any specific comparison.
+
+\subsection*{Dependence and sensitivity summaries}
+We use 10{,}000 method-pair cluster bootstrap draws (seed 42), resampling the same number of unordered method-pair clusters with replacement and retaining every row of each sampled cluster~\cite{cameron2008bootstrap,efron1994bootstrap}. Each draw divides the sum of reversal indicators by the sum of row counts, preserving the primary row-weighted estimand when cluster sizes differ. The 2.5th and 97.5th percentiles are reported as conditional resampling intervals. They summarize how the estimate changes when the observed method pairs are reweighted; they are not confidence intervals for a population of methods or benchmarks.
+
+For candidate and tissue shifts, the 15 unordered pairs of six methods define 15 clusters. Each candidate cluster contains nine rows (three tissues by three candidate transitions); each tissue cluster contains nine rows (three candidate definitions by three tissue transitions). The reference panel has 36 method-pair clusters and the mapping panel 15; their row counts may differ because of ties or available contexts. S1 Data records exact memberships and exclusions.
+
+Pairs such as $A$--$B$ and $A$--$C$ share method $A$, so method-pair clusters are not independent. We therefore also resample whole transition-context cells and whole methods, and report leave-one-method-out and leave-two-methods-out fractions; candidate and tissue comparisons are additionally resampled over their three tissues or tissue transitions and recomputed after omitting each tissue. A cell groups all method pairs evaluated under the same endpoint transition and context. Method-level resampling draws the six (or nine) methods with replacement and retains every comparison row between distinct sampled methods, weighted by the product of their multiplicities, as in bootstrap schemes for pairwise (dyadic) data that resample units rather than pairs~\cite{davezies2021exchangeable}. These schemes retain different dependence structures, but none can resolve shared-method, tissue, and transition dependence jointly in this small grid, and none has an established population-coverage guarantee here. The all-zero mapping resampling summaries are degenerate and are not evidence that the unobserved reversal probability is zero.
+
+\subsection*{Controls and an illustrative example}
+Accounting controls use 10{,}000 draws per direction/scenario (seed 42) that sample the observed positive base-rate endpoint pairs and use fixed, varying same-sign, or sign-switched normalized gaps; margins are kept within $[-0.05,0.05]$. We also reverse observed endpoints. These controls test the accounting algebra, not fixed statistical discrimination.
+
+An illustrative example shows a known property of precision-recall summaries~\cite{davis2006relationship,saito2015precision,boyd2013aucpr}: prevalence alone can reorder AUPR when ROC curves cross. Negative scores are $N(0,1)$ for two constructed methods; positive scores are $N(0.5,2^2)$ for method A and $N(2,0.5^2)$ for method B, chosen from a coarse grid of positive-class means and standard deviations so that the ROC curves cross and the AUPR ordering changes within the range of observed candidate base rates. At each recall $u$, the fixed ROC curve of method $m$ supplies false-positive rate $f_m(u)$, and
+\begin{equation}
+\operatorname{precision}_m(u;b)=\frac{bu}{bu+(1-b)f_m(u)},\qquad
+\operatorname{AUPR}_m(b)=\int_0^1\operatorname{precision}_m(u;b)\,du.
+\end{equation}
+We evaluate this population AUPR on a prevalence grid that includes the three observed candidate base rates (Table M in S1 Text). The example is not fitted to GRN data, and the location of its crossover was a selection criterion rather than a finding; it estimates no frequency and does not test the observed reversal counts; it shows only that the accounting terms cannot separate a prevalence effect from a discrimination change.
+
+For ranking structure we independently permute method identities within each tissue/candidate cell and reuse that cell's assignment across every transition involving it. This retains the score distribution and ties in each cell while removing method-specific cross-cell correspondence. We use 10{,}000 permutations (seed 43) and 10{,}000 noise draws per scale (seed 44). Because a reversal depends only on within-cell orderings, permuting method labels is equivalent to permuting ranks within each cell. Separately, Gaussian perturbations are added once per method/cell and reused across transitions, with standard deviation equal to a specified fraction of the within-cell median absolute pairwise margin. We track retained, lost, and newly created reversals. The main noise sensitivity clips perturbed scores to $[0,1]$ and excludes any induced endpoint ties; an unbounded additive version is a sensitivity comparison. Scales are 0, 0.05, 0.10, and 0.20 times the cell margin scale. This is an arbitrary sensitivity experiment, not a calibrated measurement-error model.
+
+\subsection*{Margin filtering and screening feasibility}
+For each axis we retain comparisons with $\min(|\Delta_1|,|\Delta_2|)\ge\tau$, where $\tau$ is an empirical margin quantile, and recompute row fractions and method-pair resampling intervals. Both endpoint margins enter the selection, so this is a description of observed reversals rather than a forecasting rule. An elementary necessary condition for reversal, and a test of whether shift bounds estimated from the other tissues hold for a held-out tissue, are given in S1 Text (Table H).
+
+As a feasibility exercise, also detailed in S1 Text (Tables J--L and Figs A and B), we asked whether reversals could be flagged before the destination score is known. A balanced logistic model on four related accounting features, $(|\Delta_1|,b_1,b_2-b_1,|g_1|)$, and a heuristic that ranks comparisons by $-|\Delta_1|$ are evaluated with one tissue held out at a time, using average precision (AP) as implemented in scikit-learn~\cite{pedregosa2011sklearn}. The 135 candidate rows contain only 22 positives, 15 recurring method pairs, and three tissue folds. We therefore compare AP with the reversal prevalence, with a within-fold label-permutation null (2{,}000 permutations, seed 42)~\cite{ojala2010permutation}, and with the AP that fixed scores of known AUROC would reach in the same design (4{,}000 draws per AUROC).
+
+\subsection*{Matched comparison of evaluation metrics}
+Using source Table A1, we construct the same tissue-transition/method-pair keys for AUPR, AUROC, and F1, record every non-finite or tied endpoint, and compare the intersection of eligible keys. We report metric-specific reversal sets and paired discordances, with exact Clopper--Pearson intervals~\cite{clopper1934binomial} and an exact McNemar test~\cite{mcnemar1947} of paired discordance, computed as a binomial test on the discordant keys; both treat keys as independent although keys share methods, tissues, and endpoints. Source Table A1 prints medians rounded to four significant figures with trailing zeros dropped, so a printed 0.5 denotes 0.5000. To ask whether ties and small differences could reflect rounding, we redrew every printed value uniformly within its rounding interval (10{,}000 draws, seed 42; exact zeros fixed) and recounted reversals over all 45 keys (Table I in S1 Text). Both AUPR and AUROC are unchanged by strictly increasing transformations that preserve ranks and ties on a fixed labeled set; their response to prevalence differs because precision depends on prevalence~\cite{davis2006relationship,saito2015precision}. No prevalence-standardized calculation is possible from the supplied scalar summaries alone. Metric comparisons therefore retain this potential confound and do not establish that one metric measures biological validity better.
+
+\section*{Results}
+
+\subsection*{Protocol transitions reverse a minority of observed comparisons}
+Table~\ref{tab:headline} reports the same primary transition-level estimand for all axes. Candidate-set shifts yield 22/135 reversals (16.3\%); tissue shifts 26/135 (19.3\%); the immune reference panel 34/106 (32.1\%); and the mapping panel 0/165. The candidate and tissue results describe ordering changes among the archived summary scores; whether individual reversals exceed estimation noise is examined below. The reference fraction is not comparable with them: the reference panel uses different methods and a different AUPR implementation, and its reversals occur at endpoints where no method recovers a reference edge (see below). The larger reference number therefore does not indicate that reference choice is more influential than candidate or tissue choice. The implication is to identify the protocol, and the evidence behind each score, when reporting a ranking.
+
+\begin{table}[!ht]
+\centering
+\caption{{\bf Primary transition-level reversal fractions.} $N$ counts eligible non-tied comparisons; $K$ counts reversals. Intervals are 2.5th--97.5th percentiles of method-pair resampling, conditional on this observed grid; they are not confidence intervals. Reference-panel reversals all involve an endpoint without recovered reference edges (see the reference-panel subsection).}
+\small
+\begin{tabular}{lrrcc}
+\toprule
+\textbf{Axis/panel} & $K$ & $N$ & \textbf{Fraction} & \textbf{Pair-resampling interval}\\
+\midrule
+Candidate set (AUPR) & 22 & 135 & 0.163 & [0.074, 0.267]\\
+Tissue (AUPR) & 26 & 135 & 0.193 & [0.089, 0.311]\\
+Reference, immune (AUPR) & 34 & 106 & 0.321 & [0.208, 0.426]\\
+Mapping, probe panel (F1) & 0 & 165 & 0.000 & [0.000, 0.000]\\
+\bottomrule
+\end{tabular}
+\label{tab:headline}
+\end{table}
+
+Candidate reversals vary across the nine tissue/transition cells (Fig~\ref{fig:candidate}). The immune \texttt{all\_pairs} to \texttt{tf\_sources\_targets} transition has 6/15, while kidney \texttt{tf\_sources} to \texttt{tf\_sources\_targets} and lung \texttt{all\_pairs} to \texttt{tf\_sources} each have 0/15. These are descriptive cell counts, not independent-binomial significance tests. The inference is that candidate sensitivity is uneven in this grid; explaining the unevenness would require matched predictions.
+
+\begin{figure}[!ht]
+\centering
+\ifembedfigs\begin{adjustwidth}{-2.25in}{0in}\centering\includegraphics[width=\linewidth]{figures/Fig1.png}\end{adjustwidth}\fi
+\caption{{\bf Candidate-shift reversal fractions by tissue and transition.} Each cell contains 15 method-pair comparisons; annotations give reversals/eligible comparisons. No cellwise significance is implied. All pairs, TF sources, and TF sources + targets denote \texttt{all\_pairs}, \texttt{tf\_sources}, and \texttt{tf\_sources\_targets}; TF, transcription factor.}
+\label{fig:candidate}
+\end{figure}
+
+\subsection*{Accounting dominance is structural and direction dependent}
+All 135 recorded candidate transitions increase positive base rate. Consequently, the normalized-gap term must exceed the base-rate term in magnitude in every reversal. The observed 22/22 dominance count follows from this constraint. The corresponding 56/113 count among non-reversals has a different algebraic selection condition and is not a valid reference population for testing an unexpected reversal mechanism.
+
+The fixed-gap control produces 0/10{,}000 reversals in each direction; its magnitude statistic conditional on reversal is undefined. An increasing-rate sign-switch control produces 10{,}000/10{,}000 reversals and dominance in all of them. These counts validate the algebra rather than establish an unexpected data pattern. Reversing observed endpoints preserves all 22 reversals but gives dominance in 13/22 (Fig~\ref{fig:magnitude}A).
+
+\begin{figure}[!ht]
+\centering
+\ifembedfigs\begin{adjustwidth}{-2.25in}{0in}\centering\includegraphics[width=\linewidth]{figures/Fig2.png}\end{adjustwidth}\fi
+\caption{{\bf Structural accounting and an illustrative prevalence example.} A: observed reversal rows satisfy normalized-gap magnitude dominance in 22/22 recorded (increasing base rate) and 13/22 reversed endpoint directions; dominance in the recorded direction is forced by algebra. B: illustrative example of a known metric property, not data: population AUPR of two constructed score distributions with fixed, crossing ROC curves changes order as prevalence varies; vertical lines mark the observed candidate base rates.}
+\label{fig:magnitude}
+\end{figure}
+
+Fig~\ref{fig:magnitude}B illustrates why this dominance says nothing about mechanism, using a known property of precision-recall summaries rather than new evidence. For two constructed score distributions with fixed, crossing ROC curves (AUROC 0.588 and 0.963), AUPR ordering reverses as prevalence passes approximately 0.0061, between the observed base rates 0.0020 and 0.0100; the parameters were chosen to place the crossover in this range, so its location carries no information. Because a prevalence-only reversal also satisfies forced dominance when the base rate increases, the 22/22 count cannot distinguish a prevalence effect from a change in discrimination. The example adds no evidence about how often either occurs in GRN benchmarks. The implication is to state endpoint direction and avoid causal interpretation of the two terms.
+
+\subsection*{Tissue aggregation and clustering answer distinct questions}
+The observed comparison-level evidence gives a primary tissue fraction of 26/135 (19.3\%). Aggregating the same comparisons over candidate definitions gives secondary any-candidate reversal in 17/45 method-pair/tissue-transition units (37.8\%), and all-candidate reversal in 1/45 (2.2\%). The any event is necessarily at least as common as the average candidate-specific event, whereas the all event is at most as common. The three fractions therefore answer different questions (Table~\ref{tab:estimands}). Fig~\ref{fig:tissue} retains the candidate definitions so that the evaluated question remains visible.
+
+\begin{figure}[!ht]
+\centering
+\ifembedfigs\begin{adjustwidth}{-2.25in}{0in}\centering\includegraphics[width=\linewidth]{figures/Fig3.png}\end{adjustwidth}\fi
+\caption{{\bf Tissue-shift reversals under each candidate definition.} Each cell gives reversals/eligible method pairs for a tissue transition and candidate definition; candidate labels are as in Fig 1. The primary tissue fraction pools all cells; any/all-candidate summaries aggregate a different event across rows.}
+\label{fig:tissue}
+\end{figure}
+
+Transition-cell resampling gives candidate and tissue percentile intervals [0.081, 0.252] and [0.096, 0.304], compared with method-pair intervals [0.074, 0.267] and [0.089, 0.311]; resampling the three tissues or tissue transitions gives [0.044, 0.267] and [0.111, 0.267]. Leave-one-method-out fractions range from 0.111 to 0.244 for candidate shifts, 0.133 to 0.289 for tissue shifts, and 0.268 to 0.390 for the immune reference panel, and omitting one tissue gives 0.111 to 0.222 and 0.111 to 0.267. Resampling whole methods, which propagates the dependence among pairs that share a method, gives wider percentile intervals: [0, 0.384] for candidate shifts, [0, 0.485] for tissue shifts, and [0.096, 0.521] for the immune reference panel; leave-two-methods-out fractions range from 0.037 to 0.370, 0.074 to 0.444, and 0.197 to 0.444 (Tables A and B in S1 Text). The reference-panel summaries only reweight comparisons whose reversals arise at endpoints without recovered reference edges (next subsection), so they are not comparable with the candidate and tissue summaries. These summaries show how the estimates change when different parts of this small grid receive weight. Method composition clearly matters, and none of these summaries is a confidence interval for unobserved methods or tissues. The practical implication is to report the primary transition definition, any secondary aggregation rule, and the method set.
+
+\subsection*{Reference-panel reversals occur at uninformative endpoints}
+The immune reference panel has 34/106 reversals across three reference transitions (Fig~\ref{fig:reference}). Its endpoints differ sharply in evidence. Under HPN-DREAM and BEELINE, none of the nine methods recovers a single reference edge; under the DoRothEA/TRRUST union, eight methods recover between 1 and 304 edges and one recovers none (Fig~\ref{fig:reference}A). Zero recovery is what uninformative lists would show at these two references: with 112 and 47 positive candidates among 24{,}408{,}540, even the longest list (49{,}900 pairs) would be expected to recover 0.23 and 0.10 edges by chance. Every comparison therefore includes an HPN-DREAM or BEELINE endpoint at which neither method recovers an edge, and none has two informative endpoints. Fifty-one comparisons have no informative endpoint (21 reversals): all 35 BEELINE--HPN-DREAM comparisons (12 reversals) and the 16 comparisons of PIDC full, which recovers no DoRothEA/TRRUST edge, with the other methods. The remaining 55 have one informative endpoint (13 reversals) (Fig~\ref{fig:reference}B; Tables C and D in S1 Text).
+
+\begin{figure}[!ht]
+\centering
+\ifembedfigs\begin{adjustwidth}{-2.25in}{0in}\centering\includegraphics[width=\linewidth]{figures/Fig4.png}\end{adjustwidth}\fi
+\caption{{\bf Reference-shift evidence in the immune panel.} A: reference edges recovered by each method's predicted list (recall times reference size). B: reversals/eligible comparisons for each reference transition, split by whether one endpoint has both methods recovering at least one reference edge; no comparison has two such endpoints. C: smaller endpoint margin divided by the endpoint's positive base rate for candidate, tissue, and reference comparisons (filled: reversal; open: no reversal); the dashed line marks 0.1\% of the base rate. The reference panel covers one tissue (immune) and three references; candidate and tissue comparisons in C are shown for scale.}
+\label{fig:reference}
+\end{figure}
+
+Scores at the HPN-DREAM and BEELINE endpoints, where no method recovers an edge, differ by amounts far below any plausible measurement scale. Every reversal has a smaller endpoint margin below 0.05\% of the endpoint base rate (maximum $4.6\times10^{-4}$ base-rate units), whereas candidate and tissue reversals have median smaller margins of 36\% and 28\% of the base rate (Fig~\ref{fig:reference}C). At a common threshold of 0.1\% of the base rate, all 135 candidate and 135 tissue comparisons remain (22 and 26 reversals), but no reference comparison does. A list that recovers nothing has an AUPR set by its length and by the sort order of tied candidates. A tie-aware average precision would score every such list at exactly the base rate, leaving each of the 106 comparisons with a tied endpoint. On the reconstructed labels, synthetic lists with the archived numbers of distinct listed pairs that recover nothing reproduce the observed scale. Their within-replicate AUPR spreads ($1.3$--$1.6\times10^{-9}$ for HPN-DREAM and $0.9$--$1.1\times10^{-9}$ for BEELINE) are on the scale of the observed spreads ($1.3\times10^{-9}$, just below the HPN-DREAM replay range, and $1.0\times10^{-9}$; Table E in S1 Text). Between these two references they reverse 33--42\% (mean 37\%) of pair orderings, compared with 12/35 (34\%) observed (S1 Text, Replay paragraph).
+
+This evidence supports a narrow inference: in this immune panel, reference reversals reflect list length and tie handling at endpoints without recovered reference edges, not reference-dependent changes in recovered regulatory signal. The panel cannot show whether reference choice reorders methods that do recover edges, and it supports no comparison of the reference axis with the other axes. Neither zero-recovery reference is a tissue-matched transcriptional reference: HPN-DREAM is a phosphoproteomic signaling scaffold, and the BEELINE network models gonadal sex determination. The implication is to report recovered-edge counts and base-rate-scaled margins for each reference before interpreting a reference-induced ranking change. A proper test of reference sensitivity requires references under which every compared method recovers edges above chance; even the random list recovers 24 DoRothEA/TRRUST edges, close to the 23.6 expected by chance.
+
+\subsection*{Mapping-panel orderings do not change among eligible comparisons}
+The mapping panel has no observed reversals among 165 eligible F1 comparisons. Its available common-reference/policy grids contain 330 potential comparisons: 105 are tied at both endpoints and 60 lack finite endpoint scores. The resulting fraction is conditional on eligibility; all exclusions are archived. AUPR is unavailable at one or more endpoints for every potential mapping comparison, so this panel cannot support an AUPR mapping analysis. The zero-width pair-resampling interval arises because every sampled indicator is zero; it cannot rule out reversals in unseen data or other identifier systems. The evidence supports order preservation only for these probe variants and policies. The implication is to report identifier conventions and coverage even when this panel's ordering does not change.
+
+\subsection*{Endpoint margins describe where reversals occur}
+At the candidate panel's upper-quartile threshold for $\min(|\Delta_1|,|\Delta_2|)$, 34 comparisons remain and none reverses; at the tissue panel's own upper-quartile threshold, 3 of 34 reverse (Fig~\ref{fig:margin}). Absolute thresholds are panel-specific: the corresponding reference threshold is only $5.96\times10^{-10}$ AUPR units, and on the base-rate scale no reference comparison reaches 0.1\%. On that common scale, candidate and tissue reversals persist among comparisons whose smaller margin is at least 5\% (16/126 and 20/126), 50\% (8/90 and 8/88), and 100\% of the base rate (2/56 and 2/63; Table F in S1 Text).
+
+\begin{figure}[!ht]
+\centering
+\ifembedfigs\begin{adjustwidth}{-2.25in}{0in}\centering\includegraphics[width=\linewidth]{figures/Fig5.png}\end{adjustwidth}\fi
+\caption{{\bf Reversal fractions after endpoint-margin filtering.} Panels retain comparisons above empirical quantiles of the minimum absolute endpoint margin. Shading shows 2.5th--97.5th percentiles of row-weighted method-pair resampling. Absolute thresholds are panel-specific; Fig 4C compares margins on a base-rate scale. The reference panel is shown for completeness and is not comparable with the others: its upper-quartile threshold is $5.96\times10^{-10}$ AUPR units, and every reference comparison has an endpoint at which no method recovers a reference edge, so the reversals it retains do not indicate robustness to margin filtering. Thresholds are retrospective, and zero-width bands are conditional resampling degeneracies.}
+\label{fig:margin}
+\end{figure}
+
+Most candidate and tissue reversals are nevertheless small relative to the source's resampling variability. Of 22 candidate reversals, 18 have at least one endpoint margin smaller than the full median 95\% bootstrap interval width for that candidate set, and 12 have one smaller than half that width; for tissue reversals the counts are 24 and 16 of 26. Requiring both margins to exceed one width leaves 4/58 candidate and 2/53 tissue reversals, and two widths leaves none (0/40 and 0/39; Table G in S1 Text). Because the widths pool methods and describe single scores, this indicates that many reversals could lie within estimation noise, not that any particular reversal is noise.
+
+Both endpoints enter every selection, so these summaries describe observed reversals rather than prospective rules. A shift smaller than the initial margin cannot reverse an ordering, but bounding the shift independently is the difficulty. Bounds estimated from the two other tissues held for at most 82\% of held-out candidate comparisons, and each bound certified comparisons that nevertheless reversed (8 of 36 for the transition-level maximum; Table H in S1 Text). The implication is to report margins on a base-rate scale, together with resampling variability, rather than to treat margins as safety guarantees.
+
+\subsection*{Permutation and score perturbation provide different controls}
+Independent within-cell method-label permutations give mean candidate reversal fraction 0.500, with central simulation interval [0.370, 0.607], above the observed 22/135 (Fig~\ref{fig:nulls}). This evidence indicates that method identities retain cross-cell ordering structure in the source panel. The permutation distribution removes that correspondence; it does not represent biological sampling uncertainty or the illustrative prevalence-only example (Fig~\ref{fig:magnitude}B).
+
+\begin{figure}[!ht]
+\centering
+\ifembedfigs\begin{adjustwidth}{-2.25in}{0in}\centering\includegraphics[width=\linewidth]{figures/Fig6.png}\end{adjustwidth}\fi
+\caption{{\bf Ranking-structure permutation control and score-noise sensitivity.} A: candidate reversal fractions under 10{,}000 within-cell method-label permutations, each cell permuted consistently across transitions (one bar per attainable fraction; vertical line, observed fraction). B: retained, lost, and newly created reversals under clipped Gaussian score perturbations scaled to the within-cell median pairwise margin (means with 2.5th--97.5th percentile bands). These controls answer different questions and are not replicate-level uncertainty estimates.}
+\label{fig:nulls}
+\end{figure}
+
+Gaussian score perturbations can remove existing reversals and create others, so an increased total rate is not evidence that the same reversals are retained. At the 0.10 scale with clipping, means are 18.78 retained reversals, 3.22 lost, and 16.87 newly created; induced ties exclude 7.16 comparisons on average, and mean eligible reversal fraction is 0.279. Fig~\ref{fig:nulls}B and Table N in S1 Text distinguish these outcomes across perturbation scales. The inference is limited to sensitivity under the specified artificial noise; real score-estimation noise would require replicate-level data. The implication is to avoid interpreting the perturbation scale as a measured standard error or its aggregate rate as proof of robustness.
+
+\subsection*{Reversal screening is a low-power feasibility exercise}
+The feasibility exercise asked whether held-out-tissue screens could flag reversals before the destination score is known (S1 Text). Pooled AP is 0.127 for the four-feature logistic model and 0.177 for the initial-margin heuristic, against a reversal prevalence of 0.163 (Tables J and K in S1 Text); their pooled AUROC values are 0.364 and 0.490. Neither exceeds what random rankings reach in this design; the pooled logistic values combine three separately fitted fold models, and fold-level results vary (Table J in S1 Text). With 22 positives, AP is biased upward, and within-fold label permutations give mean AP 0.190 and 0.216 (permutation \textit{P}~=~0.90 and 0.82). A fixed score would exceed the random-ranking 95th AP percentile in 60\%, 84\%, and 96\% of draws at AUROC 0.65, 0.70, and 0.75 (Fig B in S1 Text); these are upper bounds, because the planted scores ignore the recurring method pairs and a trained screen has less power than a fixed score. The exercise therefore cannot establish whether reversals are predictable: it could detect only strong predictors built from four correlated features, in three related tissues with all methods shared across folds.
+
+\subsection*{Matched metric comparisons cannot distinguish metric stability}
+Source Table A1 gives 45 potential tissue-transition/method-pair keys. Five have exact AUROC ties in the supplied summaries and are excluded from the common set: Pearson--Spearman under all three tissue transitions, and random--scGPT attention under immune--kidney and immune--lung. Without matching, AUPR and F1 each have 4/45 reversals, but only three reversal keys coincide (intersection 3, union 5). Two reversals for each metric are among the AUROC-tied exclusions. On the remaining 40 identical keys, AUPR and F1 each yield 2/40 reversals (5.0\%) and AUROC 0/40 (Fig~\ref{fig:metric}A). All metric-specific exclusions and reversal memberships are supplied in S1 Data.
+
+\begin{figure}[!ht]
+\centering
+\ifembedfigs\begin{adjustwidth}{-2.25in}{0in}\centering\includegraphics[width=\linewidth]{figures/Fig7.png}\end{adjustwidth}\fi
+\caption{{\bf Metric comparison on identical source Table A1 keys.} A: reversals on the 40 keys eligible under AUPR, AUROC, and F1. B: both AUPR/F1 reversals involve GENIE3--GRNBoost2 and the lung endpoint. C: reversal probability of the five AUROC-tied keys when each printed median is replaced by a value drawn uniformly within its four-significant-figure rounding interval (10{,}000 draws). Source Table A1 pools candidate definitions, references, and mapping policies and is distinct from the primary candidate-stratified tissue analysis.}
+\label{fig:metric}
+\end{figure}
+
+These counts are too small to support a metric difference. The two AUPR/F1 reversals share one method pair and one endpoint (Fig~\ref{fig:metric}B): in lung, GENIE3 exceeds GRNBoost2 by $1.7\times10^{-4}$ AUPR, 0.7\% of either score, so the two keys effectively record one near-tie twice. Because the medians carry no intervals, these reversals, and the absence of AUROC reversals among medians that differ by less than 0.01, may reflect sampling noise rather than metric behavior. The exact McNemar test of the two discordant keys gives \textit{P}~=~0.5, the smallest value attainable with two discordant keys, so no paired test on these data could detect a difference (Clopper--Pearson intervals, which treat the dependent keys as independent: 2/40, 0.006 to 0.169; 0/40, 0 to 0.088). Rounding acts through the matched set rather than within it. All AUROC medians lie between 0.5 and 0.5097 and are rounded to four significant figures. When each printed value is treated as its rounding interval, the counts on the 40 matched keys never change, but each of the five AUROC-tied keys reverses with probability 0.50, and AUROC shows at least one reversal over the 45 keys in 88\% of draws (mean 2.5), whereas AUPR and F1 keep exactly four in every draw (Fig~\ref{fig:metric}C; Table I in S1 Text).
+
+The inference is that this panel cannot distinguish the stability of the three metrics; the observed difference rests on one near-tied method pair and on excluding five rounding-tied AUROC keys. It does not show that AUROC is more stable or that metric choice materially affects rank stability. Precision-recall behavior also depends on class prevalence~\cite{davis2006relationship,saito2015precision}, which scalar medians cannot standardize. The implication is to report matched keys, tie handling, printed precision, and metric definitions before interpreting a stability contrast.
+
+\section*{Discussion}
+The principal contribution is a protocol-conditional audit of an existing benchmark grid, with explicit estimands, dependence checks, and scale checks. Candidate-set and tissue transitions reverse 16.3\% and 19.3\% of eligible comparisons, and the mapping panel none. These numbers describe explicit comparison sets; they are neither intrinsic properties of the methods nor estimates over all tissues, references, or identifier systems. The immune reference-panel fraction of 32.1\% is best read as an artifact of endpoints without recovered reference edges, not as evidence that reference choice is the most influential factor. Secondary tissue any/all summaries quantify different events and should not replace the primary fraction without changing the stated question.
+
+The accounting analysis establishes an interpretive boundary. Defining $g=\Delta/b$ makes fixed-gap base-rate scaling sign preserving, and for increasing base rates it forces magnitude dominance in reversal rows. The decomposition can organize the arithmetic of observed changes, but it cannot independently support a claim that discrimination rather than base rate caused a biological or methodological effect.
+
+The scale analyses refine the empirical interpretation. Candidate reversals are absent above the upper-quartile absolute margin (0/34) and tissue reversals are rare there (3/34); measured against the source's resampling variability, most reversals on both axes are small, and none remains when both margins must exceed two interval widths. Replicate-level predictions would be needed to separate reversals that reflect method differences from estimation noise. Matched metric comparisons cannot distinguish the stability of AUPR, AUROC, and F1. The held-out screen found no consistent predictive signal in four accounting features but could detect only strong predictors, and shift bounds estimated from two tissues were either violated in the third or too wide to certify any comparison. These negative results bound what summary scores can support; they do not show that reversals are unpredictable, either from these features or from richer data.
+
+\subsection*{Scope of biological interpretation}
+The measured quantities are ordering changes in summary metrics. Candidate restrictions, reference networks, and tissues change which edges are evaluated and labeled, which bears on the biological question a benchmark asks, but these data cannot show which regulons, cell states, or reference properties caused a particular change; tissue-specific regulon mismatch and differential reference coverage remain untested hypotheses. The methodological priority is an aligned benchmark that retains raw predictions and replicate-level scores for every method, tissue, candidate set, and reference, reports recovered-edge counts and class prevalence, and validates prioritized interactions independently. Until then, reported rankings should be accompanied by their protocol and margins.
+
+\subsection*{Limitations}
+The source consists of rounded summary medians rather than aligned raw replicate predictions. The report and saved configuration differ in candidate-construction metadata, so the archived labels do not establish the exact original regulator/target lists; the audit is reproducible from the supplied summary tables and does not resolve that provenance limitation. Within-method score-estimation uncertainty and the causes of individual reversals cannot be recovered.
+
+Shared methods limit what the resampling summaries mean. Among the 15 candidate and tissue method-pair clusters, 60 of the 105 pairs of clusters share a method, and each method enters five of the 15 pairs. A method with unusual scores, such as the near- or below-random scGPT attention scores, therefore affects a third of the clusters at once. Method-pair resampling treats clusters as exchangeable and ignores this overlap. Its percentile intervals are conditional sensitivity summaries: they show how the observed fraction changes when the observed pairs are reweighted, not the precision with which a fraction for other methods, tissues, or benchmarks is known. Resampling whole methods and deleting two methods widen the summaries, for example to [0, 0.384] and 0.037 to 0.370 for candidate shifts against the pair-resampling interval [0.074, 0.267], whereas deleting a single method keeps every fraction within its pair-resampling interval; alternative transition-cell clusters are also few and overlapping. With six methods and three tissues, no scheme supports population inference.
+
+The candidate, reference, and mapping panels differ in methods, contexts, metrics, and AUPR implementations. The reference analysis is immune only, with three named resources, two of which yield no recovered edges for any method, so the panel cannot measure reference sensitivity among informative predictions. The mapping result concerns six probe variants and four policies. Zero observed reversals and degenerate resampling intervals do not establish a zero underlying risk. Metric matching discards rounded ties, and neither rounding nor prevalence effects can be resolved from scalar scores. Margin filtering and the noise yardstick are retrospective and pooled. Synthetic controls test algebra and artificial noise, not biological sampling. The screening exercise has 22 positive rows, four correlated features, and three tissue folds.
+
+\section*{Conclusion}
+In the observed GRN benchmark panels, candidate-set and tissue transitions reverse a minority of strict method-pair orderings, often at margins comparable to resampling variability, whereas the larger immune reference-panel fraction arises at endpoints where no method recovers a reference edge. Explicit comparison units, shared-method sensitivity checks, base-rate-scaled margins, recovered-edge counts, and matched metric keys are needed to interpret such fractions. Reporting protocol-specific rankings is warranted by these observations; claims about biological mechanisms, unobserved tissues, metric superiority, or prospective stability require further evidence.
+
+\section*{Data availability}
+All data and code needed to reproduce the reported results are in S1 Data, a ZIP archive published with this article under the article's CC BY 4.0 license. It contains the archived source summary tables (Tables A1--A3 and the source report text), the immune reference-panel and mapping-panel score files, comparison-level rows with eligibility, exclusions, and cluster memberships, the analysis scripts (\texttt{protocol\_audit.py}, \texttt{extended\_audit.py}, \texttt{algebra\_null.py}, \texttt{zero\_recovery\_replay.py}, and \texttt{make\_submission\_figures.py}), focused tests, pinned package requirements, all generated tables and figures, and a README. After extracting the archive and installing the pinned requirements, running \texttt{python protocol\_audit.py}, \texttt{python algebra\_null.py}, \texttt{python extended\_audit.py}, \texttt{python zero\_recovery\_replay.py summarize}, \texttt{python make\_submission\_figures.py}, and \texttt{python -m pytest tests -q} in its \texttt{ranking\_reversal\_analysis} folder regenerates every reported number and figure without data downloads. The zero-recovery replay itself (\texttt{zero\_recovery\_replay.py export} and \texttt{replay}) additionally needs the source study's score-evaluation pipeline and configuration, the HPN-DREAM, BEELINE, and DoRothEA/TRRUST reference networks, and the processed Tabula Sapiens immune subset that the source pipeline derives from the public atlas; the label indices it reconstructs are not redistributed because of the reference networks' terms, and all replay outputs are included. The source pipeline, its configuration, and the reference- and mapping-panel score files (identical to those analyzed here) are in the public source-study release (\url{https://github.com/Biodyn-AI/grn-evaluation-bias}; Zenodo, doi:10.5281/zenodo.20639910, CC BY 4.0)~\cite{kendiukhov2026evalrelease}. S1 Data is also mirrored in the \texttt{plos\_one\_analysis} folder of the project's public GitHub repository (\url{https://github.com/Biodyn-AI/grn-ranking-reversal-theory}; no license file), which keeps earlier exploratory code in its other folders. The underlying public resources and their terms are Tabula Sapiens (figshare doi:10.6084/m9.figshare.14267219 and CZ CELLxGENE; CC BY 4.0, subject to the consortium's data release policy)~\cite{tabula2022}, TRRUST v2 (\url{https://www.grnpedia.org/trrust/}; CC BY-SA 4.0)~\cite{han2018trrust}, DoRothEA (Bioconductor package \texttt{dorothea}; GPL-3, stated by its providers to be for academic use)~\cite{garciaalonso2019dorothea}, HPN-DREAM (Synapse syn1720047; free registration, terms that require citation, no stated license)~\cite{hill2016hpndream}, BEELINE ground-truth networks (Zenodo doi:10.5281/zenodo.3701939; CC BY-NC 4.0; code GPL-3.0)~\cite{pratapa2020beeline}, OmniPath (\url{https://omnipathdb.org}; licenses of the original resources)~\cite{turei2021omnipath}, and HGNC gene nomenclature (\url{https://www.genenames.org}; CC0)~\cite{seal2023hgnc}. No data generated in this study are subject to access restrictions, and no new human-subject or animal data were collected.
+
+\section*{Acknowledgments}
+The author thanks the maintainers of the public datasets and regulatory resources used in the source evaluations.
+
+\nolinenumbers
+
+% ---------------------------------------------------------------------
+% References in PLOS Vancouver (numbered) style, ordered by first citation.
+% ---------------------------------------------------------------------
+\begin{thebibliography}{99}
+
+\bibitem{cui2024scgpt}
+Cui H, Wang C, Maan H, Pang K, Luo F, Duan N, et al. scGPT: toward building a foundation model for single-cell multi-omics using generative AI. Nat Methods. 2024;21(8):1470--1480. doi:10.1038/s41592-024-02201-0.
+
+\bibitem{theodoris2023geneformer}
+Theodoris CV, Xiao L, Chopra A, Chaffin MD, Al Sayed ZR, Hill MC, et al. Transfer learning enables predictions in network biology. Nature. 2023;618(7965):616--624. doi:10.1038/s41586-023-06139-9.
+
+\bibitem{pratapa2020beeline}
+Pratapa A, Jalihal AP, Law JN, Bharadwaj A, Murali TM. Benchmarking algorithms for gene regulatory network inference from single-cell transcriptomic data. Nat Methods. 2020;17(2):147--154. doi:10.1038/s41592-019-0690-6.
+
+\bibitem{kendiukhov2026evalrelease}
+Kendiukhov I. Biodyn-AI/grn-evaluation-bias: Release 1 [software and data]. Version release1. Zenodo; 2026. doi:10.5281/zenodo.20639910.
+
+\bibitem{aibar2017scenic}
+Aibar S, Gonz\'alez-Blas CB, Moerman T, Huynh-Thu VA, Imrichov\'a H, Hulselmans G, et al. SCENIC: single-cell regulatory network inference and clustering. Nat Methods. 2017;14(11):1083--1086. doi:10.1038/nmeth.4463.
+
+\bibitem{huynhthu2010genie3}
+Huynh-Thu VA, Irrthum A, Wehenkel L, Geurts P. Inferring regulatory networks from expression data using tree-based methods. PLoS One. 2010;5(9):e12776. doi:10.1371/journal.pone.0012776.
+
+\bibitem{marbach2012wisdom}
+Marbach D, Costello JC, K\"uffner R, Vega NM, Prill RJ, Camacho DM, et al. Wisdom of crowds for robust gene network inference. Nat Methods. 2012;9(8):796--804. doi:10.1038/nmeth.2016.
+
+\bibitem{stolovitzky2007dream}
+Stolovitzky G, Monroe D, Califano A. Dialogue on reverse-engineering assessment and methods: the DREAM of high-throughput pathway inference. Ann N Y Acad Sci. 2007;1115:1--22. doi:10.1196/annals.1407.021.
+
+\bibitem{post2018bleu}
+Post M. A call for clarity in reporting BLEU scores. In: Proceedings of the Third Conference on Machine Translation (WMT), Volume 1: Research Papers; 2018. p. 186--191. doi:10.18653/v1/W18-6319.
+
+\bibitem{dehghani2021lottery}
+Dehghani M, Tay Y, Gritsenko AA, Zhao Z, Houlsby N, Diaz F, et al. The benchmark lottery. arXiv [Preprint]. 2021. arXiv:2107.07002.
+
+\bibitem{recht2019imagenet}
+Recht B, Roelofs R, Schmidt L, Shankar V. Do ImageNet classifiers generalize to ImageNet? In: Proceedings of the 36th International Conference on Machine Learning (ICML), PMLR vol. 97; 2019. p. 5389--5400.
+
+\bibitem{bouthillier2021variance}
+Bouthillier X, Delaunay P, Bronzi M, Trofimov A, Nichyporuk B, Szeto J, et al. Accounting for variance in machine learning benchmarks. In: Proceedings of Machine Learning and Systems (MLSys), vol. 3; 2021. p. 747--769. arXiv:2103.03098.
+
+\bibitem{dror2018hitchhiker}
+Dror R, Baumer G, Shlomov S, Reichart R. The Hitchhiker's guide to testing statistical significance in natural language processing. In: Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (ACL), Volume 1: Long Papers; 2018. p. 1383--1392. doi:10.18653/v1/P18-1128.
+
+\bibitem{demsar2006statistical}
+Dem\v{s}ar J. Statistical comparisons of classifiers over multiple data sets. J Mach Learn Res. 2006;7:1--30.
+
+\bibitem{kendall1938tau}
+Kendall MG. A new measure of rank correlation. Biometrika. 1938;30(1--2):81--93. doi:10.1093/biomet/30.1-2.81.
+
+\bibitem{critchlow1985metric}
+Critchlow DE. Metric methods for analyzing partially ranked data. Lecture Notes in Statistics, vol. 34. New York: Springer; 1985. doi:10.1007/978-1-4612-1106-8.
+
+\bibitem{tabula2022}
+The Tabula Sapiens Consortium. The Tabula Sapiens: a multiple-organ, single-cell transcriptomic atlas of humans. Science. 2022;376(6594):eabl4896. doi:10.1126/science.abl4896.
+
+\bibitem{moerman2019grnboost2}
+Moerman T, Aibar Santos S, Bravo Gonz\'alez-Blas C, Simm J, Moreau Y, Aerts J, et al. GRNBoost2 and Arboreto: efficient and scalable inference of gene regulatory networks. Bioinformatics. 2019;35(12):2159--2161. doi:10.1093/bioinformatics/bty916.
+
+\bibitem{langfelder2008wgcna}
+Langfelder P, Horvath S. WGCNA: an R package for weighted correlation network analysis. BMC Bioinformatics. 2008;9:559. doi:10.1186/1471-2105-9-559.
+
+\bibitem{jain2019attention}
+Jain S, Wallace BC. Attention is not explanation. In: Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (NAACL-HLT), Volume 1; 2019. p. 3543--3556. doi:10.18653/v1/N19-1357.
+
+\bibitem{kendiukhov2026evalpreprint}
+Kendiukhov I. Evaluation protocol choices dominate reported performance in gene regulatory network benchmarks for single-cell foundation models. Research Square [Preprint]. 2026. doi:10.21203/rs.3.rs-9283852/v1.
+
+\bibitem{hill2016hpndream}
+Hill SM, Heiser LM, Cokelaer T, Unger M, Nesser NK, Carlin DE, et al. Inferring causal molecular networks: empirical assessment through a community-based effort. Nat Methods. 2016;13(4):310--318. doi:10.1038/nmeth.3773.
+
+\bibitem{garciaalonso2019dorothea}
+Garcia-Alonso L, Holland CH, Ibrahim MM, T\"urei D, Saez-Rodriguez J. Benchmark and integration of resources for the estimation of human transcription factor activities. Genome Res. 2019;29(8):1363--1375. doi:10.1101/gr.240663.118.
+
+\bibitem{han2018trrust}
+Han H, Cho JW, Lee S, Yun A, Kim H, Bae D, et al. TRRUST v2: an expanded reference database of human and mouse transcriptional regulatory interactions. Nucleic Acids Res. 2018;46(D1):D380--D386. doi:10.1093/nar/gkx1013.
+
+\bibitem{boyd2013aucpr}
+Boyd K, Eng KH, Page CD. Area under the precision-recall curve: point estimates and confidence intervals. In: Machine Learning and Knowledge Discovery in Databases. ECML PKDD 2013. Lecture Notes in Computer Science, vol. 8190. Berlin, Heidelberg: Springer; 2013. p. 451--466. doi:10.1007/978-3-642-40994-3\_29.
+
+\bibitem{turei2021omnipath}
+T\"urei D, Valdeolivas A, Gul L, Palacio-Escat N, Klein M, Ivanova O, et al. Integrated intra- and intercellular signaling knowledge for multicellular omics analysis. Mol Syst Biol. 2021;17(3):e9923. doi:10.15252/msb.20209923.
+
+\bibitem{pedregosa2011sklearn}
+Pedregosa F, Varoquaux G, Gramfort A, Michel V, Thirion B, Grisel O, et al. Scikit-learn: machine learning in Python. J Mach Learn Res. 2011;12:2825--2830.
+
+\bibitem{seal2023hgnc}
+Seal RL, Braschi B, Gray K, Jones TEM, Tweedie S, Haim-Vilmovsky L, et al. Genenames.org: the HGNC resources in 2023. Nucleic Acids Res. 2023;51(D1):D1003--D1009. doi:10.1093/nar/gkac888.
+
+\bibitem{flach2015prg}
+Flach P, Kull M. Precision-Recall-Gain curves: PR analysis done right. In: Advances in Neural Information Processing Systems 28 (NIPS 2015). Curran Associates; 2015. p. 838--846.
+
+\bibitem{cameron2008bootstrap}
+Cameron AC, Gelbach JB, Miller DL. Bootstrap-based improvements for inference with clustered errors. Rev Econ Stat. 2008;90(3):414--427. doi:10.1162/rest.90.3.414.
+
+\bibitem{efron1994bootstrap}
+Efron B, Tibshirani RJ. An introduction to the bootstrap. New York: Chapman \& Hall; 1993.
+
+\bibitem{davezies2021exchangeable}
+Davezies L, D'Haultf\oe{}uille X, Guyonvarch Y. Empirical process results for exchangeable arrays. Ann Stat. 2021;49(2):845--862. doi:10.1214/20-AOS1981.
+
+\bibitem{davis2006relationship}
+Davis J, Goadrich M. The relationship between Precision-Recall and ROC curves. In: Proceedings of the 23rd International Conference on Machine Learning; 2006. p. 233--240. doi:10.1145/1143844.1143874.
+
+\bibitem{saito2015precision}
+Saito T, Rehmsmeier M. The precision-recall plot is more informative than the ROC plot when evaluating binary classifiers on imbalanced datasets. PLoS One. 2015;10(3):e0118432. doi:10.1371/journal.pone.0118432.
+
+\bibitem{ojala2010permutation}
+Ojala M, Garriga GC. Permutation tests for studying classifier performance. J Mach Learn Res. 2010;11:1833--1863.
+
+\bibitem{clopper1934binomial}
+Clopper CJ, Pearson ES. The use of confidence or fiducial limits illustrated in the case of the binomial. Biometrika. 1934;26(4):404--413. doi:10.1093/biomet/26.4.404.
+
+\bibitem{mcnemar1947}
+McNemar Q. Note on the sampling error of the difference between correlated proportions or percentages. Psychometrika. 1947;12(2):153--157. doi:10.1007/BF02295996.
+
+\end{thebibliography}
+
+\section*{Supporting information}
+\paragraph{S1 Text. Detailed analysis specifications and supporting analyses.} Reproduction commands; conditional resampling and method-deletion summaries; recovered reference edges, tie handling, and the zero-recovery replay; absolute and base-rate-scaled margin summaries and the noise yardstick; the elementary bound and held-out shift-bound check; exact metric matching, rounding intervals, and exact tests; the screening feasibility exercise (Figs A and B); accounting controls and the illustrative fixed-distribution example; and the permutation and Gaussian sensitivity summaries.
+\paragraph{S1 Data. Reproducible analysis package.} ZIP archive containing archived source inputs and provenance, analysis scripts and focused tests, generated comparison-level tables, pinned environment requirements, and figures. The README gives exact reproduction commands.
+
+\end{document}

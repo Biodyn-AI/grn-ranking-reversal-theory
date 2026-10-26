@@ -1,0 +1,5 @@
+axis,n_methods,n_method_pair_clusters,n_pairs_of_clusters,n_cluster_pairs_sharing_method,fraction_cluster_pairs_sharing_method
+candidate,6,15,105,60,0.5714285714285714
+tissue,6,15,105,60,0.5714285714285714
+reference,9,36,630,252,0.4
+mapping,6,15,105,60,0.5714285714285714

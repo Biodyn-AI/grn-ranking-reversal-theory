@@ -1,0 +1,9 @@
+reference_from,reference_to,n_informative_endpoints,n,k
+beeline_gsd,dorothea_trrust_union_immune,0,8,5
+beeline_gsd,dorothea_trrust_union_immune,1,27,10
+beeline_gsd,hpn_dream,0,35,12
+dorothea_trrust_union_immune,hpn_dream,0,8,4
+dorothea_trrust_union_immune,hpn_dream,1,28,3
+all,all,0,51,21
+all,all,1,55,13
+all,all,-1,106,34

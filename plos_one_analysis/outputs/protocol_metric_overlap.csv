@@ -1,0 +1,7 @@
+scope,metric_a,metric_b,n_common,both_reversal,a_only_reversal,b_only_reversal,neither_reversal,reversal_union,jaccard,discordance_fraction
+all_three_metrics_matched,AUPR,AUROC,40,0,2,0,38,2,0.0,0.05
+all_three_metrics_matched,AUPR,F1,40,2,0,0,38,2,1.0,0.0
+all_three_metrics_matched,AUROC,F1,40,0,0,2,38,2,0.0,0.05
+pairwise_common_eligible,AUPR,AUROC,40,0,2,0,38,2,0.0,0.05
+pairwise_common_eligible,AUPR,F1,45,3,1,1,40,5,0.6,0.044444444444444446
+pairwise_common_eligible,AUROC,F1,40,0,0,2,38,2,0.0,0.05

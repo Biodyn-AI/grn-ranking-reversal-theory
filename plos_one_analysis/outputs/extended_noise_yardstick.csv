@@ -1,0 +1,11 @@
+axis,statistic,ci_width_multiple,n,k,rate
+candidate,rows_with_both_margins_at_least_multiple,0.25,109,13,0.11926605504587157
+candidate,rows_with_both_margins_at_least_multiple,0.5,85,10,0.11764705882352941
+candidate,rows_with_both_margins_at_least_multiple,1.0,58,4,0.06896551724137931
+candidate,rows_with_both_margins_at_least_multiple,2.0,40,0,0.0
+candidate,reversals_with_a_margin_below_one_width,1.0,22,18,0.8181818181818182
+tissue,rows_with_both_margins_at_least_multiple,0.25,103,13,0.1262135922330097
+tissue,rows_with_both_margins_at_least_multiple,0.5,86,10,0.11627906976744186
+tissue,rows_with_both_margins_at_least_multiple,1.0,53,2,0.03773584905660377
+tissue,rows_with_both_margins_at_least_multiple,2.0,39,0,0.0
+tissue,reversals_with_a_margin_below_one_width,1.0,26,24,0.9230769230769231

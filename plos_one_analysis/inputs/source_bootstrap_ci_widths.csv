@@ -1,0 +1,4 @@
+candidate_set,median_aupr_ci_width,source_text
+all_pairs,1.02e-04,"source_workshop_tables.md, Results, Bootstrap Confidence Intervals: 'Median AUPR CI widths rise sharply as candidate sets shrink: 1.02e-04 (all pairs), 2.16e-03 (TF-source), and 7.86e-03 (TF-source-target).'"
+tf_sources,2.16e-03,"same sentence; 200 bootstrap resamples of predicted edges with candidate positives/negatives held fixed (Methods, Metrics, Noise, and Bootstrap CIs)"
+tf_sources_targets,7.86e-03,"same sentence"

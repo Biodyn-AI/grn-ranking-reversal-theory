@@ -1,0 +1,305 @@
+{
+  "seed": 42,
+  "n_bootstrap": 10000,
+  "primary_estimand": "fraction of eligible non-tied transition-level method-pair comparison rows that reverse",
+  "interval_interpretation": "descriptive row-weighted percentile cluster-resampling intervals; no rigorous coverage guarantee because clusters share methods or settings",
+  "headlines": [
+    {
+      "axis": "candidate",
+      "metric": "AUPR",
+      "n": 135,
+      "k": 22,
+      "rate": 0.16296296296296298,
+      "interval_low": 0.07407407407407407,
+      "interval_high": 0.26666666666666666,
+      "n_clusters": 15,
+      "equal_cluster_mean": 0.16296296296296298
+    },
+    {
+      "axis": "tissue",
+      "metric": "AUPR",
+      "n": 135,
+      "k": 26,
+      "rate": 0.1925925925925926,
+      "interval_low": 0.08888888888888889,
+      "interval_high": 0.3111111111111111,
+      "n_clusters": 15,
+      "equal_cluster_mean": 0.1925925925925926
+    },
+    {
+      "axis": "reference",
+      "metric": "AUPR",
+      "n": 106,
+      "k": 34,
+      "rate": 0.32075471698113206,
+      "interval_low": 0.20754716981132076,
+      "interval_high": 0.42592592592592593,
+      "n_clusters": 36,
+      "equal_cluster_mean": 0.31481481481481477
+    },
+    {
+      "axis": "mapping",
+      "metric": "F1",
+      "n": 165,
+      "k": 0,
+      "rate": 0.0,
+      "interval_low": 0.0,
+      "interval_high": 0.0,
+      "n_clusters": 15,
+      "equal_cluster_mean": 0.0
+    }
+  ],
+  "secondary_tissue_events": [
+    {
+      "secondary_event": "reversal_any_candidate",
+      "n": 45,
+      "k": 17,
+      "rate": 0.37777777777777777,
+      "interval_low": 0.17777777777777778,
+      "interval_high": 0.6,
+      "n_clusters": 15,
+      "equal_cluster_mean": 0.3777777777777777
+    },
+    {
+      "secondary_event": "reversal_all_candidates",
+      "n": 45,
+      "k": 1,
+      "rate": 0.022222222222222223,
+      "interval_low": 0.0,
+      "interval_high": 0.06666666666666667,
+      "n_clusters": 15,
+      "equal_cluster_mean": 0.02222222222222222
+    }
+  ],
+  "cluster_dependence": [
+    {
+      "axis": "candidate",
+      "n_methods": 6,
+      "n_method_pair_clusters": 15,
+      "n_pairs_of_clusters": 105,
+      "n_cluster_pairs_sharing_method": 60,
+      "fraction_cluster_pairs_sharing_method": 0.5714285714285714
+    },
+    {
+      "axis": "tissue",
+      "n_methods": 6,
+      "n_method_pair_clusters": 15,
+      "n_pairs_of_clusters": 105,
+      "n_cluster_pairs_sharing_method": 60,
+      "fraction_cluster_pairs_sharing_method": 0.5714285714285714
+    },
+    {
+      "axis": "reference",
+      "n_methods": 9,
+      "n_method_pair_clusters": 36,
+      "n_pairs_of_clusters": 630,
+      "n_cluster_pairs_sharing_method": 252,
+      "fraction_cluster_pairs_sharing_method": 0.4
+    },
+    {
+      "axis": "mapping",
+      "n_methods": 6,
+      "n_method_pair_clusters": 15,
+      "n_pairs_of_clusters": 105,
+      "n_cluster_pairs_sharing_method": 60,
+      "fraction_cluster_pairs_sharing_method": 0.5714285714285714
+    }
+  ],
+  "source_exclusion_counts": [
+    {
+      "axis": "candidate",
+      "metric": "AUPR",
+      "status": "eligible",
+      "n": 135
+    },
+    {
+      "axis": "mapping",
+      "metric": "AUPR",
+      "status": "missing_score",
+      "n": 330
+    },
+    {
+      "axis": "mapping",
+      "metric": "F1",
+      "status": "eligible",
+      "n": 165
+    },
+    {
+      "axis": "mapping",
+      "metric": "F1",
+      "status": "missing_score",
+      "n": 60
+    },
+    {
+      "axis": "mapping",
+      "metric": "F1",
+      "status": "tie_both",
+      "n": 105
+    },
+    {
+      "axis": "reference",
+      "metric": "AUPR",
+      "status": "eligible",
+      "n": 106
+    },
+    {
+      "axis": "reference",
+      "metric": "AUPR",
+      "status": "tie_from",
+      "n": 2
+    },
+    {
+      "axis": "tissue",
+      "metric": "AUPR",
+      "status": "eligible",
+      "n": 135
+    }
+  ],
+  "metric_summaries": [
+    {
+      "scope": "each_metric_eligible",
+      "metric": "AUPR",
+      "n": 45,
+      "k": 4,
+      "rate": 0.08888888888888889
+    },
+    {
+      "scope": "all_three_metrics_matched",
+      "metric": "AUPR",
+      "n": 40,
+      "k": 2,
+      "rate": 0.05
+    },
+    {
+      "scope": "each_metric_eligible",
+      "metric": "AUROC",
+      "n": 40,
+      "k": 0,
+      "rate": 0.0
+    },
+    {
+      "scope": "all_three_metrics_matched",
+      "metric": "AUROC",
+      "n": 40,
+      "k": 0,
+      "rate": 0.0
+    },
+    {
+      "scope": "each_metric_eligible",
+      "metric": "F1",
+      "n": 45,
+      "k": 4,
+      "rate": 0.08888888888888889
+    },
+    {
+      "scope": "all_three_metrics_matched",
+      "metric": "F1",
+      "n": 40,
+      "k": 2,
+      "rate": 0.05
+    }
+  ],
+  "metric_overlap": [
+    {
+      "scope": "all_three_metrics_matched",
+      "metric_a": "AUPR",
+      "metric_b": "AUROC",
+      "n_common": 40,
+      "both_reversal": 0,
+      "a_only_reversal": 2,
+      "b_only_reversal": 0,
+      "neither_reversal": 38,
+      "reversal_union": 2,
+      "jaccard": 0.0,
+      "discordance_fraction": 0.05
+    },
+    {
+      "scope": "all_three_metrics_matched",
+      "metric_a": "AUPR",
+      "metric_b": "F1",
+      "n_common": 40,
+      "both_reversal": 2,
+      "a_only_reversal": 0,
+      "b_only_reversal": 0,
+      "neither_reversal": 38,
+      "reversal_union": 2,
+      "jaccard": 1.0,
+      "discordance_fraction": 0.0
+    },
+    {
+      "scope": "all_three_metrics_matched",
+      "metric_a": "AUROC",
+      "metric_b": "F1",
+      "n_common": 40,
+      "both_reversal": 0,
+      "a_only_reversal": 0,
+      "b_only_reversal": 2,
+      "neither_reversal": 38,
+      "reversal_union": 2,
+      "jaccard": 0.0,
+      "discordance_fraction": 0.05
+    },
+    {
+      "scope": "pairwise_common_eligible",
+      "metric_a": "AUPR",
+      "metric_b": "AUROC",
+      "n_common": 40,
+      "both_reversal": 0,
+      "a_only_reversal": 2,
+      "b_only_reversal": 0,
+      "neither_reversal": 38,
+      "reversal_union": 2,
+      "jaccard": 0.0,
+      "discordance_fraction": 0.05
+    },
+    {
+      "scope": "pairwise_common_eligible",
+      "metric_a": "AUPR",
+      "metric_b": "F1",
+      "n_common": 45,
+      "both_reversal": 3,
+      "a_only_reversal": 1,
+      "b_only_reversal": 1,
+      "neither_reversal": 40,
+      "reversal_union": 5,
+      "jaccard": 0.6,
+      "discordance_fraction": 0.044444444444444446
+    },
+    {
+      "scope": "pairwise_common_eligible",
+      "metric_a": "AUROC",
+      "metric_b": "F1",
+      "n_common": 40,
+      "both_reversal": 0,
+      "a_only_reversal": 0,
+      "b_only_reversal": 2,
+      "neither_reversal": 38,
+      "reversal_union": 2,
+      "jaccard": 0.0,
+      "discordance_fraction": 0.05
+    }
+  ],
+  "classifier": {
+    "n_rows": 135,
+    "n_positive_rows": 22,
+    "baseline_prevalence": 0.16296296296296298,
+    "n_folds": 3,
+    "average_precision_definition": "sklearn.metrics.average_precision_score; non-interpolated AP, not trapezoidal PR area",
+    "learned_average_precision": 0.12721152974678374,
+    "heuristic_average_precision": 0.17673036448915022,
+    "mean_fold_learned_average_precision": 0.21820152827950356,
+    "mean_fold_heuristic_average_precision": 0.21365202603844402,
+    "q25_n_selected": 59,
+    "q25_true_positive": 14,
+    "q25_precision": 0.23728813559322035,
+    "q25_recall": 0.6363636363636364,
+    "q25_f1": 0.345679012345679,
+    "future_base_rate_feature": "available before score shift only for a pre-specified candidate set and reference labels",
+    "feature_redundancy": "abs_gap_from = abs_delta_from / base_rate_from; base rates identify only 3 transition designs and are tissue-invariant",
+    "leakage_audit": "training-only scaling; no held-tissue destination score feature; historical delta_change trains heuristic radius; same methods and pairs recur across folds",
+    "validation_scope": "three related tissues; descriptive discrimination of these archived summary rows only"
+  },
+  "metric_limitations": "Table A1 medians pool candidate sets and other protocol dimensions; AUROC ties occur at the reported score precision; only 2 matched reversals, so no paired inferential claim",
+  "reference_limitations": "immune-only 9-method 3-reference slice; no aligned kidney/lung reference slice found; different hESC/hHep setting not pooled",
+  "mapping_limitations": "different 6-method probe subset; non-tied row denominator; degenerate bootstrap does not imply a zero population rate"
+}

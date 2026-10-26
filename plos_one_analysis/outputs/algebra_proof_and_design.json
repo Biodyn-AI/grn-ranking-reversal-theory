@@ -1,0 +1,28 @@
+{
+  "seed_gap_controls": 42,
+  "seed_label_control": 43,
+  "seed_noise_sensitivity": 44,
+  "draws_per_control": 10000,
+  "identity": "delta2-delta1=(b2-b1)*g1+b2*(g2-g1)",
+  "reversal_ratio": "With r=b2/b1>0 and t=abs(delta2)/abs(delta1)>0, abs(Tg)/abs(Tb)=(r+t)/abs(r-1).",
+  "increasing_rates": "If r>=1, abs(Tg)>abs(Tb) is forced on all reversal rows (Tb=0 if r=1).",
+  "decreasing_rates": "If 0<r<1, abs(Tg)>abs(Tb) iff 2*r+t>1; equality and either direction are possible.",
+  "fixed_gap_null": "For g2=g1 and positive b1,b2, delta1*delta2=b1*b2*g1^2>=0: reversal is impossible; conditional dominance is undefined.",
+  "fixed_gap_scope": "Fixed g=delta/b is not fixed statistical discrimination. AUPR can change rank under prevalence alone even when class-conditional score distributions and ROC curves are fixed.",
+  "population_control_parameters": {
+    "negative_mean_both_methods": 0.0,
+    "negative_sd_both_methods": 1.0,
+    "positive_mean_A": 0.5,
+    "positive_sd_A": 2.0,
+    "positive_mean_B": 2.0,
+    "positive_sd_B": 0.5
+  },
+  "population_control_precision": "precision=b*TPR/(b*TPR+(1-b)*FPR)",
+  "population_control_aupr_crossing_prevalence": 0.006056795421229059,
+  "population_control_max_dense_coarse_integration_difference": 1.9918890022639635e-08,
+  "population_control_max_recall_threshold_integration_difference": 3.360676140151675e-09,
+  "population_control_scope": "Illustrative population distributions chosen to have crossing ROC curves, not fitted to GRN scores; no biological mechanism follows from this counterexample.",
+  "population_control_parameter_selection": "A coarse exploratory grid of positive-class means {0.5,1,1.5,2,2.5,3} and SDs {0.5,0.75,1,1.5,2,2.5,3} identified a pair chosen to exhibit an AUPR ranking crossover within the observed prevalence range. This is a constructed existence example, not an estimate of how often prevalence-only reversals occur.",
+  "safety_remark": "Reversal implies abs(delta2-delta1)>abs(delta1). A bound B<=abs(delta1) therefore excludes reversal. The triangle bound abs(b2-b1)*abs(g1)+b2*abs(g2-g1)>abs(delta1) is necessary, not sufficient, and needs externally justified bounds to predict future shifts.",
+  "limitations": "g=delta/b is defined by division and is not an independently measured mechanism. Controls are illustrative, and Gaussian scales are arbitrary summary-score sensitivities; bands are perturbation quantiles, not confidence intervals."
+}

@@ -1,0 +1,65 @@
+{
+  "seed": 42,
+  "replicates": 10,
+  "n_candidates": 24408540,
+  "pipeline_fidelity_single_edge_list": {
+    "beeline_gsd": {
+      "replay": 1.2373307337640976e-06,
+      "pipeline": 1.2373307337640976e-06
+    },
+    "dorothea_trrust_union_immune": {
+      "replay": 0.0003108578990827452,
+      "pipeline": 0.0003108578990827452
+    },
+    "hpn_dream": {
+      "replay": 3.014750555681991e-06,
+      "pipeline": 3.014750555681991e-06
+    }
+  },
+  "references": {
+    "hpn_dream": {
+      "replay_min": 3.0132671035349142e-06,
+      "replay_max": 3.0148389616085175e-06,
+      "replay_median_within_replicate_spread": 1.5105829766545698e-09,
+      "replay_within_replicate_spread_min": 1.338700108198804e-09,
+      "replay_within_replicate_spread_max": 1.5649895931768165e-09,
+      "observed_min": 3.0137961912244524e-06,
+      "observed_max": 3.0151337497466787e-06,
+      "observed_spread": 1.337558522226272e-09,
+      "observed_values_inside_replay_range": 6,
+      "observed_values": 9
+    },
+    "beeline_gsd": {
+      "replay_min": 1.2365441438553109e-06,
+      "replay_max": 1.237633739560495e-06,
+      "replay_median_within_replicate_spread": 9.507672722506779e-10,
+      "replay_within_replicate_spread_min": 9.208888946667213e-10,
+      "replay_within_replicate_spread_max": 1.0815615446146615e-09,
+      "observed_min": 1.2366896630794875e-06,
+      "observed_max": 1.2376754593969737e-06,
+      "observed_spread": 9.857963174861673e-10,
+      "observed_values_inside_replay_range": 8,
+      "observed_values": 9
+    }
+  },
+  "beeline_hpn_reversal_fraction": {
+    "replay_mean": 0.37222222222222223,
+    "replay_min": 0.3333333333333333,
+    "replay_max": 0.4166666666666667,
+    "replay_per_replicate": [
+      0.3333333333333333,
+      0.4166666666666667,
+      0.3611111111111111,
+      0.3888888888888889,
+      0.3333333333333333,
+      0.3888888888888889,
+      0.3611111111111111,
+      0.4166666666666667,
+      0.3888888888888889,
+      0.3333333333333333
+    ],
+    "archived_k": 12,
+    "archived_n": 35,
+    "archived_fraction": 0.34285714285714286
+  }
+}

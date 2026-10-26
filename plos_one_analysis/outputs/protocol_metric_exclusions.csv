@@ -1,0 +1,6 @@
+tissue_from,tissue_to,method_a,method_b,method_pair,excluded_reasons
+immune,kidney,pearson,spearman,pearson__spearman,AUROC:tie_both
+immune,kidney,random,scgpt_attention,random__scgpt_attention,AUROC:tie_from
+immune,lung,pearson,spearman,pearson__spearman,AUROC:tie_both
+immune,lung,random,scgpt_attention,random__scgpt_attention,AUROC:tie_from
+kidney,lung,pearson,spearman,pearson__spearman,AUROC:tie_both

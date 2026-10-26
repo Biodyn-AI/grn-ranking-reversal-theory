@@ -1,0 +1,189 @@
+[
+ {
+  "input": "candidate_shift_pairwise_rows.csv",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_revised/candidate_shift_pairwise_rows.csv",
+  "sha256": "57974431bcda32b8aefde16c777ae7a7cbfdc003ae060964583e92b4c5f4cd96"
+ },
+ {
+  "input": "tissue_shift_pairwise_rows_candidate_conditional.csv",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_revised/tissue_shift_pairwise_rows_candidate_conditional.csv",
+  "sha256": "e0c0fa8edef08e4bf19c8a78fb4ad08927a46da9106e20ebf81c12fb6211ad0d"
+ },
+ {
+  "input": "tissue_shift_pairwise_rows_deduplicated.csv",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_revised/tissue_shift_pairwise_rows_deduplicated.csv",
+  "sha256": "ce8edc2f0a2a6e1ec32df3e5691121963b5cb65a7170ebaa58d05eb2b244aabf"
+ },
+ {
+  "input": "reference_shift_pairwise_rows.csv",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_revised/reference_shift_pairwise_rows.csv",
+  "sha256": "20758ffe02071ca4e6876f3db192f29cc50d5b1be753fe8e4c7bb39ddd54f137"
+ },
+ {
+  "input": "mapping_policy_pairwise_rows_f1.csv",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_revised/mapping_policy_pairwise_rows_f1.csv",
+  "sha256": "d32015a7f32c1a1894f8ecc3162af0ea3450c20dbddea9aaef10b476e17a503b"
+ },
+ {
+  "input": "instability_quantile_sweep.csv",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_revised/instability_quantile_sweep.csv",
+  "sha256": "ac46bf2c87ce255dac199066c4f2161ca56db3cd1f378864f4d4e0f12922f8ed"
+ },
+ {
+  "input": "instability_learned_summary.csv",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_revised/instability_learned_summary.csv",
+  "sha256": "34dd7d4c8938576683bd00e51c2f52cd44bbe2cd6c005a694b4ae64d1c5236f9"
+ },
+ {
+  "input": "instability_learned_fold_coefs.csv",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_revised/instability_learned_fold_coefs.csv",
+  "sha256": "456e225ec058df597475353665b04962c846d10ca70f71d72521e5b0107c6cae"
+ },
+ {
+  "input": "margin_sweep_candidate.csv",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_revised/margin_sweep_candidate.csv",
+  "sha256": "4fb1ceb164a9ae1d006dd1ddc02c5ab290e1f6203ccf4202cf4788fb75f0d9e9"
+ },
+ {
+  "input": "margin_sweep_tissue.csv",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_revised/margin_sweep_tissue.csv",
+  "sha256": "e77623b663c7f1d9eeab88ffb1722682bdfededd25212729fd8f0da578842a52"
+ },
+ {
+  "input": "margin_sweep_reference.csv",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_revised/margin_sweep_reference.csv",
+  "sha256": "f2471c766b210ba8143f7b46ea3796453c247539a29c2193e157af0766cc344f"
+ },
+ {
+  "input": "margin_sweep_mapping.csv",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_revised/margin_sweep_mapping.csv",
+  "sha256": "61f8cc8ad2bba6445128f4d5bb99b276fa3766e19214f71bae2ab6e2f6cc308b"
+ },
+ {
+  "input": "nulls_comparison.csv",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_revised/nulls_comparison.csv",
+  "sha256": "f65b481e054f2820cc504a2b61f4bee0191f344c916db7e569f89aa7d894652d"
+ },
+ {
+  "input": "original_revised_summary.json",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_revised/summary.json",
+  "sha256": "b6248cfc948082de9955f636e9da142b172cf9efaea8ee14817c0a2e33cf9e5f"
+ },
+ {
+  "input": "source_workshop_tables.md",
+  "source": "reports/evaluation_bias_protocol/workshop/eval_bias_paper_draft.md",
+  "sha256": "dc6dc12662dffb33999b6ec2e4588d3aa7ec3d2da5917fbb23bca98446cbabc7",
+  "scope_note": "Source workshop prose says TF universes are reference-specific; the current saved eval_bias.yaml specifies TRRUST source/target universes. Archived summary medians do not resolve this provenance discrepancy. This analysis reanalyzes those summaries without claiming to reconstruct or resolve original edge construction."
+ },
+ {
+  "input": "source_classifier_implementation.py",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/build_revised_results.py",
+  "sha256": "0446caa48e89acfd16cdb38723de202d2db9f9e30c7afff71d8c330535ca98d3"
+ },
+ {
+  "input": "instability_loo_classification.csv",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_paper/instability_loo_classification.csv",
+  "sha256": "b624b5f392c9ee25b80428f713589e42bf90442e7862f18a7cac530059d8af89"
+ },
+ {
+  "input": "instability_loo_performance_by_transition.csv",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_paper/instability_loo_performance_by_transition.csv",
+  "sha256": "271c88ef7f40413000d0a3f09c00a064fda684ce21661929e99347d9435941c4"
+ },
+ {
+  "input": "instability_loo_performance_overall.csv",
+  "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/artifacts_paper/instability_loo_performance_overall.csv",
+  "sha256": "b20c1cb3c6c80dba81c22845e7d1a615606e2fced6ffbd197dc662859c078b40"
+ },
+ {
+  "input": "score_eval_grn_baselines_immune.csv",
+  "source": "subproject_02_evaluation_bias_protocol/implementation/network_inference_materials/outputs/score_eval_grn_baselines_immune.csv",
+  "sha256": "140977e683d54022ae0dd23a86d1df8be470527523a198abee8b0e9f051ede5e"
+ },
+ {
+  "input": "score_eval_probe_priors.csv",
+  "source": "subproject_02_evaluation_bias_protocol/implementation/network_inference_materials/outputs/score_eval_probe_priors.csv",
+  "sha256": "4c27a7513307cb4ff8975b882abcb87346039681f79fefffcd36c1cf0372e246"
+ },
+ {
+  "input": "score_eval_probe_priors_full_genes.csv",
+  "source": "subproject_02_evaluation_bias_protocol/implementation/network_inference_materials/outputs/score_eval_probe_priors_full_genes.csv",
+  "sha256": "03f97325a3afb288c9d2f4fbdc2ae8edfe5802a25a6492c7e3241aab3477b1bf"
+ },
+ {
+  "input": "score_eval_probe_priors_full_genes_crosswalk.csv",
+  "source": "subproject_02_evaluation_bias_protocol/implementation/network_inference_materials/outputs/score_eval_probe_priors_full_genes_crosswalk.csv",
+  "sha256": "e0369093601fb0b5ac2c62dc79539f5d60e2e832df764ca4d35cecab71cf5b94"
+ },
+ {
+  "input": "score_eval_probe_priors_full_genes_omnipath.csv",
+  "source": "subproject_02_evaluation_bias_protocol/implementation/network_inference_materials/outputs/score_eval_probe_priors_full_genes_omnipath.csv",
+  "sha256": "1ca2e59da38062ef2549fef53c4c0420fe51f5cc0095a8fecb7c4edd3c44421a"
+ },
+ {
+  "input": "source_summary_implementation.py",
+  "source": "single_cell_mechinterp/scripts/generate_eval_bias_summary.py",
+  "sha256": "e642a1cb9f493c0dee056774c643c2d07e58be7ddb24e9e969708886ec341c9c"
+ },
+ {
+  "input": "source_reference_config.yaml",
+  "source": "subproject_02_evaluation_bias_protocol/implementation/network_inference_materials/configs/score_eval_grn_baselines_immune.yaml",
+  "sha256": "4d28f14d4f3a57719cb4510273643de9f2f1fbb301b42134ae851e2f4931a9dd"
+ },
+ {
+  "input": "hESC_metrics_inventory.csv",
+  "source": "subproject_02_evaluation_bias_protocol/implementation/outputs/eval/hESC_metrics.parquet",
+  "transformation": "parquet decoded to CSV; inventory only, not pooled",
+  "sha256": "6b274037ce474352ab698cb977f9d1ac11b0b55b77d6196c0554af6dda3e95de"
+ },
+ {
+  "input": "hHep_metrics_inventory.csv",
+  "source": "subproject_02_evaluation_bias_protocol/implementation/outputs/eval/hHep_metrics.parquet",
+  "transformation": "parquet decoded to CSV; inventory only, not pooled",
+  "sha256": "b732eed4ad940a324363a415b2a51d9beb6a1ac57aca8a8cec2d74c12dc1f6a4"
+ },
+ {
+  "input": "table_a1.csv",
+  "source": "inputs/source_workshop_tables.md",
+  "transformation": "Markdown table cells converted to numeric median columns without aggregation",
+  "sha256": "ec4ecc74b87c16c27bedf1a0dfe927ed62fcd99c40ece82907e1cd989e031a7d"
+ },
+ {
+  "input": "table_a2.csv",
+  "source": "inputs/source_workshop_tables.md",
+  "transformation": "Markdown table cells converted to numeric median columns without aggregation",
+  "sha256": "1eac0fdb0f22ac43c6d3ac4bfc9dcfe12aad8b3532dde92ab0b26b06b6c1c5dd"
+ },
+ {
+  "input": "table_a3.csv",
+  "source": "inputs/source_workshop_tables.md",
+  "transformation": "Markdown table cells converted to numeric median columns without aggregation",
+  "sha256": "e0074ada6641938d4f12531f0632b28096cfaa822aac00c038492743c2e1fc9a"
+ },
+ {
+  "input": "source_candidate_config.yaml",
+  "source": "single_cell_mechinterp/configs/eval_bias.yaml",
+  "sha256": "fd99a47a018d2c56957db4986575c7e26209b65640d10c3190b6171c0846fc81",
+  "scope_note": "Source workshop prose says TF universes are reference-specific; the current saved eval_bias.yaml specifies TRRUST source/target universes. Archived summary medians do not resolve this provenance discrepancy. This analysis reanalyzes those summaries without claiming to reconstruct or resolve original edge construction."
+ },
+ {
+  "input": "source_bootstrap_ci_widths.csv",
+  "source": "transcribed from inputs/source_workshop_tables.md (Results, 'Bootstrap Confidence Intervals'); checked verbatim by tests/test_extended_audit.py",
+  "sha256": "9ca3a0de2c8b25b0c932092f57ffb5048e7d4d0ee305c670e40e4cb04bceace4"
+ },
+ {
+  "input": "immune_reference_panel/gene_universe.txt",
+  "source": "zero_recovery_replay.py export: normalized gene names from network_inference/configs/score_eval_grn_baselines_immune.yaml (processed Tabula Sapiens immune subset)",
+  "sha256": "11338728a0f7fea7355890f173f7e4ff840d50b1a535f2c2c8628f193b201845"
+ },
+ {
+  "input": "immune_reference_panel/export_check.json",
+  "source": "zero_recovery_replay.py export: label-vector positives, self-pairs and single-edge pipeline AUPR",
+  "sha256": "05b92da2ccd92ae4af3e9aefa7f3ef1264753bdd44f9f1530607cbea225cd20d"
+ },
+ {
+  "input": "immune_reference_panel/label_indices.csv",
+  "source": "zero_recovery_replay.py export: positive flat indices of the source pipeline's label vectors; repository only, derived from reference networks with share-alike, non-commercial or academic-use terms and not redistributed in S1 Data",
+  "sha256": "21ba333d31fe9535939bccb75aad8220f79d9ab4aa08fd821187317934294bbd"
+ }
+]

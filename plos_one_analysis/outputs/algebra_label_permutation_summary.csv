@@ -1,0 +1,2 @@
+control,n_draws,seed,n_cells,n_methods,observed_eligible,observed_reversals,observed_rate,null_mean_rate,null_q025,null_q975,left_tail_draws,left_tail_mc_p
+independent_method_label_permutation_within_tissue_candidate_cell,10000,43,9,6,135,22,0.16296296296296298,0.5001303703703703,0.37037037037037035,0.6074074074074074,0,9.999000099990002e-05

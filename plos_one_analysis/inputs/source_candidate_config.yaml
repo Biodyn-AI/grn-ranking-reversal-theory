@@ -1,0 +1,167 @@
+project:
+  name: eval-bias
+  seed: 42
+
+paths:
+  hgnc_alias_tsv: external/hgnc_complete_set.txt
+  gene_info_csv: external/gene_info.csv
+  predicted_edges: outputs/inferred_edges.tsv
+
+metadata:
+  hgnc_version: hgnc_complete_set.txt (local copy)
+  gene_info_version: gene_info.csv (local copy)
+  trrust_version: trrust_human.tsv (local copy)
+  dorothea_version: dorothea_human.tsv (local copy)
+  dorothea_chipseq_version: dorothea_chipseq_human.tsv (local copy)
+
+predicted_edge_sets:
+  - name: scgpt_attention
+    path: outputs/eval_bias/scgpt/kidney/inferred_edges.tsv
+    score_column: score
+    gene_sets: [kidney]
+  - name: scgpt_attention
+    path: outputs/eval_bias/scgpt/lung/inferred_edges.tsv
+    score_column: score
+    gene_sets: [lung]
+  - name: scgpt_attention
+    path: outputs/eval_bias/scgpt/immune/inferred_edges.tsv
+    score_column: score
+    gene_sets: [immune]
+  - name: genie3
+    path: outputs/eval_bias/baselines/kidney/genie3_edges.tsv
+    score_column: score
+    gene_sets: [kidney]
+  - name: genie3
+    path: outputs/eval_bias/baselines/lung/genie3_edges.tsv
+    score_column: score
+    gene_sets: [lung]
+  - name: genie3
+    path: outputs/eval_bias/baselines/immune/genie3_edges.tsv
+    score_column: score
+    gene_sets: [immune]
+  - name: grnboost2
+    path: outputs/eval_bias/baselines/kidney/grnboost2_edges.tsv
+    score_column: score
+    gene_sets: [kidney]
+  - name: grnboost2
+    path: outputs/eval_bias/baselines/lung/grnboost2_edges.tsv
+    score_column: score
+    gene_sets: [lung]
+  - name: grnboost2
+    path: outputs/eval_bias/baselines/immune/grnboost2_edges.tsv
+    score_column: score
+    gene_sets: [immune]
+  - name: pearson
+    path: outputs/eval_bias/baselines/kidney/pearson_edges.tsv
+    score_column: score
+    gene_sets: [kidney]
+  - name: pearson
+    path: outputs/eval_bias/baselines/lung/pearson_edges.tsv
+    score_column: score
+    gene_sets: [lung]
+  - name: pearson
+    path: outputs/eval_bias/baselines/immune/pearson_edges.tsv
+    score_column: score
+    gene_sets: [immune]
+  - name: spearman
+    path: outputs/eval_bias/baselines/kidney/spearman_edges.tsv
+    score_column: score
+    gene_sets: [kidney]
+  - name: spearman
+    path: outputs/eval_bias/baselines/lung/spearman_edges.tsv
+    score_column: score
+    gene_sets: [lung]
+  - name: spearman
+    path: outputs/eval_bias/baselines/immune/spearman_edges.tsv
+    score_column: score
+    gene_sets: [immune]
+  - name: random
+    path: outputs/eval_bias/baselines/kidney/random_edges.tsv
+    score_column: score
+    gene_sets: [kidney]
+  - name: random
+    path: outputs/eval_bias/baselines/lung/random_edges.tsv
+    score_column: score
+    gene_sets: [lung]
+  - name: random
+    path: outputs/eval_bias/baselines/immune/random_edges.tsv
+    score_column: score
+    gene_sets: [immune]
+
+gold_standards:
+  - name: trrust
+    path: external/networks/trrust_human.tsv
+    format: trrust
+    confidence_levels: null
+    optional: false
+  - name: dorothea
+    path: external/networks/dorothea_human.tsv
+    format: dorothea
+    confidence_levels: [A, B, C, D]
+    optional: false
+  - name: dorothea_chipseq
+    path: external/networks/dorothea_chipseq_human.tsv
+    format: dorothea
+    confidence_levels: [A, B, C, D]
+    optional: false
+
+gene_sets:
+  - name: kidney
+    h5ad: data/raw/tabula_sapiens_kidney.h5ad
+  - name: lung
+    h5ad: data/raw/tabula_sapiens_lung.h5ad
+  - name: immune
+    h5ad: data/raw/tabula_sapiens_immune.h5ad
+
+symbol_mapping:
+  ambiguous_policy: lexicographic
+  drop_unmapped: false
+
+symbol_mapping_policies:
+  - name: lexicographic
+    ambiguous_policy: lexicographic
+    drop_unmapped: false
+  - name: drop_ambiguous
+    ambiguous_policy: drop
+    drop_unmapped: false
+  - name: drop_unmapped
+    ambiguous_policy: lexicographic
+    drop_unmapped: true
+
+evaluation:
+  score_column: score
+  top_k: [50, 100, 200]
+  allow_self_edges: false
+
+candidate_sets:
+  - name: all_pairs
+    type: all_pairs
+  - name: tf_sources
+    type: tf_sources
+    sources_from: [trrust]
+  - name: tf_sources_targets
+    type: tf_sources_targets
+    sources_from: [trrust]
+    targets_from: [trrust]
+
+noise:
+  seed: 42
+  rates: [0.05, 0.1, 0.2, 0.3]
+  repeats: 5
+  structured_repeats: 5
+  tf_dropout_rates: [0.1, 0.2, 0.3]
+  target_dropout_rates: [0.1, 0.2, 0.3]
+
+bootstrap:
+  enabled: true
+  n_resamples: 200
+  seed: 42
+
+outputs:
+  output_dir: outputs/eval_bias
+  symbol_mapping_report: outputs/eval_bias/symbol_mapping_report.tsv
+  symbol_mapping_log: outputs/eval_bias/symbol_mapping_log.md
+  coverage_tables: outputs/eval_bias/coverage_tables.tsv
+  protocol_comparison: outputs/eval_bias/protocol_comparison.csv
+  noise_stability: outputs/eval_bias/noise_stability_summary.tsv
+  recommendations: outputs/eval_bias/recommendations.md

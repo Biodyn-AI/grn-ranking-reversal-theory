@@ -1,0 +1,9 @@
+axis,metric,status,n
+candidate,AUPR,eligible,135
+mapping,AUPR,missing_score,330
+mapping,F1,eligible,165
+mapping,F1,missing_score,60
+mapping,F1,tie_both,105
+reference,AUPR,eligible,106
+reference,AUPR,tie_from,2
+tissue,AUPR,eligible,135
