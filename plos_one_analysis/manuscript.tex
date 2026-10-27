@@ -4,9 +4,8 @@
 % Title: Ranking Reversal Theory Under Candidate-Set Shift in Gene
 %        Regulatory Network Benchmarking
 %
-% SUBMISSION NOTE: For upload to PLOS Editorial Manager, set
-%   \embedfigsfalse  (below) and upload Fig1.tif ... Fig7.tif separately.
-%   Figures must NOT be embedded in the final manuscript file per PLOS policy.
+% Figures are not included in this file; Fig1.tif ... Fig7.tif are uploaded
+%   separately, and each figure environment holds only its caption.
 % ======================================================================
 \documentclass[10pt,letterpaper]{article}
 \usepackage[top=0.85in,left=2.75in,footskip=0.75in,marginparwidth=2in]{geometry}
@@ -98,11 +97,8 @@
 \renewcommand{\footrule}{\hrule height 2pt \vspace{2mm}}
 \fancyheadoffset[L]{2.25in}
 \fancyfootoffset[L]{2.25in}
-\lfoot{October 26, 2026}
+\lfoot{October 27, 2026}
 
-% --- Toggle: embed figures for local preview, OR omit for Editorial Manager ---
-\newif\ifembedfigs
-\embedfigsfalse % Submission manuscript; figures supplied separately.
 
 
 \begin{document}
@@ -254,8 +250,6 @@ Mapping, probe panel (F1) & 0 & 165 & 0.000 & [0.000, 0.000]\\
 Candidate reversals vary across the nine tissue/transition cells (Fig~\ref{fig:candidate}). The immune \texttt{all\_pairs} to \texttt{tf\_sources\_targets} transition has 6/15, while kidney \texttt{tf\_sources} to \texttt{tf\_sources\_targets} and lung \texttt{all\_pairs} to \texttt{tf\_sources} each have 0/15. These are descriptive cell counts, not independent-binomial significance tests. The inference is that candidate sensitivity is uneven in this grid; explaining the unevenness would require matched predictions.
 
 \begin{figure}[!ht]
-\centering
-\ifembedfigs\begin{adjustwidth}{-2.25in}{0in}\centering\includegraphics[width=\linewidth]{figures/Fig1.png}\end{adjustwidth}\fi
 \caption{{\bf Candidate-shift reversal fractions by tissue and transition.} Each cell contains 15 method-pair comparisons; annotations give reversals/eligible comparisons. No cellwise significance is implied. All pairs, TF sources, and TF sources + targets denote \texttt{all\_pairs}, \texttt{tf\_sources}, and \texttt{tf\_sources\_targets}; TF, transcription factor.}
 \label{fig:candidate}
 \end{figure}
@@ -266,8 +260,6 @@ All 135 recorded candidate transitions increase positive base rate. Consequently
 The fixed-gap control produces 0/10{,}000 reversals in each direction; its magnitude statistic conditional on reversal is undefined. An increasing-rate sign-switch control produces 10{,}000/10{,}000 reversals and dominance in all of them. These counts validate the algebra rather than establish an unexpected data pattern. Reversing observed endpoints preserves all 22 reversals but gives dominance in 13/22 (Fig~\ref{fig:magnitude}A).
 
 \begin{figure}[!ht]
-\centering
-\ifembedfigs\begin{adjustwidth}{-2.25in}{0in}\centering\includegraphics[width=\linewidth]{figures/Fig2.png}\end{adjustwidth}\fi
 \caption{{\bf Structural accounting and an illustrative prevalence example.} A: observed reversal rows satisfy normalized-gap magnitude dominance in 22/22 recorded (increasing base rate) and 13/22 reversed endpoint directions; dominance in the recorded direction is forced by algebra. B: illustrative example of a known metric property, not data: population AUPR of two constructed score distributions with fixed, crossing ROC curves changes order as prevalence varies; vertical lines mark the observed candidate base rates.}
 \label{fig:magnitude}
 \end{figure}
@@ -278,8 +270,6 @@ Fig~\ref{fig:magnitude}B illustrates why this dominance says nothing about mecha
 The observed comparison-level evidence gives a primary tissue fraction of 26/135 (19.3\%). Aggregating the same comparisons over candidate definitions gives secondary any-candidate reversal in 17/45 method-pair/tissue-transition units (37.8\%), and all-candidate reversal in 1/45 (2.2\%). The any event is necessarily at least as common as the average candidate-specific event, whereas the all event is at most as common. The three fractions therefore answer different questions (Table~\ref{tab:estimands}). Fig~\ref{fig:tissue} retains the candidate definitions so that the evaluated question remains visible.
 
 \begin{figure}[!ht]
-\centering
-\ifembedfigs\begin{adjustwidth}{-2.25in}{0in}\centering\includegraphics[width=\linewidth]{figures/Fig3.png}\end{adjustwidth}\fi
 \caption{{\bf Tissue-shift reversals under each candidate definition.} Each cell gives reversals/eligible method pairs for a tissue transition and candidate definition; candidate labels are as in Fig 1. The primary tissue fraction pools all cells; any/all-candidate summaries aggregate a different event across rows.}
 \label{fig:tissue}
 \end{figure}
@@ -290,8 +280,6 @@ Transition-cell resampling gives candidate and tissue percentile intervals [0.08
 The immune reference panel has 34/106 reversals across three reference transitions (Fig~\ref{fig:reference}). Its endpoints differ sharply in evidence. Under HPN-DREAM and BEELINE, none of the nine methods recovers a single reference edge; under the DoRothEA/TRRUST union, eight methods recover between 1 and 304 edges and one recovers none (Fig~\ref{fig:reference}A). Zero recovery is what uninformative lists would show at these two references: with 112 and 47 positive candidates among 24{,}408{,}540, even the longest list (49{,}900 pairs) would be expected to recover 0.23 and 0.10 edges by chance. Every comparison therefore includes an HPN-DREAM or BEELINE endpoint at which neither method recovers an edge, and none has two informative endpoints. Fifty-one comparisons have no informative endpoint (21 reversals): all 35 BEELINE--HPN-DREAM comparisons (12 reversals) and the 16 comparisons of PIDC full, which recovers no DoRothEA/TRRUST edge, with the other methods. The remaining 55 have one informative endpoint (13 reversals) (Fig~\ref{fig:reference}B; Tables C and D in S1 Text).
 
 \begin{figure}[!ht]
-\centering
-\ifembedfigs\begin{adjustwidth}{-2.25in}{0in}\centering\includegraphics[width=\linewidth]{figures/Fig4.png}\end{adjustwidth}\fi
 \caption{{\bf Reference-shift evidence in the immune panel.} A: reference edges recovered by each method's predicted list (recall times reference size). B: reversals/eligible comparisons for each reference transition, split by whether one endpoint has both methods recovering at least one reference edge; no comparison has two such endpoints. C: smaller endpoint margin divided by the endpoint's positive base rate for candidate, tissue, and reference comparisons (filled: reversal; open: no reversal); the dashed line marks 0.1\% of the base rate. The reference panel covers one tissue (immune) and three references; candidate and tissue comparisons in C are shown for scale.}
 \label{fig:reference}
 \end{figure}
@@ -307,8 +295,6 @@ The mapping panel has no observed reversals among 165 eligible F1 comparisons. I
 At the candidate panel's upper-quartile threshold for $\min(|\Delta_1|,|\Delta_2|)$, 34 comparisons remain and none reverses; at the tissue panel's own upper-quartile threshold, 3 of 34 reverse (Fig~\ref{fig:margin}). Absolute thresholds are panel-specific: the corresponding reference threshold is only $5.96\times10^{-10}$ AUPR units, and on the base-rate scale no reference comparison reaches 0.1\%. On that common scale, candidate and tissue reversals persist among comparisons whose smaller margin is at least 5\% (16/126 and 20/126), 50\% (8/90 and 8/88), and 100\% of the base rate (2/56 and 2/63; Table F in S1 Text).
 
 \begin{figure}[!ht]
-\centering
-\ifembedfigs\begin{adjustwidth}{-2.25in}{0in}\centering\includegraphics[width=\linewidth]{figures/Fig5.png}\end{adjustwidth}\fi
 \caption{{\bf Reversal fractions after endpoint-margin filtering.} Panels retain comparisons above empirical quantiles of the minimum absolute endpoint margin. Shading shows 2.5th--97.5th percentiles of row-weighted method-pair resampling. Absolute thresholds are panel-specific; Fig 4C compares margins on a base-rate scale. The reference panel is shown for completeness and is not comparable with the others: its upper-quartile threshold is $5.96\times10^{-10}$ AUPR units, and every reference comparison has an endpoint at which no method recovers a reference edge, so the reversals it retains do not indicate robustness to margin filtering. Thresholds are retrospective, and zero-width bands are conditional resampling degeneracies.}
 \label{fig:margin}
 \end{figure}
@@ -321,8 +307,6 @@ Both endpoints enter every selection, so these summaries describe observed rever
 Independent within-cell method-label permutations give mean candidate reversal fraction 0.500, with central simulation interval [0.370, 0.607], above the observed 22/135 (Fig~\ref{fig:nulls}). This evidence indicates that method identities retain cross-cell ordering structure in the source panel. The permutation distribution removes that correspondence; it does not represent biological sampling uncertainty or the illustrative prevalence-only example (Fig~\ref{fig:magnitude}B).
 
 \begin{figure}[!ht]
-\centering
-\ifembedfigs\begin{adjustwidth}{-2.25in}{0in}\centering\includegraphics[width=\linewidth]{figures/Fig6.png}\end{adjustwidth}\fi
 \caption{{\bf Ranking-structure permutation control and score-noise sensitivity.} A: candidate reversal fractions under 10{,}000 within-cell method-label permutations, each cell permuted consistently across transitions (one bar per attainable fraction; vertical line, observed fraction). B: retained, lost, and newly created reversals under clipped Gaussian score perturbations scaled to the within-cell median pairwise margin (means with 2.5th--97.5th percentile bands). These controls answer different questions and are not replicate-level uncertainty estimates.}
 \label{fig:nulls}
 \end{figure}
@@ -336,8 +320,6 @@ The feasibility exercise asked whether held-out-tissue screens could flag revers
 Source Table A1 gives 45 potential tissue-transition/method-pair keys. Five have exact AUROC ties in the supplied summaries and are excluded from the common set: Pearson--Spearman under all three tissue transitions, and random--scGPT attention under immune--kidney and immune--lung. Without matching, AUPR and F1 each have 4/45 reversals, but only three reversal keys coincide (intersection 3, union 5). Two reversals for each metric are among the AUROC-tied exclusions. On the remaining 40 identical keys, AUPR and F1 each yield 2/40 reversals (5.0\%) and AUROC 0/40 (Fig~\ref{fig:metric}A). All metric-specific exclusions and reversal memberships are supplied in S1 Data.
 
 \begin{figure}[!ht]
-\centering
-\ifembedfigs\begin{adjustwidth}{-2.25in}{0in}\centering\includegraphics[width=\linewidth]{figures/Fig7.png}\end{adjustwidth}\fi
 \caption{{\bf Metric comparison on identical source Table A1 keys.} A: reversals on the 40 keys eligible under AUPR, AUROC, and F1. B: both AUPR/F1 reversals involve GENIE3--GRNBoost2 and the lung endpoint. C: reversal probability of the five AUROC-tied keys when each printed median is replaced by a value drawn uniformly within its four-significant-figure rounding interval (10{,}000 draws). Source Table A1 pools candidate definitions, references, and mapping policies and is distinct from the primary candidate-stratified tissue analysis.}
 \label{fig:metric}
 \end{figure}
