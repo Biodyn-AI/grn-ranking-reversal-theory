@@ -25,21 +25,21 @@ python make_submission_figures.py
 python -m pytest tests -q
 ```
 
-With the pinned versions, the regenerated `outputs/` are byte-identical to the committed ones. `plos_one_analysis/README.md` documents:
+With the pinned versions, the regenerated `outputs/` are byte-identical to the committed ones (checked on macOS arm64; the figure files match only when the Arial font is installed). `plos_one_analysis/README.md` documents:
 
 - each script and its outputs;
-- the zero-recovery replay. Its `export` and `replay` steps also need the source study's pipeline (doi:10.5281/zenodo.20639910), the reference networks, and the processed Tabula Sapiens immune subset.
+- the zero-recovery replay. Its `export` and `replay` steps also need the source study's pipeline, configuration and symbol maps (doi:10.5281/zenodo.20639910), the reference networks, an HGNC symbol table, and the processed Tabula Sapiens immune subset; `plos_one_analysis/README.md` lists each file with its source and checksum.
 
 ### Main findings
 
 | Axis | Reversals | Notes |
 |---|---|---|
-| Candidate-set shifts | 22/135 (16.3%) | AUPR |
-| Tissue shifts | 26/135 (19.3%) | AUPR |
-| Identifier-mapping shifts | 0/165 | F1 |
+| Candidate-set shifts | 22/135 (16.3%) | AUPR; same methods, metric and implementation as tissue shifts |
+| Tissue shifts | 26/135 (19.3%) | AUPR; same methods, metric and implementation as candidate-set shifts |
+| Identifier-mapping shifts | 0/165 | F1; three of four policies give identical scores and the fourth rescales them almost proportionally, so no comparison could reverse |
 | Immune reference panel | 34/106 (32.1%) | Not a reference effect; see below |
 
-The reference reversals are not evidence that reference choice matters more. Under HPN-DREAM and BEELINE no method recovers any reference edge, so their AUPRs reflect list length and tie order.
+Only the candidate-set and tissue fractions share an estimand; the four values do not rank the axes. The reference reversals are not evidence that reference choice matters more. Under HPN-DREAM and BEELINE no method recovers any reference edge, so their AUPRs reflect list length and tie order.
 
 The product-rule decomposition is descriptive accounting: with increasing base rates, normalized-gap dominance in reversal rows is forced by algebra.
 

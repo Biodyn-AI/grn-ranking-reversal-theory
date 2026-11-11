@@ -1,0 +1,6 @@
+tissue_from,tissue_to,method_a,method_b,printed_auroc_a_from,printed_auroc_b_from,printed_auroc_a_to,printed_auroc_b_to,printed_delta_from,printed_delta_to,release_delta_from,release_delta_to,resolved,release_reversal
+immune,kidney,pearson,spearman,0.5001,0.5001,0.501,0.501,0.0,0.0,,-1.079825971750381e-06,False,
+immune,kidney,random,scgpt_attention,0.5,0.5,0.5001,0.5,0.0,9.999999999998899e-05,,0.00010464917753572056,False,
+immune,lung,pearson,spearman,0.5001,0.5001,0.5008,0.5008,0.0,0.0,,7.038231225386937e-06,False,
+immune,lung,random,scgpt_attention,0.5,0.5,0.5001,0.5,0.0,9.999999999998899e-05,,0.0001253807239803839,False,
+kidney,lung,pearson,spearman,0.501,0.501,0.5008,0.5008,0.0,0.0,-1.079825971750381e-06,7.038231225386937e-06,True,True

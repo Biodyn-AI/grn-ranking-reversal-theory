@@ -18,6 +18,7 @@ from pathlib import Path
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
@@ -51,7 +52,7 @@ def row_weighted_cluster_interval(
     """Resample complete clusters, retaining their unequal numbers of rows.
 
     An unweighted mean of cluster means targets a different estimand when
-    cluster sizes differ. We expose that mean only to audit the old pipeline.
+    cluster sizes differ. It is reported (equal_cluster_mean) only for comparison.
     A zero-event input has a degenerate resampling interval; that does not
     establish a zero population reversal probability.
     """
@@ -256,7 +257,9 @@ def metric_overlap(comparisons: pd.DataFrame, matched: pd.DataFrame) -> pd.DataF
 
 
 def classifier_audit(candidate_rows: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
-    """Reproduce the original LR and heuristic while exposing fold dependence.
+    """Score the four-feature logistic model and the initial-margin heuristic.
+
+    Each tissue is held out in turn, and fold dependence is recorded.
 
     No destination margin enters the learned features. Destination base rate
     is a known-design feature only when benchmark reference/candidate labels
@@ -429,28 +432,45 @@ def plot_audit_outputs(output_dir: Path, audit: dict, predictions: pd.DataFrame,
                          "axes.labelsize": 9, "axes.spines.top": False,
                          "axes.spines.right": False, "savefig.dpi": 300})
     colors = {"candidate": "#156082", "tissue": "#E97132", "reference": "#196B24", "mapping": "#78206E"}
-    fig, axes = plt.subplots(1, 2, figsize=(9.0, 3.8), gridspec_kw={"width_ratios": [1, 1.3]})
-    headline = audit["headline_rates"]
-    for row in headline.itertuples(index=False):
-        y = list(colors).index(row.axis)
-        axes[0].errorbar(row.rate, y, xerr=[[row.rate - row.interval_low], [row.interval_high - row.rate]],
-                         fmt="o", color=colors[row.axis], capsize=4, markersize=7)
-        axes[0].text(0.50, y, f"{row.k}/{row.n}", va="center", fontsize=9)
-    axes[0].set(yticks=range(4), yticklabels=["Candidate (AUPR)", "Tissue (AUPR)",
-                                             "Reference (AUPR)", "Mapping (F1)"],
-                xlim=(-0.02, 0.62), xlabel="Eligible comparison reversal fraction", title="A  Row-weighted pair resampling")
-    axes[0].invert_yaxis()
+    # Only the candidate-set and tissue fractions share methods, metric and implementation.
+    # The reference and mapping fractions estimate different quantities, so each gets its own
+    # panel and axis instead of a common axis that would invite ranking the four axes.
+    headline = audit["headline_rates"].set_index("axis")
     method_deletion = audit["leave_one_method_out"]
-    for axis, group in method_deletion.groupby("axis", sort=False):
-        y = list(colors).index(axis)
-        axes[1].scatter(group["rate"], np.full(len(group), y), color=colors[axis], alpha=0.65, s=24)
-        axes[1].scatter(headline.loc[headline["axis"] == axis, "rate"], [y],
-                        facecolors="none", edgecolors="black", s=95, linewidths=1.2)
-    axes[1].set(yticks=range(4), yticklabels=list(colors), xlabel="Fraction after deleting one method",
-                title="B  Method deletion sensitivity", xlim=(-0.02, 0.52))
-    axes[1].invert_yaxis()
-    fig.text(0.5, 0.01, "Intervals summarize empirical cluster resampling; clusters share methods and settings.", ha="center", fontsize=8)
-    fig.tight_layout(rect=(0, 0.05, 1, 1))
+    row_labels = {"candidate": "Candidate set", "tissue": "Tissue", "reference": "Reference", "mapping": "Mapping"}
+    panels = [
+        (["candidate", "tissue"], "A  Candidate set and tissue (shared estimand)\nsame six methods, source Table A3 AUPR",
+         "Reversal fraction (AUPR)", (-0.02, 0.45)),
+        (["reference"], "B  Reference panel (immune, nine methods, AUPR)\nseparate panel, not comparable with A or C",
+         "Reversal fraction (AUPR)", (-0.02, 0.62)),
+        (["mapping"], "C  Mapping panel (six probe variants, F1)\nseparate panel, not comparable with A or B",
+         "Reversal fraction (F1)", (-0.02, 0.45)),
+    ]
+    fig, axes = plt.subplots(1, 3, figsize=(11.0, 4.0), gridspec_kw={"width_ratios": [1.15, 1, 1]})
+    for ax, (axis_names, title, xlabel, xlim) in zip(axes, panels):
+        for y, axis in enumerate(axis_names):
+            row = headline.loc[axis]
+            ax.errorbar(row["rate"], y, xerr=[[row["rate"] - row["interval_low"]], [row["interval_high"] - row["rate"]]],
+                        fmt="o", color=colors[axis], capsize=4, markersize=7, zorder=3)
+            ax.text(row["interval_high"] + 0.02, y, f"{int(row['k'])}/{int(row['n'])}", va="center", fontsize=9)
+            deleted = method_deletion.loc[method_deletion["axis"] == axis, "rate"].round(12)
+            # Equal fractions are stacked so that every deleted method stays visible.
+            stacked = deleted.groupby(deleted).cumcount().to_numpy()
+            ax.scatter(deleted, y + 0.22 + 0.065 * stacked, color=colors[axis], alpha=0.55, s=22,
+                       linewidths=0, zorder=2)
+        ax.set(yticks=range(len(axis_names)), yticklabels=[row_labels[name] for name in axis_names],
+               ylim=(len(axis_names) - 0.4, -0.6), xlim=xlim, xlabel=xlabel)
+        ax.set_title(title, loc="left", fontsize=9)
+    markers = [Line2D([], [], color="#444444", marker="o", markersize=6,
+                      label="Fraction with its method-pair resampling interval"),
+               Line2D([], [], color="#444444", marker="o", markersize=4.5, linestyle="none", alpha=0.55,
+                      label="Fraction after deleting one method (equal values stacked)")]
+    fig.legend(handles=markers, loc="lower center", bbox_to_anchor=(0.5, 0.075), ncol=2, frameon=False, fontsize=8)
+    fig.text(0.5, 0.012, "Intervals summarize empirical cluster resampling; clusters share methods and settings. "
+             "The mapping interval is degenerate (every indicator is zero).\nOnly the candidate-set and tissue "
+             "fractions share methods, metric and implementation; the four fractions do not rank the axes.",
+             ha="center", fontsize=8)
+    fig.tight_layout(rect=(0, 0.15, 1, 1))
     fig.savefig(figure_dir / "protocol_axis_sensitivity.png")
     plt.close(fig)
 

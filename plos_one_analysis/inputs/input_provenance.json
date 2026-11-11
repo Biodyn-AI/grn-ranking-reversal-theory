@@ -78,7 +78,8 @@
  {
   "input": "source_classifier_implementation.py",
   "source": "market_research/ambitious_paper_questions/proposal_02_ranking_reversal_theory/build_revised_results.py",
-  "sha256": "0446caa48e89acfd16cdb38723de202d2db9f9e30c7afff71d8c330535ca98d3"
+  "sha256": "0446caa48e89acfd16cdb38723de202d2db9f9e30c7afff71d8c330535ca98d3",
+  "scope_note": "Earlier exploratory script that wrote the comparison-level row files, original_revised_summary.json, margin_sweep_*, nulls_comparison.csv, instability_quantile_sweep.csv and instability_learned_*; no script of this analysis executes or reads it. Repository only; not redistributed in S1 Data."
  },
  {
   "input": "instability_loo_classification.csv",
@@ -183,7 +184,18 @@
  },
  {
   "input": "immune_reference_panel/label_indices.csv",
-  "source": "zero_recovery_replay.py export: positive flat indices of the source pipeline's label vectors; repository only, derived from reference networks with share-alike, non-commercial or academic-use terms and not redistributed in S1 Data",
+  "source": "zero_recovery_replay.py export: positive flat indices of the source pipeline's label vectors; repository only, derived from reference networks with share-alike, non-commercial, academic-use, or registered-access terms and not redistributed in S1 Data",
   "sha256": "21ba333d31fe9535939bccb75aad8220f79d9ab4aa08fd821187317934294bbd"
+ },
+ {
+  "input": "source_release_method_summary_by_tissue.csv",
+  "source": "https://github.com/Biodyn-AI/grn-evaluation-bias, tag release1 (commit b50979c735d181cbb1af5a47b3ae76070607b241; Zenodo doi:10.5281/zenodo.20639910), path single_cell_mechinterp/outputs/eval_bias/tables/method_summary_by_tissue.csv",
+  "sha256": "3029330c5b800964310802d6cd7392192bd97259467fb8b892c4c0df7746163d",
+  "scope_note": "Unrounded tissue/method medians from the later version of the source protocol. extended_audit.py reports which printed Table A1 medians this file reproduces at four significant figures. Its values are used only for the scorers without stochastic fitting (Pearson, Spearman, seeded random scores, scGPT attention) and only in tissues where it reproduces every printed median of these four scorers in all three metrics (kidney and lung; 24 values). Those values replace the printed medians in the release-fixed rounding simulation and in the matched comparison, which then includes the printed AUROC tie they break; agreement at four significant figures cannot prove that they equal the archived unrounded medians, so these results are conditional on that equality. The archived input files are not modified."
+ },
+ {
+  "input": "provenance_limitations.txt",
+  "source": "authored provenance note of this analysis",
+  "sha256": "77fa7c0ebc2eb52fa011a55a8dbe9043b2796f61e5582f0747913cc757bb202f"
  }
 ]

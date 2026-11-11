@@ -6,13 +6,14 @@ their source AUPR values depend only on where reference edges fall among the
 unscored candidates. This script asks what the source AUPR does for prediction
 lists that are guaranteed to recover nothing.
 
-``export`` (repository only; needs the source h5ad and the
-``bio_mech_interp`` environment with scanpy) runs the original
+``export`` (needs the source pipeline and data files listed in README.md,
+passed with ``--repository``, and scanpy, h5py and PyYAML) runs the source
 ``network_inference`` score-evaluation pipeline once, captures its flattened
-reference label vectors, and stores the positive indices and gene universe in
-``inputs/immune_reference_panel/``. ``replay`` (portable) rebuilds those
-vectors and scores seeded synthetic lists with the observed list lengths,
-using the source formula.
+reference label vectors, and writes the positive indices, the gene universe
+and an export check to ``inputs/immune_reference_panel/``. ``replay`` (numpy
+and pandas only; needs the ``label_indices.csv`` written by ``export``)
+rebuilds those vectors and scores seeded synthetic lists with the archived
+numbers of distinct listed pairs, using the source formula.
 """
 
 from __future__ import annotations

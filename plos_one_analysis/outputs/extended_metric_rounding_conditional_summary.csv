@@ -1,0 +1,7 @@
+metric,scope,n_keys,mean_reversals,q025,median,q975,p_zero,p_at_least_one,p_at_least_two,count_distribution
+AUPR,all_keys,45,4.0,4.0,4.0,4.0,0.0,1.0,1.0,4:1.0000
+AUPR,matched_keys,40,2.0,2.0,2.0,2.0,0.0,1.0,1.0,2:1.0000
+AUROC,all_keys,45,3.0098,2.0,4.0,4.0,0.0,1.0,1.0,2:0.4951;4:0.5049
+AUROC,matched_keys,40,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0:1.0000
+F1,all_keys,45,4.0,4.0,4.0,4.0,0.0,1.0,1.0,4:1.0000
+F1,matched_keys,40,2.0,2.0,2.0,2.0,0.0,1.0,1.0,2:1.0000
